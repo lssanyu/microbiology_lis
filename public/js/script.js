@@ -207,12 +207,12 @@ $(function(){
                             .attr('data-duration-id',cultureObservation.culture_duration_id)
                             .attr('data-observation',cultureObservation.observation);
                         $('.culture-observation-tr-'+cultureObservation.id+' .duration-entry').empty();
-                        $('.culture-observation-tr-'+cultureObservation.id+' .observation-entry').empty();
+                        $('.culture-observation-tr-'+cultureObservation.id+' .observation-entry .formated').empty();
                 }
                 // update rows with edition already made in the database
                 $('.culture-observation-tr-'+cultureObservation.id+' .duration-entry')
                     .append(cultureObservation.culture_duration.duration);
-                $('.culture-observation-tr-'+cultureObservation.id+' .observation-entry')
+                $('.culture-observation-tr-'+cultureObservation.id+' .observation-entry .formated')
                     .append(cultureObservation.observation);
 
                 // clear fields for any new addition
