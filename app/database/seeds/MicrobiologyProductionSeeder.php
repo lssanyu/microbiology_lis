@@ -76,7 +76,7 @@ class MicrobiologyProductionSeeder extends DatabaseSeeder
         $usersData = array(
             array(
                 "username" => "administrator", "password" => Hash::make("password"), 
-                "email" => "", "name" => "ASLM-LIS Admin", "designation" => "Programmer", 
+                "email" => "", "name" => "A-LIS Admin", "designation" => "Programmer", 
                 "facility_id" => \Config::get('constants.FACILITY_ID')
             ),
         );

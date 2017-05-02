@@ -1,23 +1,18 @@
 {{Form::label('test-list', trans("messages.select-tests"))}}
 <div class="form-pane panel panel-default">
 	<div class="container-fluid">
-		<?php
-			$cnt = 0;
-			$zebra = "";
-		?>
 		@foreach($testTypes as $key=>$value)
-			{{ ($cnt%4==0)?"<div class='row $zebra'>":"" }}
-			<?php
-				$cnt++;
-				$zebra = (((int)$cnt/4)%2==1?"row-striped":"");
-			?>
-			<div class="col-md-3">
-				<label  class="checkbox">
-					<input type="checkbox" name="testtypes[]" value="{{ $value->id}}"/>{{$value->name}}
-				</label>
-			</div>
-			{{ ($cnt%4==0)?"</div>":"" }}
-		@endforeach
+		@if($testCategoryId==$value->test_category_id)
+		<div class="col-md-4">
+			<label  class="checkbox">
+				<input class="test-type id-{{$value->id}}"
+					type="checkbox"
+					data-test-type-name="{{$value->name}}"
+					name="testtypes[]"
+					value="{{ $value->id}}"/>{{$value->name}}
+			</label>
 		</div>
+		@endif
+		@endforeach
 	</div>
 </div>

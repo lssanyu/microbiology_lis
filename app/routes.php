@@ -66,17 +66,8 @@ Route::group(array("before" => "auth"), function()
         "as" => "user.updateOwnPassword",
         "uses" => "UserController@updateOwnPassword"
         ));
-    Route::resource('patient', 'PatientController');
 	Route::resource('bbincidence', 'BbincidenceController'); /* Added by Justus */
     
-	Route::get("/patient/{id}/delete", array(
-        "as"   => "patient.delete",
-        "uses" => "PatientController@delete"
-    ));
-    Route::post("/patient/search", array(
-        "as"   => "patient.search",
-        "uses" => "PatientController@search"
-    ));
     //Unhls patient routes start here
     Route::resource('unhls_patient', 'UnhlsPatientController');
     Route::get("/unhls_patient/{id}/delete", array(

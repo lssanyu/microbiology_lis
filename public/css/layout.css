@@ -142,7 +142,7 @@ label, input {
 */
 
 .login-page {
-    background: #444444;
+    background: #ffffff;
     color: #F1F1F1;
     width: 100%;
     height: 100%;
@@ -151,17 +151,18 @@ label, input {
     bottom: 0;
     top:0;
     position: absolute;
-    background-image: linear-gradient(to bottom, #444444 0px, #000000 100%);
+    /* background-image: linear-gradient(to bottom, #444444 0px, #000000 100%);*/
 }
     .login-page .login-form {
-        background: #FFFFFF;
+        background: #EDEDED;
         color: #333333;
         width: 351px;
         margin: auto;
         margin-top:30px;
-        border: 1px solid #666666;
+        border: #666666;
         text-align: center;
         position:relative;
+        border-radius: 10px;
     }
 
         .login-page .login-form .form-head,
@@ -396,6 +397,14 @@ label, input {
     .row.less-gutter .col-md-11 > span{
         line-height: 30px;
     }
+
+/*
+* Test list
+*/
+.test-list-row {
+  border-bottom: 1px solid #cecfd5;
+}
+
 
 /*
 * REPORTS PAGES

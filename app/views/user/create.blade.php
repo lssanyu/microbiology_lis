@@ -53,9 +53,9 @@
 				</div>
                 <div class="form-group">
                     {{ Form::label('gender', trans('messages.gender')) }}
-                    <div>{{ Form::radio('gender', Patient::MALE, true) }}
+                    <div>{{ Form::radio('gender', UnhlsPatient::MALE, true) }}
                     	<span class='input-tag'>{{trans('messages.male')}}</span></div>
-                    <div>{{ Form::radio("gender", Patient::FEMALE, false) }}
+                    <div>{{ Form::radio("gender", UnhlsPatient::FEMALE, false) }}
                     	<span class='input-tag'>{{trans('messages.female')}}</span></div>
                 </div>
                 <div class="form-group">

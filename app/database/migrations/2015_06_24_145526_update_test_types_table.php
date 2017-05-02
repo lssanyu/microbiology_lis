@@ -14,6 +14,7 @@ class UpdateTestTypesTable extends Migration {
 	{
 		Schema::table('test_types', function($table)
 		{
+			// todo:remove this, not fitting for UG, even if so, certainly not on this table
 		    $table->tinyInteger('accredited')->nullable()->after('prevalence_threshold');
 		});
 	}

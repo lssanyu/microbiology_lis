@@ -83,14 +83,15 @@ class TestTypeController extends \BaseController {
 				$measureIds = $measures->store($inputNewMeasures);
 				$testtype->setMeasures($measureIds);
 				$testtype->setSpecimenTypes(Input::get('specimentypes'));
-				$testtype->setOrganisms(Input::get('organisms'));
+				// todo: this command is broken rework it
+				// $testtype->setOrganisms(Input::get('organisms'));
 
-				return Redirect::route('testtype.index')
-					->with('message', trans('messages.success-creating-test-type'));
 
 			}catch(QueryException $e){
 				Log::error($e);
 			}
+				return Redirect::route('testtype.index')
+					->with('message', trans('messages.success-creating-test-type'));
 		}
 	}
 
@@ -167,7 +168,8 @@ class TestTypeController extends \BaseController {
 
 			try{
 				$testtype->save();
-				$testtype->setOrganisms(Input::get('organisms'));
+				// todo: this command is broken rework it
+				// $testtype->setOrganisms(Input::get('organisms'));
 				$testtype->setSpecimenTypes(Input::get('specimentypes'));
 				$measureIds = array();
 					if (Input::get('new-measures')) {

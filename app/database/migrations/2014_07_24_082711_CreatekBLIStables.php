@@ -150,8 +150,8 @@ class CreatekBLIStables extends Migration {
         {
             $table->increments('id')->unsigned();
             $table->integer('measure_id')->unsigned();
-            $table->integer('age_min')->unsigned()->nullable();
-            $table->integer('age_max')->unsigned()->nullable();
+            $table->decimal('age_min')->nullable();
+            $table->decimal('age_max')->nullable();
             $table->tinyInteger('gender')->unsigned()->nullable();
             $table->decimal('range_lower', 7, 3)->nullable();
             $table->decimal('range_upper', 7, 3)->nullable();
