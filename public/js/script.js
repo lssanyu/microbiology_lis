@@ -571,75 +571,83 @@ $(function(){
 	});
 
     $(function(){
-    	$('#datetime12').combodate();
-	});
+        $('#datetime12').combodate();
+    });
 
-	/**
-	 *Convert Age to date and visa viz
-	 */
-	$("#dob").change(function(){
-		set_age();			
-	});
+    /**
+     *Convert Age to date and visa viz
+     */
+    $("#dob").change(function(){
+        set_age();          
+    });
 
-	$("#age").change(function(){
-		set_dob();		
-	});
+    $("#age").change(function(){
+        set_dob();      
+    });
 
-	$("#id_age_units").change(function(){
-		set_dob();			
-	});
+    $("#id_age_units").change(function(){
+        set_dob();          
+    });
 
-	function round1(val){
-		return Math.round(val*10)/10;
-	}
+    function round1(val){
+        return Math.round(val*10)/10;
+    }
 
-	function set_dob(){
-		var date_now = new Date();
-		var now_s = date_now.getTime();
-		var age = $("#age").val();
-		var units = $("#id_age_units").val();
-		if(units=='M'){
-			var age = age/12;
-		}
-		var age_s = age*365*24*3600*1000;
-		var dob_s = now_s-age_s;
-		var dob = new Date(dob_s);
-		$("#dob").combodate('setValue', dob);
-	}
+    function set_dob(){
+        var date_now = new Date();
+        var now_s = date_now.getTime();
+        var age = $("#age").val();
+        var units = $("#id_age_units").val();
+        if(units=='M'){
+            var age = age/12;
+        }
+        var age_s = age*365*24*3600*1000;
+        var dob_s = now_s-age_s;
+        var dob = new Date(dob_s);
+        $("#dob").combodate('setValue', dob);
+    }
 
-	function set_age(){
+    function set_age(){
 
-		var dob = new Date($("#dob").val());
-		var dob_s = dob.getTime();
-		var yrs = (now_s-dob_s)/(365*24*3600*1000) || 0;
-		if(yrs<1){
-			var mths = yrs*12;
-			$("#age").val(round1(mths));
-			$("#id_age_units").val("M");
-		}else{
-			$("#age").val(round1(yrs));
-			$("#id_age_units").val("Y");
-		}
-	}
+        var dob = new Date($("#dob").val());
+        var dob_s = dob.getTime();
+        var yrs = (now_s-dob_s)/(365*24*3600*1000) || 0;
+        if(yrs<1){
+            var mths = yrs*12;
+            $("#age").val(round1(mths));
+            $("#id_age_units").val("M");
+        }else{
+            $("#age").val(round1(yrs));
+            $("#id_age_units").val("Y");
+        }
+    }
 
-	
-	/**
-	 * Disable Bed No: input field  based on Visit type selected
-	 */
-	 $("#visit_type").on('change', function() {
-    	if(this.value === "0" || this.value === "null") {
-    		$("#bed_no").prop("disabled", true);
-    	} else{
-    		$("#bed_no").prop("disabled", false);
-    	}
-	});
+    $(function(){
+        $('#collection-date').combodate({
+            maxYear:2022
+        });
+    	$('#reception-date').combodate({
+            maxYear:2022
+        });
+    });
+    
+    /**
+     * Disable Bed No: input field  based on Visit type selected
+     */
+     $("#visit_type").on('change', function() {
+        if(this.value === "0" || this.value === "null") {
+            $("#bed_no").prop("disabled", true);
+        } else{
+            $("#bed_no").prop("disabled", false);
+        }
+    });
 
-	/**
-	 * Display other (specify) text field when other is selected during specimen refferal storage condition selection
-	 */
+    /**
+     * Display other (specify) text field when other is selected during specimen refferal storage condition selection
+     */
 
-	$(function () {
-		$("#storage_condition").on('change',function () {
+    $(function () {
+        $("#storage_condition").on('change',function () {
             if ($(this).val() == "3") {
                 $("#other_storage").show();
             } else {

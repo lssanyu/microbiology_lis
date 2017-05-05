@@ -278,6 +278,7 @@ class CreatekBLIStables extends Migration {
             $table->integer('specimen_status_id')->unsigned()->default(UnhlsSpecimen::ACCEPTED);
             $table->integer('accepted_by')->unsigned()->default(0);
             $table->integer('referral_id')->unsigned()->nullable();
+            $table->timestamp('time_collected')->nullable();
             $table->timestamp('time_accepted')->nullable();
 
             $table->index('accepted_by');

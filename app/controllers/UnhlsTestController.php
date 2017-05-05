@@ -422,6 +422,11 @@ class UnhlsTestController extends \BaseController {
 		$categories = ['Select Lab Section']+TestCategory::lists('name', 'id');
 		$wards = ['Select Sample Origin']+Ward::lists('name', 'id');
 
+		// sample collection default details
+		$now = new DateTime();
+		$collectionDate = $now->format('Y-m-d H:i');
+		$receptionDate = $now->format('Y-m-d H:i');
+
 		$fromRedirect = Session::pull('TEST_CATEGORY');
 
 		if($fromRedirect){
@@ -432,25 +437,16 @@ class UnhlsTestController extends \BaseController {
 
 		$specimenTypes = ['select Specimen Type']+SpecimenType::lists('name', 'id');
 
-		$testCategoryId = isset($input['test_category'])?$input['test_category']:'';
-		if($testCategoryId){
-			$testTypes = TestType::where('test_category_id', $testCategoryId);
-			if(count($testTypes) == 0){
-				Session::flash('message', trans('messages.empty-search'));
-			}
-		}else {
-			$testTypes = TestType::all();
-			$patient = UnhlsPatient::find($patientID);
-		}
+		$patient = UnhlsPatient::find($patientID);
 
 		//Load Test Create View
 		return View::make('unhls_test.create')
-					->with('testtypes', $testTypes)
+					->with('collectionDate', $collectionDate)
+					->with('receptionDate', $receptionDate)
 					->with('specimenType', $specimenTypes)
 					->with('patient', $patient)
 					->with('testCategory', $categories)
-					->with('ward', $wards)
-					->with('testId', $testCategoryId);
+					->with('ward', $wards);
 	}
 
 	/**
@@ -506,6 +502,8 @@ class UnhlsTestController extends \BaseController {
                     $specimen = new UnhlsSpecimen;
                     $specimen->specimen_type_id = $testList['specimen_type_id'];
                     $specimen->accepted_by = Auth::user()->id;
+                    $specimen->time_collected = Input::get('collection_date');
+                    $specimen->time_accepted = Input::get('reception_date');
                     $specimen->save();
                     foreach ($testList['test_type_id'] as $id) {
                         $testTypeID = (int)$id;

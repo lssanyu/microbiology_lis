@@ -94,7 +94,7 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											{{ Form::label('cadre', 'Cadre') }}
-											{{Form::text('cadre', Auth::user()->designation, array('class' => 'form-control', 'placeholder' =>Auth::user()->designation))}}
+											{{Form::text('cadre', Auth::user()->designation, array('class' => 'form-control', 'placeholder' => Auth::user()->designation))}}
 										</div>
 										<div class="form-group">
 											{{ Form::label('phone_contact', 'Phone Contact') }}
@@ -108,10 +108,30 @@
 									<div class="form-pane panel panel-default">
 										<div class="col-md-6">
 											<div class="form-group">
-												{{Form::label('specimen_type', 'Specimen')}}
+												{{Form::label('specimen_type', 'Sample Type')}}
 												{{ Form::select('specimen_type', $specimenType,
 												Input::get('specimenType'),
 												['class' => 'form-control specimen-type']) }}
+											</div>
+											<div class="form-group">
+												<label for="collection_date">Time of Sample Collection</label>
+												<input class="form-control"
+													data-format="YYYY-MM-DD HH:mm"
+													data-template="DD / MM / YYYY HH : mm"
+													name="collection_date"
+													type="text"
+													id="collection-date"
+													value="{{$collectionDate}}">
+											</div>
+											<div class="form-group">
+												<label for="reception_date">Time Sample was Received in Lab</label>
+												<input class="form-control"
+													data-format="YYYY-MM-DD HH:mm"
+													data-template="DD / MM / YYYY HH : mm"
+													name="reception_date"
+													type="text"
+													id="reception-date"
+													value="{{$receptionDate}}">
 											</div>
 											<div class="form-group">
 										        {{Form::label('test_type_category', 'Lab Section')}}
