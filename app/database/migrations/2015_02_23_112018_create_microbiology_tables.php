@@ -5,15 +5,15 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateMicrobiologyTables extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		/* Drugs table */
-		Schema::create('drugs', function(Blueprint $table)
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        /* Drugs table */
+        Schema::create('drugs', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
             $table->string('name',100)->unique();
@@ -23,7 +23,7 @@ class CreateMicrobiologyTables extends Migration {
             $table->timestamps();
         });
         /* Organisms table */
-		Schema::create('organisms', function(Blueprint $table)
+        Schema::create('organisms', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
             $table->string('name',100)->unique();
@@ -94,21 +94,39 @@ class CreateMicrobiologyTables extends Migration {
             $table->foreign('isolated_organism_id')->references('id')->on('isolated_organisms');
             $table->foreign('drug_susceptibility_measure_id')->references('id')->on('drug_susceptibility_measures');
         });
-	}
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
+        Schema::create('predeterminations', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->string('name', 45);
+            $table->string('description', 100)->nullable();
+        });
+        Schema::create('predetermination_drugs', function(Blueprint $table)
+        {
+            $table->increments('id')->unsigned();
+            $table->integer('predetermination_id')->unsigned();
+            $table->integer('drug_id')->unsigned();
+
+            $table->foreign('predetermination_id')
+                ->references('id')->on('predeterminations');
+            $table->foreign('drug_id')->references('id')->on('drugs');
+        });
+    }
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('predetermination_drugs');
+        Schema::dropIfExists('predeterminations');
         Schema::dropIfExists('drug_susceptibility');
         Schema::dropIfExists('drug_susceptibility_measures');
         Schema::dropIfExists('isolated_organisms');
         Schema::dropIfExists('culture_observations');
         Schema::dropIfExists('culture_durations');
-		Schema::dropIfExists('organisms');
-		Schema::dropIfExists('drugs');
-	}
+        Schema::dropIfExists('organisms');
+        Schema::dropIfExists('drugs');
+    }
 
 }

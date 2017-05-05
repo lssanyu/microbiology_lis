@@ -566,7 +566,8 @@ $(function(){
 			format: 'YYYY-MM-DD',
 			template: 'D / MMM / YYYY',
 			//min year
-			minYear: '1916'
+            minYear: '1916',
+			maxYear: '2022'
 		});
 	});
 
