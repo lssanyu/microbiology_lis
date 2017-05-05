@@ -45,7 +45,7 @@ class UnhlsTestController extends \BaseController {
 		else
 		{
 		// List all the active tests
-			$tests = UnhlsTest::orderBy('time_created', 'DESC');
+			$tests = UnhlsTest::orderBy('time_created', 'ASC');
 		}
 
 		// Create Test Statuses array. Include a first entry for ALL
@@ -397,20 +397,13 @@ class UnhlsTestController extends \BaseController {
 	public function testList()
 	{
 		$testCategoryId =Input::get('test_category_id');
-		// todo: to use when specifying test for specimens as well
-		// $specimenTypeId =Input::get('specimen_type_id');
+		$specimenTypeId =Input::get('specimen_type_id');
 
-		$testCategoryId = isset($input['test_category'])?$input['test_category']:'';
-		if($testCategoryId){
-			$testTypes = TestType::where('test_category_id', $testCategoryId);
-			if(count($testTypes) == 0){
-				Session::flash('message', trans('messages.empty-search'));
-			}
-		}else {
+		$specimenType = SpecimenType::find($specimenTypeId);
+		$testTypes = $specimenType->testTypes;
 
-			$testTypes = TestType::where('orderable_test', 1)-> orderBy('name', 'asc')->get();
-		}
 		return View::make('unhls_test.testTypeList')
+			->with('testCategoryId', $testCategoryId)
 			->with('testTypes', $testTypes);
 	}
 
@@ -427,6 +420,12 @@ class UnhlsTestController extends \BaseController {
 
 		//Create a Lab categories Array
 		$categories = ['Select Lab Section']+TestCategory::lists('name', 'id');
+		$wards = ['Select Sample Origin']+Ward::lists('name', 'id');
+
+		// sample collection default details
+		$now = new DateTime();
+		$collectionDate = $now->format('Y-m-d H:i');
+		$receptionDate = $now->format('Y-m-d H:i');
 
 		$fromRedirect = Session::pull('TEST_CATEGORY');
 
@@ -438,24 +437,16 @@ class UnhlsTestController extends \BaseController {
 
 		$specimenTypes = ['select Specimen Type']+SpecimenType::lists('name', 'id');
 
-		$testCategoryId = isset($input['test_category'])?$input['test_category']:'';
-		if($testCategoryId){
-			$testTypes = TestType::where('test_category_id', $testCategoryId);
-			if(count($testTypes) == 0){
-				Session::flash('message', trans('messages.empty-search'));
-			}
-		}else {
-			$testTypes = TestType::where('orderable_test', 1)-> orderBy('name', 'asc')->get();
-			$patient = UnhlsPatient::find($patientID);
-		}
+		$patient = UnhlsPatient::find($patientID);
 
 		//Load Test Create View
 		return View::make('unhls_test.create')
-					->with('testtypes', $testTypes)
+					->with('collectionDate', $collectionDate)
+					->with('receptionDate', $receptionDate)
 					->with('specimenType', $specimenTypes)
 					->with('patient', $patient)
 					->with('testCategory', $categories)
-					->with('testId', $testCategoryId);
+					->with('ward', $wards);
 	}
 
 	/**
@@ -489,34 +480,47 @@ class UnhlsTestController extends \BaseController {
 			$visit = new UnhlsVisit;
 			$visit->patient_id = Input::get('patient_id');
 			$visit->visit_type = $visitType[Input::get('visit_type')];
+			$visit->ward_id = Input::get('ward_id');;
+			$visit->bed_no = Input::get('bed_no');;
 			$visit->save();
+
+			$therapy = new Therapy;
+			$therapy->patient_id = Input::get('patient_id');
+			$therapy->visit_id = $visit->id;
+			$therapy->previous_therapy = Input::get('previous_therapy');;
+			$therapy->current_therapy = Input::get('current_therapy');;
+			$therapy->save();
 
 			/*
 			 * - Create tests requested
 			 * - Fields required: visit_id, test_type_id, specimen_id, test_status_id, created_by, requested_by
 			 */
-			$testTypes = Input::get('testtypes');
-			if(is_array($testTypes)){
-				// Create Specimen - specimen_type_id, accepted_by, referred_from, referred_to
-				$specimen = new UnhlsSpecimen;
-				$specimen->specimen_type_id = Input::get('specimen_type');
-				$specimen->accepted_by = Auth::user()->id;
-				$specimen->save();
-				foreach ($testTypes as $value) {
-					$testTypeID = (int)$value;
+            $testLists = Input::get('test_list');
+            if(is_array($testLists)){
+                foreach ($testLists as $testList) {
+                    // Create Specimen - specimen_type_id, accepted_by, referred_from, referred_to
+                    $specimen = new UnhlsSpecimen;
+                    $specimen->specimen_type_id = $testList['specimen_type_id'];
+                    $specimen->accepted_by = Auth::user()->id;
+                    $specimen->time_collected = Input::get('collection_date');
+                    $specimen->time_accepted = Input::get('reception_date');
+                    $specimen->save();
+                    foreach ($testList['test_type_id'] as $id) {
+                        $testTypeID = (int)$id;
 
-					$test = new UnhlsTest;
-					$test->visit_id = $visit->id;
-					$test->test_type_id = $testTypeID;
-					$test->specimen_id = $specimen->id;
-					$test->test_status_id = UnhlsTest::PENDING;
-					$test->created_by = Auth::user()->id;
-					$test->requested_by = Input::get('physician');
-					$test->save();
+                        $test = new UnhlsTest;
+                        $test->visit_id = $visit->id;
+                        $test->test_type_id = $testTypeID;
+                        $test->specimen_id = $specimen->id;
+                        $test->test_status_id = UnhlsTest::PENDING;
+                        $test->created_by = Auth::user()->id;
+                        $test->requested_by = Input::get('physician');
+                        $test->save();
 
-					$activeTest[] = $test->id;
-				}
-			}
+                        $activeTest[] = $test->id;
+                    }
+                }
+            }
 
 			$url = Session::get('SOURCE_URL');
 			

@@ -150,8 +150,8 @@ class CreatekBLIStables extends Migration {
         {
             $table->increments('id')->unsigned();
             $table->integer('measure_id')->unsigned();
-            $table->integer('age_min')->unsigned()->nullable();
-            $table->integer('age_max')->unsigned()->nullable();
+            $table->decimal('age_min')->nullable();
+            $table->decimal('age_max')->nullable();
             $table->tinyInteger('gender')->unsigned()->nullable();
             $table->decimal('range_lower', 7, 3)->nullable();
             $table->decimal('range_upper', 7, 3)->nullable();
@@ -278,6 +278,7 @@ class CreatekBLIStables extends Migration {
             $table->integer('specimen_status_id')->unsigned()->default(UnhlsSpecimen::ACCEPTED);
             $table->integer('accepted_by')->unsigned()->default(0);
             $table->integer('referral_id')->unsigned()->nullable();
+            $table->timestamp('time_collected')->nullable();
             $table->timestamp('time_accepted')->nullable();
 
             $table->index('accepted_by');

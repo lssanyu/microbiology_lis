@@ -29,7 +29,7 @@
 		<div class="table-responsive">
 			<div class='container-fluid'>
 				<strong>Facility Name: </strong><u>Bungoma District Hospital</u><strong> Reporting Period Begining: </strong><u>Bungoma District Hospital</u>
-				<strong> Ending: </strong><u>Bungoma District Hospital</u><strong> Affilliation: </strong><u>GOK</u>
+				<strong> Ending: </strong><u>Bungoma District Hospital</u><strong> Affilliation: </strong><u>GOU</u>
 				<br />
 				<p>N/B: INDICATE N/S Where there is no service</p>
 				<div class='row'>

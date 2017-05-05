@@ -4,13 +4,23 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/bootstrap.min.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/bootstrap-theme.min.css') }}" />
-        <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/login.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/layout.css') }}" />
         <title>{{ Config::get('kblis.name') }} {{ Config::get('kblis.version') }}</title>
     </head>
     <body>
-<div class="container">
-    <div class="row">
-        <div class="col-sm-offset-5 col-sm-3">
+        <div class="container login-page">
+            <div class="login-form">
+                <div class="form-head">
+                    <img src="{{ Config::get('kblis.organization-logo') }}" alt="" height="90" width="90">
+                    <h3> {{ Config::get('kblis.organization') }} </h3>
+                    @if($errors->all())
+                        <div class="alert alert-danger">
+                            {{ HTML::ul($errors->all()) }}
+                        </div>
+                    @elseif (Session::has('message'))
+                        <div class="alert alert-danger">{{ Session::get('message') }}</div>
+                    @endif
+                </div>
 
                 {{ Form::open(array(
                     "route"        => "user.login",
@@ -18,55 +28,43 @@
                     "class" => "form-horizontal",
                     "role" => "form"
                 )) }}            
-
-            <div class="form-login">
-         
-                <div class="row text-center login_logo">
-                    <div class="col-md-12">
-                        <img src="{{ Config::get('kblis.organization-logo') }}" alt="" height="60" width="60">    
-                    </div>                
-                </div>
-
-                <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
-                    <div>
-                        <input id="username" type="text" placeholder="Username" class="form-control" name="username" value="{{ Input::old('username') }}">
-
-                            @if ($errors->has('username'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('username') }}</strong>
-                                </span>
-                            @endif
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon glyphicon glyphicon-user"></span>
+                            {{ Form::text("username", Input::old("username"), array(
+                                "placeholder" => trans('messages.username'),
+                                "class" => "form-control"
+                            )) }}
+                        </div>
                     </div>
-                </div>
-
-                <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">                          
-                    <div>
-                        <input id="password" type="password" class="form-control" name="password" placeholder="Password">
-
-                        @if ($errors->has('password'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('password') }}</strong>
-                            </span>
-                        @endif
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon glyphicon glyphicon-lock"></span>
+                            {{ Form::password("password", array(
+                                "placeholder" => Lang::choice('messages.password',1),
+                                "class" => "form-control"
+                            )) }}
+                        </div>
                     </div>
-                </div>
-                        
-                <div class="form-group">
-                    <div class="">
-                        <button type="submit" class="btn btn-primary ">
-                             Login <i class="fa fa-btn fa-sign-in"></i>
-                        </button>
-
+                    <div class="form-group">
+                        <div>
+                            {{ Form::button(trans('messages.login'), array(
+                                "type" => "submit",
+                                "class" => "btn btn-primary btn-block"
+                            )) }}
+                        </div>
                     </div>
+                {{ Form::close() }}
+                <div class="smaller-text alone foot">
+                    <p><a href="i/guide.pdf">User Guide</a></p>
+                    <p>
+                        {{ Config::get('kblis.name') }} - a port of the Basic Laboratory Information System
+                         (BLIS) to Laravel by iLabAfrica. BLIS was originally developed by C4G.
+                    </p>
                 </div>
 
             </div>
-        </form>
 
         </div>
-    </div>
-
-
-</div>
     </body>
 </html>

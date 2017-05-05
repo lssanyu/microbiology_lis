@@ -76,7 +76,7 @@ class DeploymentSeeder extends DatabaseSeeder
         $usersData = array(
             array(
                 "username" => "administrator", "password" => Hash::make("password"),
-                "email" => "", "name" => "ASLM-LIS Admin", "designation" => "Programmer",
+                "email" => "", "name" => "A-LIS Admin", "designation" => "Programmer",
                 "facility_id" => \Config::get('constants.FACILITY_ID')
             ),
         );
@@ -1089,5 +1089,230 @@ class DeploymentSeeder extends DatabaseSeeder
         $cultureDurationAST5d = CultureDuration::create(['duration' => '5 days',]);
         $cultureDurationAST6d = CultureDuration::create(['duration' => '6 days',]);
         $cultureDurationAST7d = CultureDuration::create(['duration' => '7 days',]);
+
+        $cBCMeasureID = [];
+
+        $measureWBC = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "WBC", "unit" => "x10³/µL"]);
+        $measureRBC = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "RBC", "unit" => "x10⁶/µL"]);
+        $measureHGB = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "HGB", "unit" => "g/dL"]);
+        $measureHCT = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "HCT", "unit" => "%"]);
+        $measureMCV = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "MCV", "unit" => "fL"]);
+        $measureMCH = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "MCH", "unit" => "pg"]);
+        $measureMCHC = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "MCHC", "unit" => "g/dL"]);
+        $measurePLT = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "PLT", "unit" => "x10³/µL"]);
+        $measureRDWSD = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "RDW-SD", "unit" => "fL"]);
+        $measureRDWCV = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "RDW-CV", "unit" => "%"]);
+        $measurePDW = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "PDW", "unit" => "fL"]);
+        $measureMPV = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "MPV", "unit" => "fL"]);
+        $measurePLCR = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "P-LCR", "unit" => "%"]);
+        $measurePCT = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "PCT", "unit" => "%"]);
+        $measureNEUThash = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "NEUT#", "unit" => "x10³/µL"]);
+        $measureLYMPHhash = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "LYMPH#", "unit" => "x10³/µL"]);
+        $measureMONOhash = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "MONO#", "unit" => "x10³/µL"]);
+        $measureEOhash = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "EO#", "unit" => "x10³/µL"]);
+        $measureBASOhash = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "BASO#", "unit" => "x10³/µL"]);
+        $measureNEUTpercent = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "NEUT%", "unit" => "%"]);
+        $measureLYMPHpercent = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "LYMPH%", "unit" => "%"]);
+        $measureMONOpercent = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "MONO%", "unit" => "%"]);
+        $measureEOpercent = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "EO%", "unit" => "%"]);
+        $measureBASOpercent = Measure::create(["measure_type_id" => Measure::NUMERIC,
+            "name" => "BASO%", "unit" => "%"]);
+
+        $cBCMeasureID[] = $measureWBC->id;
+        $cBCMeasureID[] = $measureRBC->id;
+        $cBCMeasureID[] = $measureHGB->id;
+        $cBCMeasureID[] = $measureHCT->id;
+        $cBCMeasureID[] = $measureMCV->id;
+        $cBCMeasureID[] = $measureMCH->id;
+        $cBCMeasureID[] = $measureMCHC->id;
+        $cBCMeasureID[] = $measurePLT->id;
+        $cBCMeasureID[] = $measureRDWSD->id;
+        $cBCMeasureID[] = $measureRDWCV->id;
+        $cBCMeasureID[] = $measurePDW->id;
+        $cBCMeasureID[] = $measureMPV->id;
+        $cBCMeasureID[] = $measurePLCR->id;
+        $cBCMeasureID[] = $measurePCT->id;
+        $cBCMeasureID[] = $measureNEUThash->id;
+        $cBCMeasureID[] = $measureLYMPHhash->id;
+        $cBCMeasureID[] = $measureMONOhash->id;
+        $cBCMeasureID[] = $measureEOhash->id;
+        $cBCMeasureID[] = $measureBASOhash->id;
+        $cBCMeasureID[] = $measureNEUTpercent->id;
+        $cBCMeasureID[] = $measureLYMPHpercent->id;
+        $cBCMeasureID[] = $measureMONOpercent->id;
+        $cBCMeasureID[] = $measureEOpercent->id;
+        $cBCMeasureID[] = $measureBASOpercent->id;
+
+
+        $testTypeCBC = TestType::create(array("name" => "CBC", "test_category_id" => $lab_section_hematology->id,
+            "orderable_test" => 1));
+
+        /* testtype_specimentypes table */
+        DB::table('testtype_specimentypes')->insert(
+            ["test_type_id" => $testTypeCBC->id, "specimen_type_id" => 23]);
+
+        /* TestType Measure table */
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureWBC->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureRBC->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureHGB->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureHCT->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureMCV->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureMCH->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureMCHC->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measurePLT->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureRDWSD->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureRDWCV->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measurePDW->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureMPV->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measurePLCR->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measurePCT->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureNEUThash->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureLYMPHhash->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureMONOhash->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureEOhash->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureBASOhash->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureNEUTpercent->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureLYMPHpercent->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureMONOpercent->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureEOpercent->id]);
+        TestTypeMeasure::create(["test_type_id" => $testTypeCBC->id, "measure_id" => $measureBASOpercent->id]);
+
+        $measureRangeCBCGroup1 = [
+            "age_min" => "0",
+            "age_max" => "0.01923",
+            "gender" => MeasureRange::BOTH,
+            "range_lower" => [3,2.5,12,26,86,26,31,50,37,11,9,9,13,0.17,1.5,1,0,0,0,37,20,0,0,0],
+            "range_upper" => [15,5.5,16,50,110,38,37,400,54,16,17,13,43,0.35,7,3.7,0.7,0.4,0.1,72,50,14,6,1],
+            ];
+        $measureRangeCBCGroup2 = [
+            "age_min" => "0.01923",
+            "age_max" => "0.08333",
+            "gender" => MeasureRange::BOTH,
+            "range_lower" => [3,2.5,8,26,86,26,31,50,37,11,9,9,13,0.17,1.5,1,0,0,0,37,20,0,0,0],
+            "range_upper" => [15,5.5,17,50,110,38,37,400,54,16,17,13,43,0.35,7,3.7,0.7,0.4,0.1,72,50,14,6,1],
+            ];
+        $measureRangeCBCGroup3 = [
+            "age_min" => "0.08333",
+            "age_max" => "1",
+            "gender" => MeasureRange::BOTH,
+            "range_lower" => [3,2.5,8,26,86,26,31,50,37,11,9,9,13,0.17,1.5,1,0,0,0,37,20,0,0,0],
+            "range_upper" => [15,5.5,17,50,110,38,37,400,54,16,17,13,43,0.35,7,3.7,0.7,0.4,0.1,72,50,14,6,1],
+            ];
+        $measureRangeCBCGroup4 = [
+            "age_min" => "1",
+            "age_max" => "12",
+            "gender" => MeasureRange::BOTH,
+            "range_lower" => [3,2.5,8,26,86,26,31,50,37,11,9,9,13,0.17,1.5,1,0,0,0,37,20,0,0,0],
+            "range_upper" => [15,5.5,17,50,110,38,37,400,54,16,17,13,43,0.35,7,3.7,0.7,0.4,0.1,72,50,14,6,1],
+            ];
+        $measureRangeCBCGroup5 = [
+            "age_min" => "12",
+            "age_max" => "60",
+            "gender" => MeasureRange::MALE,
+            "range_lower" => [3,2.5,13,26,86,26,31,50,37,11,9,9,13,0.17,1.5,1,0,0,0,37,20,0,0,0],
+            "range_upper" => [15,5.5,17,50,110,38,37,400,54,16,17,13,43,0.35,7,3.7,0.7,0.4,0.1,72,50,14,6,1],
+            ];
+        $measureRangeCBCGroup6 = [
+            "age_min" => "12",
+            "age_max" => "60",
+            "gender" => MeasureRange::FEMALE,
+            "range_lower" => [4,2.5,12,26,86,26,31,50,37,11,9,9,13,0.17,1.5,1,0,0,0,37,20,0,0,0],
+            "range_upper" => [11,5.5,14,50,110,38,37,400,54,16,17,13,43,0.35,7,3.7,0.7,0.4,0.1,72,50,14,6,1],
+            ];
+        $measureRangeCBCGroup7 = [
+            "age_min" => "60",
+            "age_max" => "999",
+            "gender" => MeasureRange::BOTH,
+            "range_lower" => [3,2.5,8,26,86,26,31,50,37,11,9,9,13,0.17,1.5,1,0,0,0,37,20,0,0,0],
+            "range_upper" => [15,5.5,17,50,110,38,37,400,54,16,17,13,43,0.35,7,3.7,0.7,0.4,0.1,72,50,14,6,1],
+            ];
+
+        for ($i = 0; $i <= 23; $i++) {
+            $measureRange = MeasureRange::create([
+                "measure_id" => $cBCMeasureID[$i],
+                "age_min" => $measureRangeCBCGroup1["age_min"],
+                "age_max" => $measureRangeCBCGroup1["age_max"],
+                "gender" => $measureRangeCBCGroup1["gender"],
+                "range_lower" => $measureRangeCBCGroup1["range_lower"][$i],
+                "range_upper" => $measureRangeCBCGroup1["range_upper"][$i]
+            ]);
+
+            $measureRange = MeasureRange::create([
+                "measure_id" => $cBCMeasureID[$i],
+                "age_min" => $measureRangeCBCGroup2["age_min"],
+                "age_max" => $measureRangeCBCGroup2["age_max"],
+                "gender" => $measureRangeCBCGroup2["gender"],
+                "range_lower" => $measureRangeCBCGroup2["range_lower"][$i],
+                "range_upper" => $measureRangeCBCGroup2["range_upper"][$i]
+            ]);
+
+            $measureRange = MeasureRange::create([
+                "measure_id" => $cBCMeasureID[$i],
+                "age_min" => $measureRangeCBCGroup3["age_min"],
+                "age_max" => $measureRangeCBCGroup3["age_max"],
+                "gender" => $measureRangeCBCGroup3["gender"],
+                "range_lower" => $measureRangeCBCGroup3["range_lower"][$i],
+                "range_upper" => $measureRangeCBCGroup3["range_upper"][$i]
+            ]);
+
+            $measureRange = MeasureRange::create([
+                "measure_id" => $cBCMeasureID[$i],
+                "age_min" => $measureRangeCBCGroup4["age_min"],
+                "age_max" => $measureRangeCBCGroup4["age_max"],
+                "gender" => $measureRangeCBCGroup4["gender"],
+                "range_lower" => $measureRangeCBCGroup4["range_lower"][$i],
+                "range_upper" => $measureRangeCBCGroup4["range_upper"][$i]
+            ]);
+
+            $measureRange = MeasureRange::create([
+                "measure_id" => $cBCMeasureID[$i],
+                "age_min" => $measureRangeCBCGroup5["age_min"],
+                "age_max" => $measureRangeCBCGroup5["age_max"],
+                "gender" => $measureRangeCBCGroup5["gender"],
+                "range_lower" => $measureRangeCBCGroup5["range_lower"][$i],
+                "range_upper" => $measureRangeCBCGroup5["range_upper"][$i]
+            ]);
+
+            $measureRange = MeasureRange::create([
+                "measure_id" => $cBCMeasureID[$i],
+                "age_min" => $measureRangeCBCGroup6["age_min"],
+                "age_max" => $measureRangeCBCGroup6["age_max"],
+                "gender" => $measureRangeCBCGroup6["gender"],
+                "range_lower" => $measureRangeCBCGroup6["range_lower"][$i],
+                "range_upper" => $measureRangeCBCGroup6["range_upper"][$i]
+            ]);
+
+            $measureRange = MeasureRange::create([
+                "measure_id" => $cBCMeasureID[$i],
+                "age_min" => $measureRangeCBCGroup7["age_min"],
+                "age_max" => $measureRangeCBCGroup7["age_max"],
+                "gender" => $measureRangeCBCGroup7["gender"],
+                "range_lower" => $measureRangeCBCGroup7["range_lower"][$i],
+                "range_upper" => $measureRangeCBCGroup7["range_upper"][$i]
+            ]);
+        }
     }
 }

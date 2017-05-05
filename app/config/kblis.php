@@ -8,7 +8,7 @@ return array(
 	|
 	*/
 
-	'name' => 'ASLM-LIS',
+	'name' => 'A-LIS',
 	
 	/*
 	|--------------------------------------------------------------------------
@@ -47,7 +47,7 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	*/
-	'address-info' => 'REGIONAL REFERRAL HOSPITAL, ASLM-LIS<br>
+	'address-info' => 'REGIONAL REFERRAL HOSPITAL, A-LIS<br>
                     REFERRAL HOSPITAL LOCATION<br>
                     P.O. BOX PRIVATE BAG,<br>
                     UGANDA.<br>

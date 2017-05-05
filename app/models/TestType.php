@@ -120,6 +120,7 @@ class TestType extends Eloquent
 	 *
 	 * @return void
 	 */
+// todo: to set organisms update function to fit new db stracture
 	public function setOrganisms($organisms){
 
 		$organismsAdded = array();

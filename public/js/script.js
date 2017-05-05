@@ -26,7 +26,7 @@ $(function(){
 		$(this).siblings().show();
 	});
 
-	/**  USER 
+	/**  USER
 	 *-  Load password reset input field
 	 */
 
@@ -43,8 +43,8 @@ $(function(){
 			editUserProfile();
 	});
 
-	/** 
-	 *	LAB CONFIGURATION 
+	/**
+	 *	LAB CONFIGURATION
 	 */
 
 	 /* Add another surveillance */
@@ -58,7 +58,7 @@ $(function(){
 		addNewSurveillanceAttributes(newSurveillanceNo);
 		delete newSurveillanceNo;
 	});
-	 
+	
 	 /* Add another disease */
 	$('.add-another-disease').click(function(){
 		newDiseaseNo = $(this).data('new-disease');
@@ -72,7 +72,7 @@ $(function(){
 	});
 
 	/**
-	 *	MEASURES 
+	 *	MEASURES
 	 */
 
 	 /* Add another measure */
@@ -105,7 +105,7 @@ $(function(){
 			'.alphanumericInputLoader',
 			'.alphanumericInputLoader',
 			'.freetextInputLoader'
-		]; 
+		];
 
 		if ($(this).data('measure-id') === 0) {
 			var newMeasureId = $(this).data('new-measure-id');
@@ -146,7 +146,7 @@ $(function(){
 		window.location.href = $('#delete-url').val();
 	});
 
-    /** 
+    /**
      *  MICROBIOLOGY
      */
     var cultureTestID;
@@ -460,27 +460,102 @@ $(function(){
 		$(this).parent().parent().parent().remove();
 	});
 
-	/**
-	 *Fetch tests for selected Lab category when requesting 
-	 */
-    $('.specimen-type').on('change', function() {
-        // todo: add verificaation to check testcategory has been assined
-        var testCategoryId = $('.test_category').value;
-        var specimenTypeId = this.value;
-        if (testCategoryId != 0 && specimenTypeId != 0) {
+    /**
+     *Fetch tests for selected Lab category when requesting
+     */
+    $('.test-type-category').on('change', function() {
+        // todo: this code is almost the same as below, make a reusable one
+        var testTypeCategoryId = $('.test-type-category').val();
+        var specimenTypeId = $('.specimen-type').val();
+        if (testTypeCategoryId != 0 && specimenTypeId != 0) {
             $.ajax({
                 type: 'POST',
                 url: "/unhls_test/testlist",
                 data: {
-                    test_category_id: testCategoryId,
+                    test_category_id: testTypeCategoryId,
                     specimen_type_id: specimenTypeId
                 },
                 success: function(testTypes){
-                    $('.testTypeList').empty();
-                    $('.testTypeList').append(testTypes);
+                    $('.test-type-list').empty();
+                    $('.test-type-list').append(testTypes);
                 }
             });
         }
+    });
+
+    /**
+     *Fetch tests for selected Specimen Type when requesting
+     */
+    $('.specimen-type').on('change', function() {
+        var testTypeCategoryId = $('.test-type-category').val();
+        var specimenTypeId = $('.specimen-type').val();
+        if (testTypeCategoryId != 0 && specimenTypeId != 0) {
+            $.ajax({
+                type: 'POST',
+                url: "/unhls_test/testlist",
+                data: {
+                    test_category_id: testTypeCategoryId,
+                    specimen_type_id: specimenTypeId
+                },
+                success: function(testTypes){
+                    $('.test-type-list').empty();
+                    $('.test-type-list').append(testTypes);
+                }
+            });
+        }
+    });
+
+    /**
+     *Create List of tests in the test request page
+     */
+    var lastNewSpecimenId = 0;
+    $('.add-test-to-list').click(function(){
+        var testTypeCategoryId = $('.test-type-category').val();
+        var specimenName = $('.specimen-type option:selected').text();
+        var testTypeCategoryName = $('.test-type-category option:selected').text();
+
+        var count = 0;
+        $.map($('.test-type:checkbox:checked'), function (el) {
+
+            var testListHtml = $('.test-list-loader').html();
+            //Count new measures on the new measure button
+            $('.test-list-panel').append(testListHtml);
+            // Append test type details for display
+            if (count == 0) {
+                $('.test-list-panel .new-test-list-row').find(
+                    '.specimen-name').append(specimenName);
+                $('.test-list-panel .new-test-list-row').find(
+                    '.test-type-category-name').append(testTypeCategoryName);
+            }else {
+                $('.test-list-panel .new-test-list-row').find(
+                    '.test-type-name').addClass('col-md-offset-8');
+            }
+            $('.test-list-panel .new-test-list-row').find(
+                '.test-type-name').append($('.test-type.id-'+el.value).data('test-type-name'));
+            // store test type details for submission
+            $('.test-list-panel .new-test-list-row').find(
+                '.specimen-type-id').attr(
+                'name', 'test_list['+lastNewSpecimenId+'][specimen_type_id]');
+            $('.test-list-panel .new-test-list-row').find(
+                '.test-type-id').attr(
+                'name', 'test_list['+lastNewSpecimenId+'][test_type_id]['+el.value+']');
+            $('.test-list-panel .new-test-list-row').find(
+                '.specimen-type-id').val($('.specimen-type').val());
+            $('.test-list-panel .new-test-list-row').find(
+                '.test-type-id').val(el.value);
+            $('.test-list-panel .new-test-list-row').find(
+                '.delete-test-from-list').attr('data-test-type-id', el.value);
+            $('.test-list-panel .new-test-list-row').addClass(
+                'test-list-row-'+el.value).removeClass('new-test-list-row');
+            count++;
+        });
+        lastNewSpecimenId++;
+    });
+
+    // todo: fix, not entirely functional at the moment
+    $('.test-list-panel').on( "click", '.delete-test-from-list', function(e) {
+        testTypeId = $(this).data('test-type-id');
+        $('test-list-row-'+testTypeId).remove();
     });
 
     /**
@@ -488,7 +563,7 @@ $(function(){
 	 */
 	$(function(){
 		$('#dob').combodate({
-			format: 'DD-MM-YYYY', 
+			format: 'YYYY-MM-DD',
 			template: 'D / MMM / YYYY',
 			//min year
 			minYear: '1916'
@@ -496,82 +571,90 @@ $(function(){
 	});
 
     $(function(){
-    	$('#datetime12').combodate();  
-	});
+        $('#datetime12').combodate();
+    });
 
-	/**
-	 *Convert Age to date and visa viz
-	 */
-	$("#dob").change(function(){
-		set_age();			
-	});
+    /**
+     *Convert Age to date and visa viz
+     */
+    $("#dob").change(function(){
+        set_age();          
+    });
 
-	$("#age").change(function(){
-		set_dob();		
-	});
+    $("#age").change(function(){
+        set_dob();      
+    });
 
-	$("#id_age_units").change(function(){
-		set_dob();			
-	});
+    $("#id_age_units").change(function(){
+        set_dob();          
+    });
 
-	function round1(val){
-		return Math.round(val*10)/10;
-	}
+    function round1(val){
+        return Math.round(val*10)/10;
+    }
 
-	function set_dob(){
-		var date_now = new Date();
-		var now_s = date_now.getTime();
-		var age = $("#age").val();
-		var units = $("#id_age_units").val();
-		if(units=='M'){
-			var age = age/12;
-		}
-		var age_s = age*365*24*3600*1000;
-		var dob_s = now_s-age_s;
-		var dob = new Date(dob_s);
-		$("#dob").combodate('setValue', dob);
-	}
+    function set_dob(){
+        var date_now = new Date();
+        var now_s = date_now.getTime();
+        var age = $("#age").val();
+        var units = $("#id_age_units").val();
+        if(units=='M'){
+            var age = age/12;
+        }
+        var age_s = age*365*24*3600*1000;
+        var dob_s = now_s-age_s;
+        var dob = new Date(dob_s);
+        $("#dob").combodate('setValue', dob);
+    }
 
-	function set_age(){
+    function set_age(){
 
-		var dob = new Date($("#dob").val());
-		var dob_s = dob.getTime();
-		var yrs = (now_s-dob_s)/(365*24*3600*1000) || 0;
-		if(yrs<1){
-			var mths = yrs*12;
-			$("#age").val(round1(mths));
-			$("#id_age_units").val("M");
-		}else{
-			$("#age").val(round1(yrs));
-			$("#id_age_units").val("Y");
-		}
-	}
+        var dob = new Date($("#dob").val());
+        var dob_s = dob.getTime();
+        var yrs = (now_s-dob_s)/(365*24*3600*1000) || 0;
+        if(yrs<1){
+            var mths = yrs*12;
+            $("#age").val(round1(mths));
+            $("#id_age_units").val("M");
+        }else{
+            $("#age").val(round1(yrs));
+            $("#id_age_units").val("Y");
+        }
+    }
 
-	
-	/**
-	 * Disable Bed No: input field  based on Visit type selected
-	 */
-	 $("#visit_type").on('change', function() {
-    	if(this.value === "0" || this.value === "null") {
-    		$("#bed_no").prop("disabled", true);
-    	} else{
-    		$("#bed_no").prop("disabled", false);
-    	}
-	});
+    $(function(){
+        $('#collection-date').combodate({
+            maxYear:2022
+        });
+    	$('#reception-date').combodate({
+            maxYear:2022
+        });
+    });
+    
+    /**
+     * Disable Bed No: input field  based on Visit type selected
+     */
+     $("#visit_type").on('change', function() {
+        if(this.value === "0" || this.value === "null") {
+            $("#bed_no").prop("disabled", true);
+        } else{
+            $("#bed_no").prop("disabled", false);
+        }
+    });
 
-	/**
-	 * Display other (specify) text field when other is selected during specimen refferal storage condition selection
-	 */
+    /**
+     * Display other (specify) text field when other is selected during specimen refferal storage condition selection
+     */
 
-	$(function () {
-		$("#storage_condition").on('change',function () {
+    $(function () {
+        $("#storage_condition").on('change',function () {
             if ($(this).val() == "3") {
                 $("#other_storage").show();
             } else {
                 $("#other_storage").hide();
             }
         });
-    }); 
+    });
 
     /**
 	 * Display other (specify) text field when other is selected during specimen refferal type of transport selection
@@ -585,9 +668,9 @@ $(function(){
                 $("#other_transport").hide();
             }
         });
-    }); 
+    });
 
-	/** 
+	/**
 	 * Fetch Test results
 	 */
 
@@ -602,7 +685,7 @@ $(function(){
 		});
 	});
 
-	/** 
+	/**
 	 * Search for patient from new test modal
 	 * UI Rendering Logic here
 	 */
@@ -659,7 +742,7 @@ $(function(){
 	});
 
 
-	/* 
+	/*
 	* Prevent patient search modal form submit (default action) when the ENTER key is pressed
 	*/
 
@@ -670,7 +753,7 @@ $(function(){
 		}
 	});
 
-	/* 
+	/*
 	* Repeat of above code for UNHLS to Prevent patient search modal form submit (default action) when the ENTER key is pressed
 	
 
@@ -695,7 +778,7 @@ $(function(){
             $(e.currentTarget).find('.modal-body').html(data);
         });
     });
-  
+
 
 	/** Receive Test Request button.
 	 *  - Updates the Test status via an AJAX call
@@ -776,7 +859,7 @@ $(function(){
 		var age = $(this).data('age');
 		var gender = $(this).data('gender');
 		var measurevalue = $(this).val();
-		$.post(url, { 
+		$.post(url, {
 				measureid: measureid,
 				age: age,
 				measurevalue: measurevalue,
@@ -823,8 +906,8 @@ $(function(){
 
 		/*Dynamic loading of select list options*/
 		$('#section_id').change(function(){
-			$.get("/reports/dropdown", 
-				{ option: $(this).val() }, 
+			$.get("/reports/dropdown",
+				{ option: $(this).val() },
 				function(data) {
 					var test_type = $('#test_type');
 					test_type.empty();
@@ -837,7 +920,7 @@ $(function(){
 		/*End dynamic select list options*/
 				/*Dynamic loading of select list options*/
 		$('#commodity-id').change(function(){
-			$.get("/topup/"+$(this).val()+"/availableStock", 
+			$.get("/topup/"+$(this).val()+"/availableStock",
 				function(data) {
 					$('#current_bal').val(data.availableStock);
 				});
@@ -932,7 +1015,7 @@ $(function(){
 			'.alphanumericHeaderLoader',
 			'.alphanumericHeaderLoader',
 			'.freetextHeaderLoader'
-		]; 
+		];
 		var inputClass = [
 			'.numericInputLoader',
 			'.alphanumericInputLoader',
@@ -1079,7 +1162,7 @@ $(function(){
 	    {
 	        $('.new-pwdrepeat-empty').addClass('hidden');
 	    }
-	    
+	
 	    if(!error_flag)
 	    {
 	        if(newpwd1_len != newpwd2_len || newpwd1 != newpwd2)
@@ -1148,7 +1231,7 @@ $(function(){
 	 */
 	function drawCultureWorksheet(tid, user, username){
 		console.log(username);
-		$.getJSON('/culture/storeObservation', { testId: tid, userId: user, action: "draw"}, 
+		$.getJSON('/culture/storeObservation', { testId: tid, userId: user, action: "draw"},
 			function(data){
 				var tableBody ="";
 				$.each(data, function(index, elem){
@@ -1186,7 +1269,7 @@ $(function(){
 	/*End save drug susceptibility*/
 	/*Function to render drug susceptibility table after successfully saving the results*/
 	function drawSusceptibility(tid, oid){
-		$.getJSON('/susceptibility/saveSusceptibility', { testId: tid, organismId: oid, action: "results"}, 
+		$.getJSON('/susceptibility/saveSusceptibility', { testId: tid, organismId: oid, action: "results"},
 			function(data){
 				var tableRow ="";
 				var tableBody ="";
@@ -1230,7 +1313,7 @@ $(function(){
         id = $("#client").val();
         if(id !='0')
         {
-        	$.getJSON('blisclient/details', { equip: id }, 
+        	$.getJSON('blisclient/details', { equip: id },
 				function(data)
 				{
 					var html = "<h4 class='text-center'>EQUIPMENT</h4>"+
@@ -1259,7 +1342,7 @@ $(function(){
 					"<input type='text' class='form-control' id='config_file' value = '"+data.config_file+"'>"+
 					"</div>"+
 					"<h4 class='text-center'>"+data.feed+" CONFIGURATIONS</h4>";
-			        $.getJSON('blisclient/properties', { client: id }, 
+			        $.getJSON('blisclient/properties', { client: id },
 						function(data)
 						{
 							$.each(data, function(index, elem)
@@ -1277,7 +1360,6 @@ $(function(){
 						}
 					);
 				}
-			);                               
-        }  
-                         
+			);
+        }
     }
