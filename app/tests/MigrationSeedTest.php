@@ -16,13 +16,14 @@ class MigrationSeedTest extends TestCase
         Artisan::call('db:seed');
     }
 
-	/**
-	 * Tests the store function in the UserController
-	 * @return int $testUserId ID of User stored; used in testUpdate() to identify test for update
-	 */    
- 	public function testHome() 
-	{
+    public function testHome()
+    {
         $this->call('GET', '/');
         $this->assertResponseOk();
-	}
+    }
+
+    public function testSeedUpdater()
+    {
+        Artisan::call('update:seed');
+    }
 }

@@ -10,7 +10,9 @@ class DatabaseSeeder extends Seeder {
 	public function run()
 	{
 		Eloquent::unguard();
-		$this->call('DeploymentSeeder');
+		$this->call('MicrobiologyProductionSeeder');
+		// $this->call('DeploymentSeeder');
+		// $this->call('TestDataSeeder');
 		$this->call('ConfigSettingSeeder');
 	}
 

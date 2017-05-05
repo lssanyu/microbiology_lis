@@ -21,7 +21,9 @@
         <div class="panel-body">
 <!-- culture observation -->
             <div class="row culture-worksheet">
-                <h5 class="col-md-12">Culture Worksheet
+                <div class="col-md-10">Culture Worksheet
+                </div>
+                <div class="col-md-2">
                     <a class="btn btn-sm btn-success add-culture-observation"
                         data-url="{{ URL::route('cultureobservation.store') }}"
                         data-test-id="{{ $test->id }}"
@@ -30,8 +32,9 @@
                         data-target=".add-culture-observation-modal"
                         title="Add Observation">
                         <span class="glyphicon glyphicon-plus"></span>
+                        Add Observation
                     </a>
-                </h5>
+                </div>
                 <div class="col-md-12">
                     <table class="table">
                       <thead>
@@ -44,10 +47,12 @@
                       <tbody class="culture-observation-tbody">
                         @foreach($test->culture_observations as $culture_observation)
                             <tr class="culture-observation-tr-{{$culture_observation->id}}">
-                              <td class="duration-entry">
+                              <td class="col-md-3 duration-entry">
                                 {{$culture_observation->culture_duration->duration}}</td>
-                              <td class="observation-entry">{{$culture_observation->observation}}</td>
-                              <td>
+                              <td class="col-md-7 observation-entry">
+                                <pre class="formated">{{$culture_observation->observation}}</pre>
+                              </td>
+                              <td class="col-md-2">
                                 <a class="btn btn-sm btn-info edit-culture-observation"
                                     data-url="{{ URL::route('cultureobservation.update',
                                         [$culture_observation->id]) }}"
@@ -59,13 +64,15 @@
                                     data-observation="{{ $culture_observation->observation }}"
                                     title="Edit Observation">
                                     <span class="glyphicon glyphicon-edit"></span>
+                                    Edit
                                 </a>
                                <a class="btn btn-sm btn-danger delete-culture-observation"
                                     data-url="{{ URL::route('cultureobservation.destroy',
                                         [$culture_observation->id]) }}"
                                     data-id="{{ $culture_observation->id }}"
-                                    title="Delete">
+                                    title="Delete Observation">
                                     <span class="glyphicon glyphicon-trash"></span>
+                                    Delete
                                 </a>
                               </td>
                             </tr>
@@ -76,17 +83,20 @@
             </div>
 <!-- isolated organism -->
             <div class="row isolated-organism">
-                <h5 class="col-md-12">Organisms Isolated
-                    <a class="btn btn-sm btn-success add-isolated-organism"
+                <div class="col-md-9">Organisms Isolated
+                </div>
+                <div class="col-md-3">
+                    <a class="col-md-8 col-md-offset-2 btn btn-sm btn-success add-isolated-organism"
                         data-test-id="{{ $test->id }}"
                         data-url="{{ URL::route('isolatedorganism.store') }}"
                         data-toggle="modal"
                         data-target=".add-isolated-organism-modal"
                         data-drug-susceptibility-store-url="{{ URL::route('drugsusceptibility.store') }}"
-                        title="Add Organism">
+                        title="Add Isolated Organism">
                         <span class="glyphicon glyphicon-plus"></span>
+                        Add Isolated Organism
                     </a>
-                </h5>
+                </div>
                 <div class="col-md-12">
                     <table class="table">
                       <thead>
@@ -98,8 +108,8 @@
                       <tbody class="isolated-organism-tbody">
                         @foreach($test->isolated_organisms as $isolated_organism)
                             <tr class="isolated-organism-tr-{{$isolated_organism->id}}">
-                              <td class="isolated-organism-entry">{{$isolated_organism->organism->name}}</td>
-                              <td>
+                              <td class="col-md-9 isolated-organism-entry">{{$isolated_organism->organism->name}}</td>
+                              <td class="col-md-3">
                                 <a class="btn btn-sm btn-success add-drug-susceptibility"
                                     data-url="{{ URL::route('drugsusceptibility.store') }}"
                                     data-isolated-organism-id="{{ $isolated_organism->id }}"
@@ -109,6 +119,7 @@
                                     data-target=".add-drug-susceptibility-test-modal"
                                     title="Add Susceptibility Test Results">
                                     <span class="glyphicon glyphicon-plus"></span>
+                                    Add Results
                                 </a>
                                 <a class="btn btn-sm btn-danger delete-isolated-organism"
                                     data-url="{{ URL::route('isolatedorganism.destroy',
@@ -116,6 +127,7 @@
                                     data-id="{{ $isolated_organism->id }}"
                                     title="Delete Organism">
                                     <span class="glyphicon glyphicon-trash"></span>
+                                    Delete Organism
                                 </a>
                               </td>
                             </tr>
@@ -141,13 +153,13 @@
                         @foreach($test->isolated_organisms as $isolated_organism)
                             @foreach($isolated_organism->drug_susceptibilities as $drug_susceptibility)
                             <tr class="drug-susceptibility-tr-{{$drug_susceptibility->id}}">
-                              <td class="isolated-organism-entry">
+                              <td class="col-md-4 isolated-organism-entry">
                                 {{$isolated_organism->organism->name}}</td>
-                              <td class="drug-entry">
+                              <td class="col-md-4 drug-entry">
                                 {{$drug_susceptibility->drug->name}}</td>
-                              <td class="result-entry">
+                              <td class="col-md-2 result-entry">
                                 {{$drug_susceptibility->drug_susceptibility_measure->interpretation}}</td>
-                              <td class="col-md-4">
+                              <td class="col-md-2">
                                 <a class="btn btn-sm btn-info edit-drug-susceptibility"
                                     data-url="{{ URL::route('drugsusceptibility.update',
                                         [$drug_susceptibility->id]) }}"
@@ -158,15 +170,17 @@
                                     data-verb="PUT"
                                     data-toggle="modal"
                                     data-target=".add-drug-susceptibility-test-modal"
-                                    title="Edit Susceptibility Test Results">
+                                    title="Edit Susceptibility Test Result">
                                     <span class="glyphicon glyphicon-edit"></span>
+                                    Edit
                                 </a>
                                 <a class="btn btn-sm btn-danger delete-drug-susceptibility"
                                     data-url="{{ URL::route('drugsusceptibility.destroy',
                                         [$drug_susceptibility->id]) }}"
                                     data-id="{{ $drug_susceptibility->id }}"
-                                    title="Delete">
+                                    title="Delete Susceptibility Test Result">
                                     <span class="glyphicon glyphicon-trash"></span>
+                                    Delete
                                 </a>
                               </td>
                             </tr>
@@ -212,20 +226,22 @@
                     <table>
                         <tbody class="hidden cultureObservationEntryLoader">
                             <tr class="new-culture-observation-tr">
-                              <td class="duration-entry"></td>
-                              <td class="observation-entry"></td>
-                              <td>
+                              <td class="col-md-3 duration-entry"></td>
+                              <td class="col-md-7 observation-entry"><pre class="formated"></pre></td>
+                              <td class="col-md-2">
                                 <a class="btn btn-sm btn-info edit-culture-observation"
                                     data-toggle="modal"
                                     data-verb="PUT"
                                     data-target=".add-culture-observation-modal"
                                     title="Edit Observation">
                                     <span class="glyphicon glyphicon-edit"></span>
+                                    Edit
                                 </a>
                                 <a class="btn btn-sm btn-danger delete-culture-observation"
                                     data-url-verb="DELETE"
                                     title="Delete">
                                     <span class="glyphicon glyphicon-trash"></span>
+                                    Delete
                                 </a>
                               </td>
                             </tr>
@@ -235,19 +251,21 @@
                     <table>
                         <tbody class="hidden isolatedOrganismEntryLoader">
                             <tr class="new-isolated-organism-tr">
-                              <td class="isolated-organism-entry"></td>
-                              <td>
+                              <td class="col-md-9 isolated-organism-entry"></td>
+                              <td class="col-md-3">
                                 <a class="btn btn-sm btn-success add-drug-susceptibility"
                                     data-verb="POST"
                                     data-toggle="modal"
                                     data-target=".add-drug-susceptibility-test-modal"
                                     title="Add Susceptibility Test Results">
                                     <span class="glyphicon glyphicon-plus"></span>
+                                    Add Results
                                 </a>
                                 <a class="btn btn-sm btn-danger delete-isolated-organism"
                                     data-url-verb="DELETE"
                                     title="Delete Organism">
                                     <span class="glyphicon glyphicon-trash"></span>
+                                    Delete Organism
                                 </a>
                               </td>
                             </tr>
@@ -257,21 +275,23 @@
                     <table>
                         <tbody class="hidden drugSusceptibilityEntryLoader">
                             <tr class="new-drug-susceptibility-tr">
-                              <td class="isolated-organism-entry"></td>
-                              <td class="drug-entry"></td>
-                              <td class="result-entry"></td>
-                              <td>
+                              <td class="col-md-4 isolated-organism-entry"></td>
+                              <td class="col-md-4 drug-entry"></td>
+                              <td class="col-md-2 result-entry"></td>
+                              <td class="col-md-2">
                                 <a class="btn btn-sm btn-info edit-drug-susceptibility"
                                     data-verb="PUT"
                                     data-toggle="modal"
                                     data-target=".add-drug-susceptibility-test-modal"
-                                    title="Edit Susceptibility Test Results">
+                                    title="Edit Susceptibility Test Result">
                                     <span class="glyphicon glyphicon-edit"></span>
+                                    Edit
                                 </a>
                                 <a class="btn btn-sm btn-danger delete-drug-susceptibility"
                                     data-url-verb="DELETE"
                                     title="Delete">
                                     <span class="glyphicon glyphicon-trash"></span>
+                                    Delete
                                 </a>
                               </td>
                             </tr>
@@ -295,33 +315,18 @@
             </div>
             <div class="modal-body">
                 <div class="culture-observation">
-                    <div class="col-md-12">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                {{ Form::label('duration', 'Duration') }}
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                {{ Form::label('observation', 'Observation') }}
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        {{ Form::label('duration', 'Duration') }}
+                        <select class="form-control duration" name="duration">
+                            @foreach($cultureDurations as $key => $cultureDuration)
+                                <option value="{{$key}}">{{$cultureDuration}}</option>
+                            @endforeach
+                        </select>
                     </div>
-                    <div class="col-md-12">
-                            <div class="col-md-6">
-                            <div class="form-group">
-                                    <select class="form-control duration" name="duration">
-                                        @foreach($cultureDurations as $key => $cultureDuration)
-                                            <option value="{{$key}}">{{$cultureDuration}}</option>
-                                        @endforeach
-                                    </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <input class="form-control observation" name="observation" type="text">
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        {{ Form::label('observation', 'Observation') }}
+                        {{ Form::textarea('observation', Input::old('observation'),
+                            array('class' => 'form-control observation')) }}
                     </div>
                 </div>
             </div>
@@ -437,11 +442,11 @@
             </div>
             <div class="modal-footer">
             {{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'),
-                array('class' => 'btn btn-primary  save-drug-susceptibility',
-                'data-dismiss' => 'modal')) }}
+                ['class' => 'btn btn-primary  save-drug-susceptibility',
+                    'data-dismiss' => 'modal']) }}
             {{ Form::button(trans('messages.cancel'),
                 ['class' => 'btn btn-default cancel-drug-susceptibility-edition',
-                'data-dismiss' => 'modal']) }}
+                    'data-dismiss' => 'modal']) }}
             </div>
         </div>
     </div>
