@@ -228,9 +228,9 @@ class MicrobiologyProductionSeeder extends DatabaseSeeder
 
         /* Specimen Status table */
         $specimen_statuses = array(
-          array("id" => "1", "name" => "specimen-not-collected"),
-          array("id" => "2", "name" => "specimen-accepted"),
-          array("id" => "3", "name" => "specimen-rejected")
+          array("id" => "1", "name" => "specimen-accepted"),
+          array("id" => "2", "name" => "specimen-rejected"),
+          array("id" => "3", "name" => "referred-out")
         );
         foreach ($specimen_statuses as $specimen_status)
         {

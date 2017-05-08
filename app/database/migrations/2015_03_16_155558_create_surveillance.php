@@ -12,12 +12,6 @@ class CreateSurveillance extends Migration {
 	 */
 	public function up()
 	{
-        Schema::create('diseases', function(Blueprint $table)
-        {
-            $table->increments('id')->unsigned();
-            $table->string('name', 60);
-        });
-
         Schema::create('report_diseases', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();

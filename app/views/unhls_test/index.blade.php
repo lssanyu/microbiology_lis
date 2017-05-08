@@ -89,7 +89,6 @@
                         <th class="col-md-2">{{trans('messages.patient-name')}}</th>
                         <th class="col-md-1">{{trans('messages.specimen-id')}}</th>
                         <th>{{ Lang::choice('messages.test',1) }}</th>
-                        <th>{{trans('messages.visit-type')}}</th>
                         <th>{{trans('messages.test-request-status')}}</th>
                         <th class="col-md-3">{{trans('messages.test-status')}}</th>
                     </tr>
@@ -102,21 +101,17 @@
                         @endif
                         >
                         <td>{{ date('d-m-Y H:i', strtotime($test->time_created));}}</td>  <!--Date Ordered-->
-                        <td>{{ empty($test->visit->patient->external_patient_number)?
-                                $test->visit->patient->patient_number:
-                                $test->visit->patient->external_patient_number
+                        <td>{{ empty($test->specimen->patient->external_patient_number)?
+                                $test->specimen->patient->patient_number:
+                                $test->specimen->patient->external_patient_number
                             }}</td> <!--Patient Number -->
                         <td>{{'ULIN No:'}}</td> <!--unhls terminology -->
                         <td>
-                            {{ empty($test->visit->visit_number)?
-                                $test->visit->id:
-                                $test->visit->visit_number
-                            }}</td> <!--Visit Number -->
-                        <td>{{ $test->visit->patient->name.' ('.($test->visit->patient->getGender(true)).',
-                            '.$test->visit->patient->getAge('Y'). ')'}}</td> <!--Patient Name -->
+                            {{ $test->specimen->id }}</td> <!--Visit Number -->
+                        <td>{{ $test->specimen->patient->name.' ('.($test->specimen->patient->getGender(true)).',
+                            '.$test->specimen->patient->getAge('Y'). ')'}}</td> <!--Patient Name -->
                         <td>{{ $test->getSpecimenId() }}</td> <!--Specimen ID -->
                         <td>{{ $test->testType->name }}</td> <!--Test-->
-                        <td>{{ $test->visit->visit_type }}</td> <!--Visit Type -->
                         <!-- ACTION BUTTONS -->
                         <td>
                             <a class="btn btn-sm btn-success"
@@ -134,16 +129,6 @@
                                     <span class="glyphicon glyphicon-thumbs-up"></span>
                                     {{trans('messages.receive-test')}}
                                 </a>
-                            @endif
-                        @elseif ($test->specimen->isNotCollected())
-                            @if(Auth::user()->can('accept_test_specimen'))
-                                <a class="btn btn-sm btn-info" href="#accept-specimen-modal"
-                                    data-toggle="modal" data-url="{{ URL::route('unhls_test.collectSpecimen') }}" data-specimen-id="{{$test->specimen->id}}" data-target="#accept-specimen-modal"
-                                    title="{{trans('messages.accept-specimen-title')}}">
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    {{trans('messages.accept-specimen')}}
-                                </a>
-
                             @endif
                         @endif
                         @if ($test->specimen->isAccepted() && !($test->isVerified()))
@@ -240,12 +225,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <!-- Specimen statuses -->
-                                        @if($test->specimen->isNotCollected())
-                                         @if(($test->isPaid()))
-                                            <span class='label label-default'>
-                                                {{trans('messages.specimen-not-collected-label')}}</span>
-                                            @endif
-                                        @elseif($test->specimen->isReferred())
+                                        @if($test->specimen->isReferred())
                                             <span class='label label-primary'>
                                                 {{trans('messages.specimen-referred-label') }}
                                                 @if($test->specimen->referral->status == Referral::REFERRED_IN)
@@ -274,55 +254,6 @@
         
         </div>
     </div>
-
-    <!-- MODALS -->
-    <div class="modal fade" id="new-test-modal-unhls">
-      <div class="modal-dialog">
-        <div class="modal-content">
-        {{ Form::open(array('route' => 'unhls_test.create')) }}
-          <input type="hidden" id="patient_id" name="patient_id" value="0" />
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">
-                <span aria-hidden="true">&times;</span>
-                <span class="sr-only">{{trans('messages.close')}}</span>
-            </button>
-            <h4 class="modal-title">{{trans('messages.create-new-test')}}</h4>
-          </div>
-          <div class="modal-body">
-            <h4>{{ trans('messages.first-select-patient') }}</h4>
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="input-group">
-                  <input type="text" class="form-control search-text" 
-                    placeholder="{{ trans('messages.search-patient-placeholder') }}">
-                  <span class="input-group-btn">
-                    <button class="btn btn-default search-patient" type="button">
-                        {{ trans('messages.patient-search-button') }}</button>
-                  </span>
-                </div><!-- /input-group -->
-                <div class="patient-search-result form-group">
-                    <table class="table table-condensed table-striped table-bordered table-hover hide">
-                      <thead>
-                        <th> </th>
-                        <th>{{ trans('messages.patient-id') }}</th>
-                        <th>{{ Lang::choice('messages.name',2) }}</th>
-                      </thead>
-                      <tbody>
-                      </tbody>
-                    </table>
-                </div>
-              </div><!-- /.col-lg-12 -->
-            </div><!-- /.row -->          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">
-                {{trans('messages.close')}}</button>
-            <button type="button" class="btn btn-primary next" onclick="submit();" disabled>
-                {{trans('messages.next')}}</button>
-          </div>
-        {{ Form::close() }}
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 
     <div class="modal fade" id="accept-specimen-modal">
       <div class="modal-dialog">

@@ -25,9 +25,9 @@ class UnhlsPatient extends Eloquent
 	/**
 	 * Visits relationship
 	 */
-    public function visits()
+    public function specimens()
     {
-        return $this->hasMany('UnhlsVisit');
+        return $this->hasMany('UnhlsSpecimen');
     }
 
 	/**

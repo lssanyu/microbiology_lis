@@ -119,11 +119,7 @@
 							<td>{{ $test->testType->name }}</td>
 							<td>{{ $test->isExternal()?$test->external()->request_date:$test->time_created }}</td>
 							<td>{{ $test->testType->testCategory->name }}</td>
-							@if($test->specimen->specimen_status_id == UnhlsSpecimen::NOT_COLLECTED)
-								<td>{{trans('messages.specimen-not-collected')}}</td>
-								<td></td>
-								<td></td>
-							@elseif($test->specimen->specimen_status_id == UnhlsSpecimen::ACCEPTED)
+							@if($test->specimen->specimen_status_id == UnhlsSpecimen::ACCEPTED)
 								<td>{{trans('messages.specimen-accepted')}}</td>
 								<td>{{$test->specimen->acceptedBy->name}}</td>
 								<td>{{$test->specimen->time_accepted}}</td>
@@ -163,7 +159,7 @@
 								@foreach($test->testResults as $result)
 									<p>
 										{{ Measure::find($result->measure_id)->name }}: {{ $result->result }}
-										{{ Measure::getRange($test->visit->patient, $result->measure_id) }}
+										{{ Measure::getRange($test->specimen->patient, $result->measure_id) }}
 										{{ Measure::find($result->measure_id)->unit }}
 									</p>
 								@endforeach</td>

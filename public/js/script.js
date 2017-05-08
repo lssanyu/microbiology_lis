@@ -460,97 +460,25 @@ $(function(){
 		$(this).parent().parent().parent().remove();
 	});
 
-    /**
-     *Fetch tests for selected Lab category when requesting
-     */
-    $('.test-type-category').on('change', function() {
-        // todo: this code is almost the same as below, make a reusable one
-        var testTypeCategoryId = $('.test-type-category').val();
-        var specimenTypeId = $('.specimen-type').val();
-        if (testTypeCategoryId != 0 && specimenTypeId != 0) {
-            $.ajax({
-                type: 'POST',
-                url: "/unhls_test/testlist",
-                data: {
-                    test_category_id: testTypeCategoryId,
-                    specimen_type_id: specimenTypeId
-                },
-                success: function(testTypes){
-                    $('.test-type-list').empty();
-                    $('.test-type-list').append(testTypes);
-                }
-            });
-        }
-    });
 
     /**
      *Fetch tests for selected Specimen Type when requesting
      */
     $('.specimen-type').on('change', function() {
-        var testTypeCategoryId = $('.test-type-category').val();
         var specimenTypeId = $('.specimen-type').val();
-        if (testTypeCategoryId != 0 && specimenTypeId != 0) {
-            $.ajax({
-                type: 'POST',
-                url: "/unhls_test/testlist",
-                data: {
-                    test_category_id: testTypeCategoryId,
-                    specimen_type_id: specimenTypeId
-                },
-                success: function(testTypes){
-                    $('.test-type-list').empty();
-                    $('.test-type-list').append(testTypes);
-                }
-            });
-        }
-    });
-
-    /**
-     *Create List of tests in the test request page
-     */
-    var lastNewSpecimenId = 0;
-    $('.add-test-to-list').click(function(){
-        var testTypeCategoryId = $('.test-type-category').val();
-        var specimenName = $('.specimen-type option:selected').text();
-        var testTypeCategoryName = $('.test-type-category option:selected').text();
-
-        var count = 0;
-        $.map($('.test-type:checkbox:checked'), function (el) {
-
-            var testListHtml = $('.test-list-loader').html();
-            //Count new measures on the new measure button
-            $('.test-list-panel').append(testListHtml);
-            // Append test type details for display
-            if (count == 0) {
-                $('.test-list-panel .new-test-list-row').find(
-                    '.specimen-name').append(specimenName);
-                $('.test-list-panel .new-test-list-row').find(
-                    '.test-type-category-name').append(testTypeCategoryName);
-            }else {
-                $('.test-list-panel .new-test-list-row').find(
-                    '.test-type-name').addClass('col-md-offset-8');
+        $.ajax({
+            type: 'POST',
+            url: "/unhls_test/testlist",
+            data: {
+                specimen_type_id: specimenTypeId
+            },
+            success: function(testTypes){
+                $('.test-type-list').empty();
+                $('.test-type-list').append(testTypes);
             }
-            $('.test-list-panel .new-test-list-row').find(
-                '.test-type-name').append($('.test-type.id-'+el.value).data('test-type-name'));
-            // store test type details for submission
-            $('.test-list-panel .new-test-list-row').find(
-                '.specimen-type-id').attr(
-                'name', 'test_list['+lastNewSpecimenId+'][specimen_type_id]');
-            $('.test-list-panel .new-test-list-row').find(
-                '.test-type-id').attr(
-                'name', 'test_list['+lastNewSpecimenId+'][test_type_id]['+el.value+']');
-            $('.test-list-panel .new-test-list-row').find(
-                '.specimen-type-id').val($('.specimen-type').val());
-            $('.test-list-panel .new-test-list-row').find(
-                '.test-type-id').val(el.value);
-            $('.test-list-panel .new-test-list-row').find(
-                '.delete-test-from-list').attr('data-test-type-id', el.value);
-            $('.test-list-panel .new-test-list-row').addClass(
-                'test-list-row-'+el.value).removeClass('new-test-list-row');
-            count++;
         });
-        lastNewSpecimenId++;
     });
+
 
     // todo: fix, not entirely functional at the moment
     $('.test-list-panel').on( "click", '.delete-test-from-list', function(e) {
@@ -685,63 +613,6 @@ $(function(){
 			});
 		});
 	});
-
-	/**
-	 * Search for patient from new test modal
-	 * UI Rendering Logic here
-	 */
-
-	$('#new-test-modal .search-patient').click(function(){
-		var searchText = $('#new-test-modal .search-text').val();
-		var url = location.protocol+ "//"+location.host+ "/patient/search";
-		var output = "";
-		var cnt = 0;
-		$.post(url, { text: searchText}).done(function(data){
-			$.each($.parseJSON(data), function (index, obj) {
-				output += "<tr>";
-				output += "<td><input type='radio' value='" + obj.id + "' name='pat_id'></td>";
-				output += "<td>" + obj.patient_number + "</td>";
-				output += "<td>" + obj.name + "</td>";
-				output += "</tr>";
-				cnt++;
-			});
-			$('#new-test-modal .table tbody').html( output );
-			if (cnt === 0) {
-				$('#new-test-modal .table').hide();
-			} else {
-				$('#new-test-modal .table').removeClass('hide');
-				$('#new-test-modal .table').show();
-			}
-		});
-	});
-	/**
-	 * Repeat of above AJAX request for UNHLS test pages
-	 */
-
-	 $('#new-test-modal-unhls .search-patient').click(function(){
-		var searchText = $('#new-test-modal-unhls .search-text').val();
-		var url = location.protocol+ "//"+location.host+ "/unhls_patient/search";
-		var output = "";
-		var cnt = 0;
-		$.post(url, { text: searchText}).done(function(data){
-			$.each($.parseJSON(data), function (index, obj) {
-				output += "<tr>";
-				output += "<td><input type='radio' value='" + obj.id + "' name='pat_id'></td>";
-				output += "<td>" + obj.patient_number + "</td>";
-				output += "<td>" + obj.name + "</td>";
-				output += "</tr>";
-				cnt++;
-			});
-			$('#new-test-modal-unhls .table tbody').html( output );
-			if (cnt === 0) {
-				$('#new-test-modal-unhls .table').hide();
-			} else {
-				$('#new-test-modal-unhls .table').removeClass('hide');
-				$('#new-test-modal-unhls .table').show();
-			}
-		});
-	});
-
 
 	/*
 	* Prevent patient search modal form submit (default action) when the ENTER key is pressed

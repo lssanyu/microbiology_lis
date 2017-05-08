@@ -79,7 +79,7 @@ class CreatekBLIStables extends Migration {
         Schema::create('unhls_patients', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
-            $table->string('patient_number')->unique();
+            $table->string('patient_number')->nullable();
             $table->string('ulin')->nullable();//todo: should be unique
             $table->string('nin')->nullable();//todo: should be unique
             $table->string('name', 100);
@@ -94,7 +94,7 @@ class CreatekBLIStables extends Migration {
             $table->string('external_patient_number', 20)->nullable();
             $table->integer('created_by')->unsigned()->default(0);
 
-            $table->index('external_patient_number');
+            $table->index('patient_number');
             $table->index('created_by');
 
             $table->softDeletes();
@@ -229,19 +229,6 @@ class CreatekBLIStables extends Migration {
 			$table->primary('id');
 		});
 
-		Schema::create('unhls_visits', function(Blueprint $table)
-		{
-			$table->bigIncrements('id');
-			$table->integer('patient_id')->unsigned();
-            $table->string('visit_type', 12)->default('Out-patient'); //'OUT-PATIENT' | 'IN-PATIENT'
-            $table->integer('visit_number')->unsigned()->nullable(); //External
-
-            $table->index('visit_number');
-			$table->foreign('patient_id')->references('id')->on('unhls_patients');
-
-            $table->timestamps();
-        });
-		
 		Schema::create('rejection_reasons', function(Blueprint $table)
 		{
 			$table->increments('id')->unsigned();
@@ -261,28 +248,39 @@ class CreatekBLIStables extends Migration {
             $table->increments('id')->unsigned();
             $table->integer('status')->unsigned();
             $table->integer('facility_id')->unsigned();
-            $table->string('person', 500);
-            $table->text('contacts');
+            $table->string('person')->nullable();
+            $table->text('contacts')->nullable();
             $table->integer('user_id')->unsigned();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('facility_id')->references('id')->on('facilities');
+            $table->foreign('facility_id')->references('id')->on('unhls_facilities');
 
             $table->timestamps();
+        });
+
+        Schema::create('diseases', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->string('name', 60);
         });
 
         Schema::create('specimens', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
+            $table->integer('suspected_disease_id')->unsigned()->nullable();
             $table->integer('specimen_type_id')->unsigned();
+            $table->integer('patient_id')->unsigned();
             $table->integer('specimen_status_id')->unsigned()->default(UnhlsSpecimen::ACCEPTED);
-            $table->integer('accepted_by')->unsigned()->default(0);
+            $table->integer('accepted_by')->unsigned();
             $table->integer('referral_id')->unsigned()->nullable();
+            $table->string('lab_id');
             $table->timestamp('time_collected')->nullable();
             $table->timestamp('time_accepted')->nullable();
 
             $table->index('accepted_by');
             $table->foreign('specimen_type_id')->references('id')->on('specimen_types');
+            $table->foreign('suspected_disease_id')->references('id')->on('diseases');
+            $table->foreign('patient_id')->references('id')->on('unhls_patients');
             $table->foreign('specimen_status_id')->references('id')->on('specimen_statuses');
             $table->foreign('referral_id')->references('id')->on('referrals');
         });
@@ -290,9 +288,8 @@ class CreatekBLIStables extends Migration {
         Schema::create('unhls_tests', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
-            $table->bigInteger('visit_id')->unsigned();
             $table->integer('test_type_id')->unsigned();
-            $table->integer('specimen_id')->unsigned()->default(0);
+            $table->integer('specimen_id')->unsigned();
             $table->string('interpretation',200)->default('');
             $table->integer('test_status_id')->unsigned()->default(0);
             $table->integer('created_by')->unsigned();
@@ -309,7 +306,6 @@ class CreatekBLIStables extends Migration {
             $table->index('created_by');
             $table->index('tested_by');
             $table->index('verified_by');
-            $table->foreign('visit_id')->references('id')->on('unhls_visits');
             $table->foreign('test_type_id')->references('id')->on('test_types');
             $table->foreign('specimen_id')->references('id')->on('specimens');
             $table->foreign('test_status_id')->references('id')->on('test_statuses');
@@ -396,7 +392,6 @@ class CreatekBLIStables extends Migration {
         Schema::dropIfExists('referrals');
         Schema::dropIfExists('facilities');
 		Schema::dropIfExists('rejection_reasons');
-		Schema::dropIfExists('unhls_visits');
 		Schema::dropIfExists('test_statuses');
 		Schema::dropIfExists('specimen_statuses');
 		Schema::dropIfExists('test_phases');

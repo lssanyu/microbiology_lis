@@ -54,22 +54,22 @@
                                             <div class="col-md-3">
                                                 <p><strong>{{trans("messages.patient-number")}}</strong></p></div>
                                             <div class="col-md-9">
-                                                {{$test->visit->patient->patient_number}}</div></div>
+                                                {{$test->specimen->patient->patient_number}}</div></div>
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <p><strong>{{ Lang::choice('messages.name',1) }}</strong></p></div>
                                             <div class="col-md-9">
-                                                {{$test->visit->patient->name}}</div></div>
+                                                {{$test->specimen->patient->name}}</div></div>
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <p><strong>{{trans("messages.age")}}</strong></p></div>
                                             <div class="col-md-9">
-                                                {{$test->visit->patient->getAge()}}</div></div>
+                                                {{$test->specimen->patient->getAge()}}</div></div>
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <p><strong>{{trans("messages.gender")}}</strong></p></div>
                                             <div class="col-md-9">
-                                                {{$test->visit->patient->gender==0?trans("messages.male"):trans("messages.female")}}
+                                                {{$test->specimen->patient->gender==0?trans("messages.male"):trans("messages.female")}}
                                             </div></div>
                                     </div>
                                 </div> <!-- ./ panel-body -->
@@ -195,14 +195,14 @@
                                     {{ Form::text($fieldName, $ans, array(
                                         'class' => 'form-control result-interpretation-trigger',
                                         'data-url' => URL::route('unhls_test.resultinterpretation'),
-                                        'data-age' => $test->visit->patient->dob,
-                                        'data-gender' => $test->visit->patient->gender,
+                                        'data-age' => $test->specimen->patient->dob,
+                                        'data-gender' => $test->specimen->patient->gender,
                                         'data-measureid' => $measure->id
                                         ))
                                     }}
                                     <span class='units'>
 
-                                        {{Measure::getRange($test->visit->patient, $measure->id)}}
+                                        {{Measure::getRange($test->specimen->patient, $measure->id)}}
                                         {{$measure->unit}}
                                     </span>
                                 @elseif ( $measure->isAlphanumeric() || $measure->isAutocomplete() ) 

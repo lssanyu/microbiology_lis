@@ -14,10 +14,9 @@ class UnhlsSpecimen extends Eloquent
 	/**
 	 * Specimen status constants
 	 */
-	const NOT_COLLECTED = 1;
-	const ACCEPTED = 2;
-	const REJECTED = 3;
-	const REFERRED = 4;
+	const ACCEPTED = 1;
+	const REJECTED = 2;
+	const REFERRED = 3;
 	/**
 	 * Enabling soft deletes for specimen details.
 	 *
@@ -39,6 +38,14 @@ class UnhlsSpecimen extends Eloquent
 	public function specimenStatus()
 	{
 		return $this->belongsTo('SpecimenStatus');
+	}
+
+	/**
+	 * Specimen Status relationship
+	 */
+	public function patient()
+	{
+		return $this->belongsTo('UnhlsPatient');
 	}
 	
 	/**
@@ -97,22 +104,6 @@ class UnhlsSpecimen extends Eloquent
     	}
     }
 
-    /**
-    * Check if specimen is NOT_COLLECTED
-    *
-    * @return boolean
-    */
-    public function isNotCollected()
-    {
-        if($this->specimen_status_id == UnhlsSpecimen::NOT_COLLECTED)
-        {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    
     /**
     * Check if specimen is ACCEPTED
     *

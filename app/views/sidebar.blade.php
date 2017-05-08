@@ -170,34 +170,9 @@
 				</li>
 				
 				<li class="nav_trigger">
-					<a href="#"><span class="ion-person"></span><span class="nav_title">Patient Information</span>
-					</a>
-					<div class="sub_panel" style="left: -220px;">
-						<div class="side_inner ps-ready ps-container" style="height: 620px;">
-							<h4 class="panel_heading panel_heading_first">{{ Lang::choice('messages.patient-unhls', 1)}}</h4>
-							<ul>
-								<li>
-									<div>
-										<a href="{{ URL::route('unhls_patient.create')}}">
-											<span class="glyphicon glyphicon-tag"></span> {{Lang::choice('messages.register-new-patient', 1)}}</a>
-									</div>
-								</li>
-								<li>
-									<div>
-										<a href="{{ URL::route('unhls_patient.index') }}">
-											<span class="glyphicon glyphicon-tag"></span> {{Lang::choice('messages.view-patients', 1)}}</a>
-									</div>
-								</li>
-
-							</ul>
-
-						<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 215px; display: none;"><div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 620px; display: none;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
-					</div>
-				</li>
-				<li class="nav_trigger">
 					<a href="#">
 						<span class="ion-erlenmeyer-flask"></span>
-						<span class="nav_title">Tests</span>
+						<span class="nav_title">Specimens</span>
 					</a>
 					<div class="sub_panel" style="left: -220px;">
 						<div class="side_inner ps-ready ps-container" style="height: 620px;">
@@ -205,13 +180,33 @@
 							<ul>
 								<li>
 									<div>
-										<a href="javascript:void(0)" data-toggle="modal" data-target="#new-test-modal-unhls">
-											<!--<span class="glyphicon glyphicon-plus-sign"></span>{{trans('messages.new-test')}}-->
-											<span class="glyphicon glyphicon-plus-sign"></span> Make Test Request
+										<a href="{{ URL::route('specimen.index')}}">
+											<span class="glyphicon glyphicon-tag"></span>List of All Specimens
+										</a>
+									</div>
+								</li> 
+								<li>
+									<div>
+										<a href="{{ URL::route('specimen.create')}}">
+											<span class="glyphicon glyphicon-plus-sign"></span>Receive Specimen
 										</a>
 									</div>
 								</li>
+							</ul>
 
+						<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 215px; display: none;"><div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 620px; display: none;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
+					</div>
+				</li>
+
+				<li class="nav_trigger">
+					<a href="#">
+						<span class="ion-erlenmeyer-flask-bubbles"></span>
+						<span class="nav_title">Tests</span>
+					</a>
+					<div class="sub_panel" style="left: -220px;">
+						<div class="side_inner ps-ready ps-container" style="height: 620px;">
+							<h4 class="panel_heading panel_heading_first"> Tests</h4>
+							<ul>
 								<li>
 									<div>
 										<a href="{{ URL::route('unhls_test.index')}}">
@@ -223,13 +218,6 @@
 									<div>
 										<a href="{{URL::route('unhls_test.completed')}}">
 											<span class="glyphicon glyphicon-tag" ></span>{{trans('Completed Tests')}}
-										</a>
-									</div>
-								</li>
-																<li>
-									<div>
-										<a href="{{URL::route('unhls_test.notrecieved')}}">
-											<span class="glyphicon glyphicon-tag" ></span>{{trans('Samples Not Recieved')}}
 										</a>
 									</div>
 								</li>
@@ -328,8 +316,8 @@
 					</div>
 				</li>
 
-
-				<li class="nav_trigger">
+<!-- todo: check if this is neccesary as is in microbiology -->
+<!-- 				<li class="nav_trigger">
 					<a href="#">
 					<span class="ion-ios-cart"></span>
 						<span class="nav_title">Inventory & Equipment</span>
@@ -369,9 +357,10 @@
 						<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 215px; display: none;"><div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 620px; display: none;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
 					</div>
 				</li>
+ -->
 
-
-				<li class="nav_trigger">
+<!-- todo: check if this is neccesary as is in microbiology -->
+				<!-- <li class="nav_trigger">
 					<a href="#">
 						<span class="ion-nuclear"></span>
 						<span class="nav_title">Biosafety & Biosecurity</span>
@@ -397,7 +386,7 @@
 						<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 215px; display: none;"><div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 620px; display: none;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
 					</div>
 				</li>
-
+ -->
 
 				<li class="nav_trigger">
 					<a href="#">

@@ -6,7 +6,7 @@ return [
     'DISTRICT_NAME' => 'Kampala',
     'FACILITY_LEVEL_ID' => '1',
     'FACILITY_ID' => '1',
-    'FACILITY_NAME' => 'Lab Kampala 1',
+    'FACILITY_NAME' => 'UNHLS',
     'FACILITY_CODE' => 'LBK1',
     'FACILITY_OWNERSHIP_ID' => '1',
     'FIN_YEAR_ID' => '1',

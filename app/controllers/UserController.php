@@ -26,7 +26,7 @@ class UserController extends Controller {
                     );
 
                 if(Auth::attempt($credentials)){
-                    return Redirect::route("user.home");
+                    return Redirect::route("specimen.index");
                 }
 
             }

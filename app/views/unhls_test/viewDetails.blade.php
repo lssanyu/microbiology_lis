@@ -34,12 +34,12 @@
 						<div class="panel-btn">
 							@if(Auth::user()->can('view_reports'))
 								<a class="btn btn-sm btn-default"
-								href="{{ URL::to('visitreport/'.$test->visit->id.'/print') }}"
+								href="{{ URL::to('visitreport/'.$test->specimen->id.'/print') }}"
 								>
 									<span class="glyphicon glyphicon-eye-open"></span>
 									{{trans('messages.view-visit-report')}}
 								</a>
-								<a class="btn btn-sm btn-default" href="{{ URL::to('patientreport/'.$test->visit->patient->id.'/'.$test->visit->id.'/'.$test->id ) }}">
+								<a class="btn btn-sm btn-default" href="{{ URL::to('patientreport/'.$test->specimen->patient->id.'/'.$test->specimen->id.'/'.$test->id ) }}">
 									<span class="glyphicon glyphicon-eye-open"></span>
 									{{trans('messages.view-test-report')}}
 								</a>
@@ -63,7 +63,7 @@
 							<h3 class="view"><strong>{{ Lang::choice('messages.test-type',1) }}</strong>
 								{{ $test->testType->name or trans('messages.unknown') }}</h3>
 							<p class="view"><strong>{{trans('messages.visit-number')}}</strong>
-								{{$test->visit->visit_number or trans('messages.unknown') }}</p>
+								{{$test->specimen->visit_number or trans('messages.unknown') }}</p>
 							<p class="view"><strong>{{trans('messages.date-ordered')}}</strong>
 								{{ $test->isExternal()?$test->external()->request_date:$test->time_created }}</p>
 							<p class="view"><strong>{{trans('messages.lab-receipt-date')}}</strong>
@@ -76,7 +76,7 @@
 								@if($test->specimen->isReferred() && $test->specimen->referral->status == Referral::REFERRED_IN)
 									{{ trans("messages.in") }}
 								@else
-									{{ $test->visit->visit_type }}
+									{{ $test->specimen->visit_type }}
 								@endif</p>
 							<p class="view-striped"><strong>{{trans('messages.registered-by')}}</strong>
 								{{$test->createdBy->name or trans('messages.unknown') }}</p>
@@ -104,22 +104,22 @@
 										<div class="col-md-3">
 											<p><strong>{{trans("messages.patient-number")}}</strong></p></div>
 										<div class="col-md-9">
-											{{$test->visit->patient->external_patient_number}}</div></div>
+											{{$test->specimen->patient->external_patient_number}}</div></div>
 									<div class="row">
 										<div class="col-md-3">
 											<p><strong>{{ Lang::choice('messages.name',1) }}</strong></p></div>
 										<div class="col-md-9">
-											{{$test->visit->patient->name}}</div></div>
+											{{$test->specimen->patient->name}}</div></div>
 									<div class="row">
 										<div class="col-md-3">
 											<p><strong>{{trans("messages.age")}}</strong></p></div>
 										<div class="col-md-9">
-											{{$test->visit->patient->getAge()}}</div></div>
+											{{$test->specimen->patient->getAge()}}</div></div>
 									<div class="row">
 										<div class="col-md-3">
 											<p><strong>{{trans("messages.gender")}}</strong></p></div>
 										<div class="col-md-9">
-											{{$test->visit->patient->gender==0?trans("messages.male"):trans("messages.female")}}
+											{{$test->specimen->patient->gender==0?trans("messages.male"):trans("messages.female")}}
 										</div></div>
 								</div>
 							</div> <!-- ./ panel-body -->
@@ -245,7 +245,7 @@
 											{{$result->result}}	
 										</div>
 										<div class="col-md-5">
-	        								{{ Measure::getRange($test->visit->patient, $result->measure_id) }}
+	        								{{ Measure::getRange($test->specimen->patient, $result->measure_id) }}
 											{{ Measure::find($result->measure_id)->unit }}
 										</div>
 									</div>
