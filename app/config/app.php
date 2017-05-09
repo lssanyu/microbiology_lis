@@ -108,7 +108,6 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
 		'Way\Generators\GeneratorsServiceProvider',
-		'Barryvdh\DomPDF\ServiceProvider'
 	),
 
 	/*
@@ -176,7 +175,6 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 		'SoftDeletingTrait'     => 'Illuminate\Database\Eloquent\SoftDeletingTrait',
 		'Entrust'         => 'Zizaco\Entrust\EntrustFacade',
-		'PDF' 			  => 'Barryvdh\DomPDF\Facade'
 	),
 
 );

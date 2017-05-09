@@ -34,7 +34,11 @@ class SpecimenController extends \BaseController {
 		$now = new DateTime();
 		$collectionDate = $now->format('Y-m-d H:i');
 		$receptionDate = $now->format('Y-m-d H:i');
-		$nextSpecimenID = UnhlsSpecimen::orderBy('id','DESC')->first()->id++;
+		try {
+			$nextSpecimenID = UnhlsSpecimen::orderBy('id','DESC')->first()->id++;
+		} catch (Exception $e) {
+			$nextSpecimenID = 1;
+		}
 		$thisYear = $now->format('Y');
 		// todo: cut the first 2 char of
 		$nextLabID = $thisYear.'/'.$nextSpecimenID;
