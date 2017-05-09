@@ -54,19 +54,19 @@
 			<tbody>
 				<tr>
 					<th>{{ trans('messages.patient-name')}}</th>
-					<td>{{ $visit->patient->name }}</td>
+					<td>{{ $specimen->patient->name }}</td>
 					<th>{{ trans('messages.gender')}}</th>
-					<td>{{ $visit->patient->getGender(false) }}</td>
+					<td>{{ $specimen->patient->getGender(false) }}</td>
 				</tr>
 				<tr>
 					<th>{{ trans('messages.patient-id')}}</th>
-					<td>{{ $visit->patient->patient_number}}</td>
+					<td>{{ $specimen->patient->patient_number}}</td>
 					<th>{{ trans('messages.age')}}</th>
-					<td>{{ $visit->patient->getAge()}}</td>
+					<td>{{ $specimen->patient->getAge()}}</td>
 				</tr>
 				<tr>
 					<th>{{ trans('messages.patient-lab-number')}}</th>
-					<td>{{ $visit->patient->external_patient_number }}</td>
+					<td>{{ $specimen->patient->external_patient_number }}</td>
 					<th>{{ trans('messages.requesting-facility-department')}}</th>
 					<td>{{ Config::get('kblis.organization') }}</td>
 				</tr>
@@ -81,7 +81,7 @@
 					<th>{{ Lang::choice('messages.specimen-type', 1)}}</th>
 					<th>{{ Lang::choice('messages.test', 2)}}</th>
 				</tr>
-				@forelse($visit->tests as $test)
+				@forelse($specimen->tests as $test)
 						<tr>
 							<td>{{ $test->specimen->specimenType->name }}</td>
 							<td>{{ $test->testType->name }}</td>
@@ -97,14 +97,14 @@
 		<table>
          <caption>Laboratory Findings</caption>
          <tbody class="report-body">
-            @forelse($visit->tests as $test)
+            @forelse($specimen->tests as $test)
                   <tr>
                      <td>{{ $test->testType->name }}</td>
                      <td colspan="2">
                         @foreach($test->testResults as $result)
                            <p>
                               {{ Measure::find($result->measure_id)->name }}: {{ $result->result }}
-                              {{ Measure::getRange($test->visit->patient, $result->measure_id) }}
+                              {{ Measure::getRange($test->specimen->patient, $result->measure_id) }}
                               {{ Measure::find($result->measure_id)->unit }}
                            </p>
                         @endforeach
@@ -131,8 +131,8 @@
             </tr>
           </thead>
         </table>
-        @foreach($visit->tests as $test)
-        @if($test->testType->isCulture)
+        @foreach($specimen->tests as $test)
+        @if($test->testType)
         @foreach($test->isolated_organisms as $isolated_organism)
         <table class="ast-table">
             <tbody class="ast-body">
