@@ -30,22 +30,22 @@
 				<tr>
 					<th>{{ trans('messages.patient-name')}}</th>
 					@if(Entrust::can('view_names'))
-						<td>{{ $visit->patient->name }}</td>
+						<td>{{ $specimen->patient->name }}</td>
 					@else
 						<td>N/A</td>
 					@endif
 					<th>{{ trans('messages.gender')}}</th>
-					<td>{{ $visit->patient->getGender(false) }}</td>
+					<td>{{ $specimen->patient->getGender(false) }}</td>
 				</tr>
 				<tr>
 					<th>{{ trans('messages.patient-id')}}</th>
-					<td>{{ $visit->patient->patient_number}}</td>
+					<td>{{ $specimen->patient->patient_number}}</td>
 					<th>{{ trans('messages.age')}}</th>
-					<td>{{ $visit->patient->getAge()}}</td>
+					<td>{{ $specimen->patient->getAge()}}</td>
 				</tr>
 				<tr>
 					<th>{{ trans('messages.patient-lab-number')}}</th>
-					<td>{{ $visit->patient->external_patient_number }}</td>
+					<td>{{ $specimen->patient->external_patient_number }}</td>
 					<th>{{ trans('messages.requesting-facility-department')}}</th>
 					<td>{{ Config::get('kblis.organization') }}</td>
 				</tr>
@@ -63,19 +63,15 @@
 					<th>{{ trans('messages.collected-by')."/".trans('messages.rejected-by')}}</th>
 					<th>Date</th>
 				</tr>
-				@forelse($visit->tests as $test)
+				@forelse($specimen->tests as $test)
 						<tr>
 							<td>{{ $test->specimen->specimenType->name }}</td>
 							<td>{{ $test->testType->name }}</td>
-							@if($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
-								<td>{{trans('messages.specimen-not-collected')}}</td>
-								<td></td>
-								<td></td>
-							@elseif($test->specimen->specimen_status_id == Specimen::ACCEPTED)
+							@if($test->specimen->specimen_status_id == UnhlsSpecimen::ACCEPTED)
 								<td>{{trans('messages.specimen-accepted')}}</td>
 								<td>{{$test->specimen->acceptedBy->name}}</td>
 								<td>{{$test->specimen->time_accepted}}</td>
-							@elseif($test->specimen->specimen_status_id == Specimen::REJECTED)
+							@elseif($test->specimen->specimen_status_id == UnhlsSpecimen::REJECTED)
 								<td>{{trans('messages.specimen-rejected')}}</td>
 								<td>{{$test->specimen->rejectedBy->name}}</td>
 								<td>{{$test->specimen->time_rejected}}</td>
@@ -104,14 +100,14 @@
 					<th>{{trans('messages.verified-by')}}</th>
 					<th>{{trans('messages.date-verified')}}</th>
 				</tr>
-				@forelse($visit->tests as $test)
+				@forelse($specimen->tests as $test)
 						<tr>
 							<td>{{ $test->testType->name }}</td>
 							<td>
 								@foreach($test->testResults as $result)
 									<p>
 										{{ Measure::find($result->measure_id)->name }}: {{ $result->result }}
-										{{ Measure::getRange($test->visit->patient, $result->measure_id) }}
+										{{ Measure::getRange($test->specimen->patient, $result->measure_id) }}
 										{{ Measure::find($result->measure_id)->unit }}
 									</p>
 								@endforeach</td>

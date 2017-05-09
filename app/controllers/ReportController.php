@@ -128,17 +128,17 @@ class ReportController extends \BaseController {
 		$date = date('Y-m-d');
 		$error = '';
 
-		$visit = UnhlsVisit::find($id);
-		$visit->load(
+		$specimen = UnhlsSpecimen::find($id);
+		$specimen->load(
 			'patient',
-			'unhls_tests.testType',
-			'unhls_tests.testResults',
-			'unhls_tests.isolatedOrganisms.organism',
-			'unhls_tests.isolatedOrganisms.drugSusceptibilities.drug',
-			'unhls_tests.isolatedOrganisms.drugSusceptibilities.drugSusceptibilityMeasure');
+			'tests.testType',
+			'tests.testResults',
+			'tests.isolatedOrganisms.organism',
+			'tests.isolatedOrganisms.drugSusceptibilities.drug',
+			'tests.isolatedOrganisms.drugSusceptibilities.drugSusceptibilityMeasure');
 		return View::make('reports.visit.report')
 					->with('error', $error)
-					->with('visit', $visit)
+					->with('specimen', $specimen)
 					->withInput(Input::all());
 	}
 
@@ -148,8 +148,8 @@ class ReportController extends \BaseController {
 	 * @return Response
 	 */
 	public function printVisitReport($id){
-		$visit = UnhlsVisit::find($id);
-		$visit->load(
+		$specimen = UnhlsSpecimen::find($id);
+		$specimen->load(
 			'patient',
 			'tests.testType',
 			'tests.testResults',
@@ -157,14 +157,9 @@ class ReportController extends \BaseController {
 			'tests.isolatedOrganisms.drugSusceptibilities.drug',
 			'tests.isolatedOrganisms.drugSusceptibilities.drugSusceptibilityMeasure');
 
-		$content = View::make('reports.visit.printreport')
-			->with('visit', $visit);
-		$pdf = App::make('dompdf');
-		$pdf->loadHTML($content);
-		return $pdf->stream('microbiology.pdf');
-
+		return View::make('reports.visit.printreport')
+			->with('specimen', $specimen);
 	}
-	//	End patient report functions
 
 	/**
 	*	Function to return test types of a particular test category to fill test types dropdown

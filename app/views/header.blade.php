@@ -1,6 +1,4 @@
 @section ("header")
-
-
         <header class="navbar navbar-fixed-top" role="banner">
             <div class="container-fluid">
 
@@ -23,7 +21,7 @@
                             <span><i class="icon ion-chevron-right"></i></span>
                             {{ \Config::get('constants.FIN_YEAR_NAME') }}
                         </a>
-                    </li>   
+                    </li>
 
                     <li>
                         <a href="#">
@@ -38,7 +36,7 @@
 
                     <li class="user_menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							{{Auth::user()->facility->name}} | {{Auth::user()->name}}
+							{{Auth::user()->facility->code}} | {{Auth::user()->name}}
 							<span class="navbar_el_icon ion-person"></span> <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">
@@ -47,16 +45,8 @@
                             <li><a href="{{ URL::route("user.logout") }}">{{trans('messages.logout')}}</a></li>
                         </ul>
                     </li>
-
                 </ul>
-
                 @endif
-
-
             </div>
         </header>
-
-
-
-
 @show
