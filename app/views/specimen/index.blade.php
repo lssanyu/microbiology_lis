@@ -50,6 +50,14 @@
             <div class="container-fluid">
                 <div class="row less-gutter">
                     <span class="glyphicon glyphicon-filter"></span>Specimens
+                    @if(Auth::user()->can('request_test'))
+                    <div class="panel-btn">
+                        <a class="btn btn-sm btn-info" href="{{ URL::route('specimen.create')}}">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            Receive New Specimen
+                        </a>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -86,11 +94,11 @@
                         </td>
                         @if(Auth::user()->can('receive_external_test'))
                         <td>
-                            <a class="btn btn-sm btn-info"
-                            	href="{{URL::route('specimen.edit', [$specimen->id])}}"
-                                title="Edit Specimen Details">
-                                <span class="glyphicon glyphicon-edit"></span>
-                                Edit
+                            <a class="btn btn-sm btn-success"
+                            	href="#"
+                                title="View Specimen Details">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                View
                             </a>
                         </td>
                         @endif
