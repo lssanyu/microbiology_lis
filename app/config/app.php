@@ -108,7 +108,6 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
 		'Way\Generators\GeneratorsServiceProvider',
-		'Maxxscho\LaravelTcpdf\LaravelTcpdfServiceProvider',
 	),
 
 	/*
