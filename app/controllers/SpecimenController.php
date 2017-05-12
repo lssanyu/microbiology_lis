@@ -29,7 +29,6 @@ class SpecimenController extends \BaseController {
 	 */
 	public function create()
 	{
-
 		// sample collection default details
 		$now = new DateTime();
 		$collectionDate = $now->format('Y-m-d H:i');
@@ -64,15 +63,26 @@ class SpecimenController extends \BaseController {
 	 */
 	public function store()
 	{
+		if (Input::get('patient_id')) {
+			$rules = [
+				'time_collected' => 'required',
+				'time_accepted' => 'required',
+				'specimen_type' => 'required',
+				'test_types' => 'required',
+				'facility' => 'required|non_zero_key',
+			];
+		} else {
+			$rules = [
+				'time_collected' => 'required',
+				'time_accepted' => 'required',
+				'specimen_type' => 'required',
+				'test_types' => 'required',
+				'facility' => 'required|non_zero_key',
+				'patient_name' => 'required',
+			];
+		}
+
 		//Create New Test
-		$rules = [
-			'time_collected' => 'required',
-			'time_accepted' => 'required',
-			'specimen_type' => 'required',
-			'test_types' => 'required',
-			'facility' => 'required|non_zero_key',
-			'patient_name' => 'required',
-		];
 		$validator = Validator::make(Input::all(), $rules);
 
 		// process the login
@@ -80,13 +90,17 @@ class SpecimenController extends \BaseController {
 			return Redirect::route('specimen.create')->withInput()->withErrors($validator);
 		} else {
 
-			$patient = new UnhlsPatient;
-			$patient->patient_number = Input::get('patient_number');
-			$patient->name = Input::get('patient_name');
-			$patient->gender = Input::get('gender');
-			$patient->dob = Input::get('dob');
-			$patient->created_by = Auth::user()->id;
-			$patient->save();
+			if (Input::get('patient_id')) {
+				$patient = UnhlsPatient::find($patient_id);
+			}else{
+				$patient = new UnhlsPatient;
+				$patient->patient_number = Input::get('patient_number');
+				$patient->name = Input::get('patient_name');
+				$patient->gender = Input::get('gender');
+				$patient->dob = Input::get('dob');
+				$patient->created_by = Auth::user()->id;
+				$patient->save();
+			}
 
             $referral = new Referral;
             // todo: clearify but for now assume all referals are in bound
@@ -126,6 +140,40 @@ class SpecimenController extends \BaseController {
 		}
 	}
 
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		//Show a specimentype
+		$specimen = UnhlsSpecimen::find($id);
+
+		$tests = UnhlsTest::where('specimen_id',$specimen->id)->orderBy('time_created', 'ASC');
+		// $tests = $specimen->tests;
+
+		// Create Test Statuses array. Include a first entry for ALL
+		$statuses = ['all']+TestStatus::all()->lists('name','id');
+
+		foreach ($statuses as $key => $value) {
+			$statuses[$key] = trans("messages.$value");
+		}
+
+		// Pagination
+		$tests = $tests->paginate(Config::get('kblis.page-items'));
+
+		//	Barcode
+		$barcode = Barcode::first();
+
+		// Load the view and pass it the tests
+		return View::make('specimen.show')
+					->with('testSet', $tests)
+					->with('specimen', $specimen)
+					->with('testStatus', $statuses)
+					->with('barcode', $barcode);
+	}
 
 	/**
 	 * Show the form for editing the specified resource.

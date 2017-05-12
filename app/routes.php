@@ -151,6 +151,15 @@ Route::group(array("before" => "auth"), function()
         "as"   => "unhls_test.testList",
         "uses" => "UnhlsTestController@testList"
     ));
+    Route::get("/unhls_test/{specimen_id}/addtest", array(
+        "as"   => "unhls_test.getAddTest",
+        "uses" => "UnhlsTestController@addTestToSpecimenCreate"
+    ));
+    Route::post("/unhls_test/addtest", array(
+        "as"   => "unhls_test.addtest",
+        "uses" => "UnhlsTestController@addTestToSpecimenStore"
+    ));
+
     //unhls test route ends
     Route::post("/test/resultinterpretation", array(
     "as"   => "test.resultinterpretation",

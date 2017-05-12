@@ -126,7 +126,6 @@ class UnhlsTestController extends \BaseController {
 					->with('testStatus', $statuses)
 					->with('barcode', $barcode)
 					->withInput($input);
-
 	}
 
 
@@ -443,6 +442,45 @@ class UnhlsTestController extends \BaseController {
 					->with('patient', $patient)
 					->with('testCategory', $categories)
 					->with('ward', $wards);
+	}
+
+	public function addTestToSpecimenCreate($specimen_id)
+	{
+		$specimen = UnhlsSpecimen::find($specimen_id);
+		$specimen->load('specimenType.testTypes');
+		//Load Test Create View
+		return View::make('specimen.addTest')
+					->with('specimen', $specimen);
+	}
+
+	public function addTestToSpecimenStore()
+	{
+		$rules = [
+			'specimen_id' => 'required',
+			'test_types' => 'required',
+		];
+
+		//Create New Test
+		$validator = Validator::make(Input::all(), $rules);
+
+		// process the login
+		if ($validator->fails()) {
+			return Redirect::route('specimen.getAddTest')->withInput()->withErrors($validator);
+		} else {
+            // create tests
+            foreach (Input::get('test_types') as $id) {
+                $testTypeID = (int)$id;
+
+                $test = new UnhlsTest;
+                $test->test_type_id = $testTypeID;
+                $test->specimen_id = Input::get('specimen_id');
+                $test->test_status_id = UnhlsTest::PENDING;
+                $test->created_by = Auth::user()->id;
+                $test->save();
+            }
+			return Redirect::route('specimen.show', [$test->specimen_id])
+				->with('message', 'messages.success-creating-test');
+		}
 	}
 
 	/**
@@ -816,25 +854,4 @@ class UnhlsTestController extends \BaseController {
 		return Redirect::to($url)->with('message', trans('messages.specimen-successful-refer'))
 					->with('activeTest', array($specimen->test->id));
 	}
-
-	/**
-	 * Culture worksheet for Test
-	 *
-	 * @param
-	 * @return
-	 */
-	public function culture()
-	{
-		$test = UnhlsTest::find(Input::get('testID'));
-		$test->test_status_id = UnhlsTest::VERIFIED;
-		$test->time_verified = date('Y-m-d H:i:s');
-		$test->verified_by = Auth::user()->id;
-		$test->save();
-
-		//Fire of entry verified event
-		Event::fire('unhls_test.verified', array($testID));
-
-		return View::make('unhls_test.viewDetails')->with('test', $test);
-	}
-
 }

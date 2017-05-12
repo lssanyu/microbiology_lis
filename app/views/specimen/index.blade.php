@@ -95,7 +95,7 @@
                         @if(Auth::user()->can('receive_external_test'))
                         <td>
                             <a class="btn btn-sm btn-success"
-                            	href="#"
+                            	href="{{URL::route('specimen.show', [$specimen->id])}}"
                                 title="View Specimen Details">
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 View

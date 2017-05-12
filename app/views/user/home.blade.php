@@ -38,9 +38,9 @@
 		</div>
 	</a>
 	
-	<a href="{{ URL::route('unhls_test.index')}}">
+	<a href="{{ URL::route('specimen.index')}}">
 		<div class="panel panel-default col-sm-3">
-		<span class="ion-erlenmeyer-flask" style="font-size:80px"></span> <br><span class="nav_title">TESTS</span>
+		<span class="ion-erlenmeyer-flask" style="font-size:80px"></span> <br><span class="nav_title">SPECIMENS</span>
 		</div>
 	</a>
 	
