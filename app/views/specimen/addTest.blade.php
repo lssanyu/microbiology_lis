@@ -34,7 +34,7 @@
 							<div class="panel panel-info">
 								<div class="panel-heading">
 									<h3 class="panel-title">
-									{{ $specimen->specimenType->name }} | Lab Id: {{ $specimen->lab_id }}</h3>
+									{{ $specimen->specimenType->name }} | Lab ID: {{ $specimen->lab_id }}</h3>
 								</div>
 								<div class="panel-body inline-display-details">
 									<div class="form-pane panel panel-default">

@@ -75,7 +75,7 @@
 		<table>
 			<tbody class="report-body">
 				<tr>
-					<th colspan="2">{{trans('messages.specimen')}}</th>
+					<th colspan="2">Specimens</th>
 				</tr>
 				<tr>
 					<th>{{ Lang::choice('messages.specimen-type', 1)}}</th>
@@ -83,7 +83,7 @@
 				</tr>
 				@forelse($specimen->tests as $test)
 						<tr>
-							<td>{{ $test->specimen->specimenType->name }}</td>
+							<td>{{ $test->specimen->specimenType->name }} | Lab ID: {{ $test->specimen->lab_id }}</td>
 							<td>{{ $test->testType->name }}</td>
 						</tr>
 				@empty
@@ -132,7 +132,7 @@
           </thead>
         </table>
         @foreach($specimen->tests as $test)
-        @if($test->testType)
+        @if($test->testType->isCulture())
         @foreach($test->isolated_organisms as $isolated_organism)
         <table class="ast-table">
             <tbody class="ast-body">

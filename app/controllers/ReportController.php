@@ -157,8 +157,10 @@ class ReportController extends \BaseController {
 			'tests.isolatedOrganisms.drugSusceptibilities.drug',
 			'tests.isolatedOrganisms.drugSusceptibilities.drugSusceptibilityMeasure');
 
-		return View::make('reports.visit.printreport')
+		$content = View::make('reports.visit.printreport')
 			->with('specimen', $specimen);
+		return PDF::loadHTML($content)->stream('pdf.pdf');
+
 	}
 
 	/**

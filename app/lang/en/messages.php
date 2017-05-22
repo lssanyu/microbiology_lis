@@ -112,7 +112,7 @@ return array(
     'patient-id' => 'Patient ID',
     //'patient-search-button' => 'Go!', UNHLS Terminology
     'patient-search-button' => 'View!',
-    'patient-number' => 'Patient OPD/IPD Number.',
+    'patient-number' => 'Patient ID',
     'phone-number' => 'Phone Number',
     'physical-address' => 'Physical Address',
     'register-new-patient' => 'Register New Patient', //Unhls entry

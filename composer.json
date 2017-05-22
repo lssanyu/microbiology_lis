@@ -7,7 +7,9 @@
 		"laravel/framework": "4.2.*",
 		"zizaco/entrust": "1.2.*",
 		"doctrine/dbal": "v2.4.2",
-		"onokumus/metismenu": "dev-master"
+		"onokumus/metismenu": "dev-master",
+		"barryvdh/laravel-snappy": "0.1.x",
+		"h4cc/wkhtmltopdf-amd64": "0.12.x"
 	},
 	"require-dev":{
 		"phpunit/phpunit": "4.2.*",
