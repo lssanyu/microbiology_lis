@@ -19,68 +19,6 @@
             </div>
         </div>
         <div class="panel-body">
-<!-- culture observation -->
-            <div class="row culture-worksheet">
-                <div class="col-md-10">Culture Worksheet
-                </div>
-                <div class="col-md-2">
-                    <a class="btn btn-sm btn-success add-culture-observation"
-                        data-url="{{ URL::route('cultureobservation.store') }}"
-                        data-test-id="{{ $test->id }}"
-                        data-verb="POST"
-                        data-toggle="modal"
-                        data-target=".add-culture-observation-modal"
-                        title="Add Observation">
-                        <span class="glyphicon glyphicon-plus"></span>
-                        Add Observation
-                    </a>
-                </div>
-                <div class="col-md-12">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>Duration</th>
-                          <th>Observation</th>
-                          <th><!-- Action --></th>
-                        </tr>
-                      </thead>
-                      <tbody class="culture-observation-tbody">
-                        @foreach($test->culture_observations as $culture_observation)
-                            <tr class="culture-observation-tr-{{$culture_observation->id}}">
-                              <td class="col-md-3 duration-entry">
-                                {{$culture_observation->culture_duration->duration}}</td>
-                              <td class="col-md-7 observation-entry">
-                                <pre class="formated">{{$culture_observation->observation}}</pre>
-                              </td>
-                              <td class="col-md-2">
-                                <a class="btn btn-sm btn-info edit-culture-observation"
-                                    data-url="{{ URL::route('cultureobservation.update',
-                                        [$culture_observation->id]) }}"
-                                    data-toggle="modal"
-                                    data-verb="PUT"
-                                    data-id="{{ $culture_observation->id }}"
-                                    data-target=".add-culture-observation-modal"
-                                    data-duration-id="{{ $culture_observation->culture_duration->id }}"
-                                    data-observation="{{ $culture_observation->observation }}"
-                                    title="Edit Observation">
-                                    <span class="glyphicon glyphicon-edit"></span>
-                                    Edit
-                                </a>
-                               <a class="btn btn-sm btn-danger delete-culture-observation"
-                                    data-url="{{ URL::route('cultureobservation.destroy',
-                                        [$culture_observation->id]) }}"
-                                    data-id="{{ $culture_observation->id }}"
-                                    title="Delete Observation">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                    Delete
-                                </a>
-                              </td>
-                            </tr>
-                        @endforeach
-                      </tbody>
-                    </table>
-                </div>
-            </div>
 <!-- isolated organism -->
             <div class="row isolated-organism">
                 <div class="col-md-9">Organisms Isolated
@@ -222,31 +160,6 @@
         </div>
     </div>
 
-<!-- culture observation -->
-                    <table>
-                        <tbody class="hidden cultureObservationEntryLoader">
-                            <tr class="new-culture-observation-tr">
-                              <td class="col-md-3 duration-entry"></td>
-                              <td class="col-md-7 observation-entry"><pre class="formated"></pre></td>
-                              <td class="col-md-2">
-                                <a class="btn btn-sm btn-info edit-culture-observation"
-                                    data-toggle="modal"
-                                    data-verb="PUT"
-                                    data-target=".add-culture-observation-modal"
-                                    title="Edit Observation">
-                                    <span class="glyphicon glyphicon-edit"></span>
-                                    Edit
-                                </a>
-                                <a class="btn btn-sm btn-danger delete-culture-observation"
-                                    data-url-verb="DELETE"
-                                    title="Delete">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                    Delete
-                                </a>
-                              </td>
-                            </tr>
-                        </tbody>
-                    </table>
 <!-- isolated organism -->
                     <table>
                         <tbody class="hidden isolatedOrganismEntryLoader">
@@ -298,49 +211,6 @@
                         </tbody>
                     </table>
 <!-- MODALS -->
-<div class="modal fade add-culture-observation-modal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="myModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;</button>
-                <h4 class="modal-title" id="myModalLabel">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    Add Culture Observation
-                </h4>
-            </div>
-            <div class="modal-body">
-                <div class="culture-observation">
-                    <div class="form-group">
-                        {{ Form::label('duration', 'Duration') }}
-                        <select class="form-control duration" name="duration">
-                            @foreach($cultureDurations as $key => $cultureDuration)
-                                <option value="{{$key}}">{{$cultureDuration}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        {{ Form::label('observation', 'Observation') }}
-                        {{ Form::textarea('observation', Input::old('observation'),
-                            array('class' => 'form-control observation')) }}
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-            {{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'),
-                array('class' => 'btn btn-primary  save-culture-observation',
-                'data-dismiss' => 'modal')) }}
-            {{ Form::button(trans('messages.cancel'),
-                ['class' => 'btn btn-default cancel-culture-observation-edition',
-                'data-dismiss' => 'modal']) }}
-            </div>
-        </div>
-    </div>
-</div><!-- /.add-culture-observation-modal -->
 <div class="modal fade add-isolated-organism-modal"
     tabindex="-1"
     role="dialog"
@@ -384,7 +254,7 @@
             </div>
         </div>
     </div>
-</div><!-- /.add-culture-observation-modal -->
+</div><!-- /.add-isolated-organism-modal -->
 <div class="modal fade add-drug-susceptibility-test-modal"
     tabindex="-1"
     role="dialog"

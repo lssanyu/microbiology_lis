@@ -38,8 +38,7 @@ class SpecimenController extends \BaseController {
 		} catch (Exception $e) {
 			$nextSpecimenID = 1;
 		}
-		$thisYear = $now->format('Y');
-		// todo: cut the first 2 char of
+		$thisYear = substr($now->format('Y'), 2);
 		$nextLabID = $thisYear.'/'.$nextSpecimenID;
 		$disease = ['select Suspected Disease']+Disease::lists('name', 'id');
 		$specimenTypes = ['select Specimen Type']+SpecimenType::lists('name', 'id');

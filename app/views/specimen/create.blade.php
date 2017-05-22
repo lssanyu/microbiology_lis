@@ -53,11 +53,11 @@
 										['class' => 'form-control']) }}
 									</div>
 									<div class="form-group">
-											{{ Form::label('patient_name','Patient Name', array('text-align' => 'right')) }}
+											{{ Form::label('patient_name','Patient Name', array('text-align' => 'right', 'class' => 'required')) }}
 											{{ Form::text('patient_name', Input::old('patient_name'), array('class' => 'form-control')) }}
 									</div>
 									<div class="form-group">
-											{{ Form::label('patient_number','Patient ID', array('text-align' => 'right')) }}
+											{{ Form::label('patient_number','Patient ID', array('text-align' => 'right', 'class' => 'required')) }}
 											{{ Form::text('patient_number', Input::old('patient_number'), array('class' => 'form-control')) }}
 									</div>
 									<div class="form-group">
