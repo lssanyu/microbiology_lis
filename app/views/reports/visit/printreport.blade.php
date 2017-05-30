@@ -11,6 +11,11 @@
       padding: 10px 15px;
       text-align: left;
     }
+
+    .report-head tr td, .report-head tr th {
+      padding: 1px 1px;
+      text-align: left;
+    }
     .report-body tr td {
       border-top: 1px solid #cecfd5;
     }
@@ -42,6 +47,11 @@
       text-align: left;
     }
 
+  body{
+    font-size:12px;
+   }
+
+
    .ast-table { page-break-inside:avoid; page-break-after:auto }
     </style>
   </head>
@@ -50,54 +60,44 @@
       <div class="container-fluid">
           <div class="row">
         @include("reportHeader")
-		<table class="report_body">
-			<tbody>
-				<tr>
-					<th>{{ trans('messages.patient-name')}}</th>
-					<td>{{ $specimen->patient->name }}</td>
-					<th>{{ trans('messages.gender')}}</th>
-					<td>{{ $specimen->patient->getGender(false) }}</td>
-				</tr>
-				<tr>
-					<th>{{ trans('messages.patient-id')}}</th>
-					<td>{{ $specimen->patient->patient_number}}</td>
-					<th>{{ trans('messages.age')}}</th>
-					<td>{{ $specimen->patient->getAge()}}</td>
-				</tr>
-				<tr>
-					<th>{{ trans('messages.patient-lab-number')}}</th>
-					<td>{{ $specimen->patient->external_patient_number }}</td>
-					<th>{{ trans('messages.requesting-facility-department')}}</th>
-					<td>{{ Config::get('kblis.organization') }}</td>
-				</tr>
-			</tbody>
-		</table>
-		<table>
-			<tbody class="report-body">
-				<tr>
-					<th colspan="2">Specimens</th>
-				</tr>
-				<tr>
-					<th>{{ Lang::choice('messages.specimen-type', 1)}}</th>
-					<th>{{ Lang::choice('messages.test', 2)}}</th>
-				</tr>
-				@forelse($specimen->tests as $test)
-						<tr>
-							<td>{{ $test->specimen->specimenType->name }} | Lab ID: {{ $test->specimen->lab_id }}</td>
-							<td>{{ $test->testType->name }}</td>
-						</tr>
-				@empty
-					<tr>
-						<td colspan="2">{{trans("messages.no-records-found")}}</td>
-					</tr>
-				@endforelse
-
-			</tbody>
-		</table>
+    <table class="report-head">
+      <tbody>
+        <tr>
+          <th>Patient Name</th>
+          <td>{{ $specimen->patient->name }}</td>
+          <th>Specimen</th>
+          <td>{{ $specimen->specimenType->name }} | Lab ID: {{ $specimen->lab_id }}</td>
+        </tr>
+        <tr>
+          <th>{{ trans('messages.patient-id')}}</th>
+          <td>{{ $specimen->patient->patient_number}}</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>{{ trans('messages.gender')}}</th>
+          <td>{{ $specimen->patient->getGender(false) }}</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>{{ trans('messages.age')}}</th>
+          <td>{{ $specimen->patient->getAge()}}</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>{{ trans('messages.requesting-facility-department')}}</th>
+          <td>{{ Config::get('kblis.organization') }}</td>
+        </tr>
+      </tbody>
+    </table>
+<br>
 		<table>
          <caption>Laboratory Findings</caption>
          <tbody class="report-body">
             @forelse($specimen->tests as $test)
+                  @if(!$test->testType->isCulture())
                   <tr>
                      <td>{{ $test->testType->name }}</td>
                      <td colspan="2">
@@ -110,6 +110,7 @@
                         @endforeach
                      </td>
                   </tr>
+                  @endif
             @empty
                <tr>
                   <td colspan="3">{{trans("messages.no-records-found")}}</td>
@@ -172,7 +173,7 @@
             <tr>
               <td>Comment(s)</td>
               <td colspan="2">
-              ...................................................................................................................
+              .........................................................................................................................................
               </td>
             </tr>
             <tr>
@@ -187,8 +188,8 @@
             </tr>
           </tbody>
         </table>
-
       </div>
     </div>
+        <p style="text-align: right;">1 of 1</p>
   </body>
 </html>

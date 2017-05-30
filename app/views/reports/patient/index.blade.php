@@ -68,6 +68,5 @@
 		</table>
 		{{$patients->links()}}
 	</div>
-
 </div>
 @stop

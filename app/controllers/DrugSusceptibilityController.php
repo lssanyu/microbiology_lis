@@ -17,7 +17,6 @@ class DrugSusceptibilityController extends \BaseController {
 		return $drugSusceptibilities;
 	}
 
-
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -28,7 +27,6 @@ class DrugSusceptibilityController extends \BaseController {
 		//
 	}
 
-
 	/**
 	 * Store a newly created resource in storage.
 	 *
@@ -36,11 +34,27 @@ class DrugSusceptibilityController extends \BaseController {
 	 */
 	public function store()
 	{
+// Log::info('zone_diameter');
+// Log::info(Input::get('zone_diameter'));
+// Log::info('organism_id');
+// Log::info(Input::get('organism_id'));
+// Log::info('drug_id');
+// Log::info(Input::get('drug_id'));
+        $zoneDiameterReferenceRange = ZoneDiameter::where('drug_id', Input::get('drug_id'))
+            ->where('organism_id', Input::get('organism_id'))
+            ->get()
+            ->first();
+        $zoneDiameterInterpretation = $zoneDiameterReferenceRange->getZoneDiameterInterpretation(Input::get('zone_diameter'));
+Log::info('zoneDiameterReferenceRange');
+Log::info($zoneDiameterInterpretation);
+
 		$drugSusceptibility = new DrugSusceptibility;
 		$drugSusceptibility->user_id = Auth::user()->id;
 		$drugSusceptibility->isolated_organism_id = Input::get('isolated_organism_id');
 		$drugSusceptibility->drug_id = Input::get('drug_id');
-		$drugSusceptibility->drug_susceptibility_measure_id = Input::get('drug_susceptibility_measure_id');
+		$drugSusceptibility->zone_diameter = Input::get('zone_diameter');
+
+		$drugSusceptibility->drug_susceptibility_measure_id = $zoneDiameterInterpretation;
 		$drugSusceptibility->save();
 
 		return $drugSusceptibility->load(
@@ -60,7 +74,6 @@ class DrugSusceptibilityController extends \BaseController {
 		//
 	}
 
-
 	/**
 	 * Show the form for editing the specified resource.
 	 *
@@ -72,7 +85,6 @@ class DrugSusceptibilityController extends \BaseController {
 		//
 	}
 
-
 	/**
 	 * Update the specified resource in storage.de
 	 *
@@ -81,18 +93,23 @@ class DrugSusceptibilityController extends \BaseController {
 	 */
 	public function update($id)
 	{
+        $zoneDiameterReferenceRange = ZoneDiameter::where('drug_id', Input::get('drug_id'))
+            ->where('organism_id', Input::get('organism_id'))
+            ->get()
+            ->first();
+        $zoneDiameterInterpretation = $zoneDiameterReferenceRange->getZoneDiameterInterpretation(Input::get('zone_diameter'));
 		$drugSusceptibility = DrugSusceptibility::find($id);
 		$drugSusceptibility->user_id = Auth::user()->id;
 		$drugSusceptibility->isolated_organism_id = Input::get('isolated_organism_id');
 		$drugSusceptibility->drug_id = Input::get('drug_id');
-		$drugSusceptibility->drug_susceptibility_measure_id = Input::get('drug_susceptibility_measure_id');
+		$drugSusceptibility->zone_diameter = Input::get('zone_diameter');
+		$drugSusceptibility->drug_susceptibility_measure_id = $zoneDiameterInterpretation;
 		$drugSusceptibility->save();
 		return $drugSusceptibility->load(
 				'drug',
 				'isolatedOrganism.organism',
 				'drugSusceptibilityMeasure');
 	}
-
 
 	/**
 	 * Remove the specified resource from storage.

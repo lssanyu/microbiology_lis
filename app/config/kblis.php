@@ -37,7 +37,7 @@ return array(
 	|
 	*/
 
-	'organization' => 'NATIONAL MICROBIOLOGY REFERENCE LABORATORY',
+	'organization' => 'National Microbiology Reference Laboratory',
 	
 
 

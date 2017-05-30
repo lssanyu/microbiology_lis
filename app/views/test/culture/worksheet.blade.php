@@ -5,7 +5,7 @@
         <ol class="breadcrumb">
           <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
           <li>
-            <a href="{{ URL::route('test.index') }}">{{ Lang::choice('messages.test',2) }}</a>
+            <a href="{{ URL::route('unhls_test.index') }}">{{ Lang::choice('messages.test',2) }}</a>
           </li>
           <li class="active">Culture and Sensitivity</li>
         </ol>
@@ -52,6 +52,7 @@
                                     data-url="{{ URL::route('drugsusceptibility.store') }}"
                                     data-isolated-organism-id="{{ $isolated_organism->id }}"
                                     data-isolated-organism-name="{{ $isolated_organism->organism->name }}"
+                                    data-organism-id="{{ $isolated_organism->organism->id }}"
                                     data-verb="POST"
                                     data-toggle="modal"
                                     data-target=".add-drug-susceptibility-test-modal"
@@ -83,6 +84,7 @@
                         <tr>
                           <th>Organism</th>
                           <th>Drug</th>
+                          <th>Zone Diameter</th>
                           <th>Result</th>
                           <th><!-- Action --></th>
                         </tr>
@@ -91,19 +93,22 @@
                         @foreach($test->isolated_organisms as $isolated_organism)
                             @foreach($isolated_organism->drug_susceptibilities as $drug_susceptibility)
                             <tr class="drug-susceptibility-tr-{{$drug_susceptibility->id}}">
-                              <td class="col-md-4 isolated-organism-entry">
+                              <td class="col-md-3 isolated-organism-entry">
                                 {{$isolated_organism->organism->name}}</td>
-                              <td class="col-md-4 drug-entry">
+                              <td class="col-md-3 drug-entry">
                                 {{$drug_susceptibility->drug->name}}</td>
-                              <td class="col-md-2 result-entry">
+                              <td class="col-md-3 zone-diameter-entry">
+                                  {{$drug_susceptibility->zone_diameter}}</td>
+                              <td class="col-md-1 result-entry">
                                 {{$drug_susceptibility->drug_susceptibility_measure->interpretation}}</td>
-                              <td class="col-md-2">
+                              <td class="col-md-3">
                                 <a class="btn btn-sm btn-info edit-drug-susceptibility"
                                     data-url="{{ URL::route('drugsusceptibility.update',
                                         [$drug_susceptibility->id]) }}"
                                     data-id="{{ $drug_susceptibility->id }}"
                                     data-drug-id="{{ $drug_susceptibility->drug_id }}"
                                     data-isolated-organism-id="{{ $drug_susceptibility->isolated_organism_id }}"
+                                    data-organism-id="{{ $drug_susceptibility->isolated_organism->organism->id }}"
                                     data-drug-susceptibility-measure-id="{{ $drug_susceptibility->drug_susceptibility_measure_id }}"
                                     data-verb="PUT"
                                     data-toggle="modal"
@@ -188,10 +193,11 @@
                     <table>
                         <tbody class="hidden drugSusceptibilityEntryLoader">
                             <tr class="new-drug-susceptibility-tr">
-                              <td class="col-md-4 isolated-organism-entry"></td>
-                              <td class="col-md-4 drug-entry"></td>
-                              <td class="col-md-2 result-entry"></td>
-                              <td class="col-md-2">
+                              <td class="col-md-3 isolated-organism-entry"></td>
+                              <td class="col-md-3 drug-entry"></td>
+                              <td class="col-md-3 zone-diameter-entry"></td>
+                              <td class="col-md-1 result-entry"></td>
+                              <td class="col-md-3">
                                 <a class="btn btn-sm btn-info edit-drug-susceptibility"
                                     data-verb="PUT"
                                     data-toggle="modal"
@@ -271,23 +277,32 @@
                 </h4>
             </div>
             <div class="modal-body">
+                <input class="organism" name="organism" type="hidden">
                 <div class="susceptibility-result">
                 <h5 class="col-md-12 isolated-organism-input-header"></h5>
                     <div class="drugs">
                         <div class="col-md-12">
                             <div class="col-md-6">
+                            <!-- <div class="col-md-4"> -->
                                 <div class="form-group">
                                     {{ Form::label('drug', 'Antibiotic') }}
                                 </div>
                             </div>
                             <div class="col-md-6">
+                            <!-- <div class="col-md-4"> -->
+                                <div class="form-group">
+                                    {{ Form::label('zone_diameter', 'Zone Diameter') }}
+                                </div>
+                            </div>
+<!--                             <div class="col-md-4">
                                 <div class="form-group">
                                     {{ Form::label('susceptibility', 'Result') }}
                                 </div>
                             </div>
-                        </div>
+ -->                        </div>
                         <div class="col-md-12">
                             <div class="col-md-6">
+                            <!-- <div class="col-md-4"> -->
                                 <div class="form-group">
                                     <select class="form-control drug" >
                                         @foreach($drugs as $key => $drug)
@@ -296,7 +311,15 @@
                                     </select>
                                 </div>
                             </div>
+
                             <div class="col-md-6">
+                            <!-- <div class="col-md-4"> -->
+                                <div class="form-group">
+                                    {{ Form::text('zone_diameter', Input::old('zone_diameter'),
+                                        array('class' => 'form-control zone-diameter')) }}
+                                </div>
+                            </div>
+<!--                             <div class="col-md-4">
                                 <div class="form-group">
                                     <select class="form-control susceptibility" >
                                         @foreach($drugSusceptibilityMeasures as
@@ -306,7 +329,7 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
+ -->                        </div>
                     </div>
                 </div>
             </div>

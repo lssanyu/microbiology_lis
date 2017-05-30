@@ -157,10 +157,10 @@ class OrganismController extends \BaseController {
 		//Soft delete the organism
 		$organism = Organism::find($id);
 
-		/*$testCategoryInUse = TestType::where('test_category_id', '=', $id)->first();
-		if (empty($testCategoryInUse)) {
+		/*$organismInUse = TestType::where('test_category_id', '=', $id)->first();
+		if (empty($organismInUse)) {
 		    // The test category is not in use
-			$testcategory->delete();
+			$organism->delete();
 		} else {
 		    // The test category is in use
 		    $url = Session::get('SOURCE_URL');

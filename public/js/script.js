@@ -189,6 +189,7 @@ $(function(){
                     .find('.add-drug-susceptibility')
                             .attr('data-url',drugSusceptibilityUrl)
                             .attr('data-isolated-organism-id',isolatedOrganism.id)
+                            .attr('data-organism-id',isolatedOrganism.organism.id)
                             .attr('data-isolated-organism-name',isolatedOrganism.organism.name);
                     $('.isolated-organism-tr-'+isolatedOrganism.id)
                         .find('.delete-isolated-organism')
@@ -229,6 +230,11 @@ $(function(){
         if (drugSusceptibilityUrlVerb == 'POST') {
             $('.drug').val('');
             $('.susceptibility').val('');
+            $('.zone-diameter').val('');
+            $('.organism').val($(e.relatedTarget).data('organism-id'));
+// console.log('organism-id');
+// console.log($(this).data('organism-id'));
+// console.log();
         }
         // update url value in the save button
         $('.save-drug-susceptibility').attr('data-url', drugSusceptibilityUrl);
@@ -239,18 +245,24 @@ $(function(){
         // populate with initial values fields tobe edited
         $('.drug').val($(this).data('drug-id'));
         $('.susceptibility').val($(this).data('drug-susceptibility-measure-id'));
+        $('.zone-diameter').val($(this).data('zone-diameter'));
+        $('.organism').val($(this).data('organism-id'));
     });
 
     // save drug susceptibility addition or editon
     $('.save-drug-susceptibility').click(function(){
         var drug = $('.drug').val();
         var susceptibility = $('.susceptibility').val();
+        var zone_diameter = $('.zone-diameter').val();
+        var organism = $('.organism').val();
         $.ajax({
             type: drugSusceptibilityUrlVerb,
             url:  drugSusceptibilityUrl,
             data: {
                 isolated_organism_id: isolatedOrganismID,
                 drug_id: drug,
+                organism_id: organism,
+                zone_diameter: zone_diameter,
                 drug_susceptibility_measure_id: susceptibility
             },
             success: function(drugSusceptibility){
@@ -277,6 +289,7 @@ $(function(){
                     // clear rows before updating with new values from the backend
                     $('.drug-susceptibility-tr-'+drugSusceptibility.id+' .isolated-organism-entry').empty();
                     $('.drug-susceptibility-tr-'+drugSusceptibility.id+' .drug-entry').empty();
+                    $('.drug-susceptibility-tr-'+drugSusceptibility.id+' .zone-diameter-entry').empty();
                     $('.drug-susceptibility-tr-'+drugSusceptibility.id+' .result-entry').empty();
                         $('.drug-susceptibility-tr-'+drugSusceptibility.id)
                             .find('.edit-drug-susceptibility')
@@ -289,6 +302,8 @@ $(function(){
                     .append(drugSusceptibility.isolated_organism.organism.name);
                 $('.drug-susceptibility-tr-'+drugSusceptibility.id+' .drug-entry')
                     .append(drugSusceptibility.drug.name);
+                $('.drug-susceptibility-tr-'+drugSusceptibility.id+' .zone-diameter-entry')
+                    .append(drugSusceptibility.zone_diameter);
                 $('.drug-susceptibility-tr-'+drugSusceptibility.id+' .result-entry')
                     .append(drugSusceptibility.drug_susceptibility_measure.interpretation);
                 $('.drug').val('');
@@ -536,18 +551,6 @@ $(function(){
 			$('#new-test-modal .search-patient').click();
 		}
 	});
-
-	/*
-	* Repeat of above code for UNHLS to Prevent patient search modal form submit (default action) when the ENTER key is pressed
-	
-
-	$('#new-test-modal-unhls .search-text').keypress(function( event ) {
-		if ( event.which == 13 ) {
-			event.preventDefault();
-			$('#new-test-modal-unhls .search-patient').click();
-		}
-	}); */
-
 
     /** - Get a specimen->id from the button clicked,
      *  - Fetch corresponding specimen data

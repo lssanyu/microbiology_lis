@@ -23,6 +23,4 @@ class DrugSusceptibility extends Eloquent
 	{
 		return $this->belongsTo('DrugSusceptibilityMeasure');
 	}
-
-
 }

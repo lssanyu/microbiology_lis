@@ -11,8 +11,6 @@ class DatabaseSeeder extends Seeder {
 	{
 		Eloquent::unguard();
 		$this->call('MicrobiologyProductionSeeder');
-		// $this->call('DeploymentSeeder');
-		// $this->call('TestDataSeeder');
 		$this->call('ConfigSettingSeeder');
 	}
 

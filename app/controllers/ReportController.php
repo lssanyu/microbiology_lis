@@ -160,6 +160,7 @@ class ReportController extends \BaseController {
 		$content = View::make('reports.visit.printreport')
 			->with('specimen', $specimen);
 		return PDF::loadHTML($content)->stream('pdf.pdf');
+		// return $content;
 
 	}
 
