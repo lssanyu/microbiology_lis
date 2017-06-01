@@ -336,6 +336,10 @@ Route::group(array("before" => "auth"), function()
     Route::resource('cultureobservation', 'CultureObservationController');
     Route::resource('drugsusceptibility', 'DrugSusceptibilityController');
     Route::resource('isolatedorganism', 'IsolatedOrganismController');
+    Route::get("/organismantibiotic/{id}/show", [
+        "as"   => "organismantibiotic.show",
+        "uses" => "OrganismAntibioticController@show"
+    ]);
     Route::group(array("before" => "admin"), function()
     {
         Route::resource("permission", "PermissionController");

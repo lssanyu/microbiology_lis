@@ -36,7 +36,7 @@ class ConfigSettingSeeder extends DatabaseSeeder
         }
         $this->command->info("Quick codes table seeded");
         //  Seed for interfaced equipment in blis client
-        $equipment = array(
+/*        $equipment = array(
             array("equipment_name" => 'Mindray BS-200E', "comm_type" => 2, "equipment_version" => '01.00.07', "lab_section" => 1, "feed_source" => 1, "config_file" => '\\BLISInterfaceClient\\configs\\BT3000Plus\\bt3000pluschameleon.xml'),
             array("equipment_name" => 'ABX Pentra 60 C+', "comm_type" => 2, "equipment_version" => '', "lab_section" => 1, "feed_source" => 2, "config_file" => '\\BLISInterfaceClient\\configs\\pentra\\pentra60cplus.xml'),
             array("equipment_name" => 'ABX MACROS 60', "comm_type" => 1, "equipment_version" => '', "lab_section" => 1, "feed_source" => 0, "config_file" => '\\BLISInterfaceClient\\configs\\micros60\\abxmicros60.xml'),
@@ -126,5 +126,5 @@ class ConfigSettingSeeder extends DatabaseSeeder
             DB::table('equip_config')->insert($prop);
         }
         $this->command->info("Equipment config table seeded");
-    }
+*/    }
 }

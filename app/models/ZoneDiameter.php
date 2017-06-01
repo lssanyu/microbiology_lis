@@ -38,7 +38,6 @@ class ZoneDiameter extends Eloquent
      */
     public function getZoneDiameterInterpretation($diameter)
     {
-// Log::info('in the model');
         if ($diameter <= $this->resistant_max) {
             return DrugSusceptibilityMeasure::find(ZoneDiameter::RESISTANT)->id;
         }elseif ($diameter >= $this->sensitive_min) {
@@ -49,7 +48,11 @@ class ZoneDiameter extends Eloquent
             return DrugSusceptibilityMeasure::find(ZoneDiameter::INTERMEDIATE)->id;
         }else{
             /*todo: if the caller gets this reply tell the user the diameter is not valid,
-            so they can insist problematic range, what do we do?*/
+            so they can insist problematic range, what do we do?
+            ask user to configure, send message to the front
+            return null;
+            with a link to the place where to make changes, if you have rights
+            */
         }
     }
 }

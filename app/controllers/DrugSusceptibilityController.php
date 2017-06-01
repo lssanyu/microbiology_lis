@@ -34,19 +34,11 @@ class DrugSusceptibilityController extends \BaseController {
 	 */
 	public function store()
 	{
-// Log::info('zone_diameter');
-// Log::info(Input::get('zone_diameter'));
-// Log::info('organism_id');
-// Log::info(Input::get('organism_id'));
-// Log::info('drug_id');
-// Log::info(Input::get('drug_id'));
         $zoneDiameterReferenceRange = ZoneDiameter::where('drug_id', Input::get('drug_id'))
             ->where('organism_id', Input::get('organism_id'))
             ->get()
             ->first();
         $zoneDiameterInterpretation = $zoneDiameterReferenceRange->getZoneDiameterInterpretation(Input::get('zone_diameter'));
-Log::info('zoneDiameterReferenceRange');
-Log::info($zoneDiameterInterpretation);
 
 		$drugSusceptibility = new DrugSusceptibility;
 		$drugSusceptibility->user_id = Auth::user()->id;

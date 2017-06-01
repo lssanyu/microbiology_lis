@@ -77,14 +77,12 @@ class CultureController extends \BaseController {
 		$drugSusceptibilityMeasures = ['']+DrugSusceptibilityMeasure::all()->lists('interpretation','id');
 		$cultureDurations = ['']+CultureDuration::all()->lists('duration','id');
 		$organisms = ['']+Organism::all()->lists('name','id');
-		$drugs = ['']+Drug::all()->lists('name','id');
 
 		return View::make('test.culture.worksheet')
 			->with('drugSusceptibilityMeasures', $drugSusceptibilityMeasures)
 			->with('cultureDurations', $cultureDurations)
 			->with('organisms', $organisms)
-			->with('test', $test)
-			->with('drugs', $drugs);
+			->with('test', $test);
 	}
 
 
