@@ -67,6 +67,7 @@
                     <tr>
                         <th>Date Received</th>
                         <th>ULIN</th>
+                        <th>Specimen Type</th>
                         <th>Patient ID</th>
                         <th>Facility</th>
                         <th>Status</th>
@@ -80,6 +81,7 @@
                     <tr>
                         <td>{{ date('d-m-Y H:i', strtotime($specimen->time_accepted));}}</td>
                         <td>{{ $specimen->lab_no }}</td>
+                        <td>{{ $specimen->specimenType->name }}</td>
                         <td>{{ $specimen->patient->patient_number }}</td>
                         <td>{{ $specimen->referral->facility->name }}</td>
 

@@ -5,7 +5,7 @@
         <ol class="breadcrumb">
           <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
           <li>
-            <a href="{{ URL::route('unhls_test.index') }}">{{ Lang::choice('messages.test',2) }}</a>
+            <a href="{{ URL::route('specimen.show', [$test->specimen->id]) }}">Specimen</a>
           </li>
           <li class="active">Culture and Sensitivity</li>
         </ol>
@@ -14,7 +14,8 @@
         <div class="panel-heading">
             <div class="container-fluid">
                 <div class="row less-gutter">
-                    <span class="glyphicon glyphicon-adjust"></span>Culture and Sensitivity
+                    <span class="glyphicon glyphicon-adjust"></span>Culture and Sensitivity | ULIN: {{$test->specimen->id }}
+
                 </div>
             </div>
         </div>

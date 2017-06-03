@@ -39,19 +39,17 @@
 							<div class="form-group">
 							<div class="panel panel-info">
 								<div class="panel-heading">
-									<h3 class="panel-title">{{"Sample and Patient Information"}}</h3>
+									<h3 class="panel-title">{{"Patient and Sample Information"}}</h3>
 								</div>
 									<div class="panel-body inline-display-details">
-									<div class="form-group">
-										<label for="lab_id" text-align="right">Lab ID</label>
-										<input class="form-control" name="lab_id" value="{{$lab_id}}" type="text">
-									</div>
-									<div class="form-group">
-										{{Form::label('facility', 'Facility')}}
-										{{ Form::select('facility', $facilities,
-										Input::get('facility'),
-										['class' => 'form-control']) }}
-									</div>
+								@if($existingPatient)
+									{{ Form::hidden('patient_id', $patient->id) }}
+									<p>Patient No: {{$patient->patient_number}}</p>
+									<p>ULIN: {{$patient->ulin}}</p>
+									<p>Patient Name: {{$patient->name}}</p>
+									<p>Age: {{$patient->getAge()}}</p>
+									<p>Gender: {{$patient->sex}}</p>
+								@else
 									<div class="form-group">
 											{{ Form::label('patient_name','Patient Name', array('text-align' => 'right', 'class' => 'required')) }}
 											{{ Form::text('patient_name', Input::old('patient_name'), array('class' => 'form-control')) }}
@@ -78,6 +76,17 @@
 										<span class="input-tag">{{trans('messages.male')}}</span></div>
 										<div>{{ Form::radio("gender", '1', false) }}
 										<span class="input-tag">{{trans('messages.female')}}</span></div>
+									</div>
+								@endif
+									<div class="form-group">
+										<label for="lab_id" text-align="right">Lab ID</label>
+										<input class="form-control" name="lab_id" value="{{$lab_id}}" type="text">
+									</div>
+									<div class="form-group">
+										{{Form::label('facility', 'Facility')}}
+										{{ Form::select('facility', $facilities,
+										Input::get('facility'),
+										['class' => 'form-control']) }}
 									</div>
 									<div class="form-pane panel panel-default">
 										<div class="col-md-6">

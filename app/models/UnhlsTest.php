@@ -29,14 +29,6 @@ class UnhlsTest extends Eloquent
 	const POSITIVE = '+';
 
 	/**
-	 * Visit relationship
-	 */
-	public function visit()
-	{
-		return $this->belongsTo('UnhlsVisit', 'visit_id');
-	}	
-
-	/**
 	 * Test Type relationship
 	 */
 	public function testType()
@@ -50,6 +42,14 @@ class UnhlsTest extends Eloquent
 	public function specimen()
 	{
 		return $this->belongsTo('UnhlsSpecimen');
+	}
+
+	/**
+	 * Measure relationship
+	 */
+	public function measures()
+	{
+		return $this->belongsToMany('Measure', 'testtype_measures','test_type_id');
 	}
 
 	/**

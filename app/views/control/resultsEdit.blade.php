@@ -25,7 +25,6 @@
 			
 				<div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-7">
                     {{ Form::open(array('route' => array('controlresult.update', $controlTest->id), 'method' => 'POST', 'id' => 'form-edit-control')) }}
                         @foreach($controlTest->control->controlMeasures as $key => $controlMeasure)
                             <div class="form-group">
@@ -62,31 +61,6 @@
                                 array('class' => 'btn btn-default', 'onclick' => 'submit()')) }}
                         </div>
                     {{ Form::close() }}
-                    </div>
-                    <div class="col-md-5">
-                        <div class="panel panel-info">  <!-- Patient Details -->
-                            <div class="panel-heading">
-                                <h3 class="panel-title">{{trans("messages.control-details")}}</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <p><strong>{{trans("messages.lot-number")}}</strong></p></div>
-                                        <div class="col-md-9">{{ $controlTest->control->lot->number }}</div></div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <p><strong>{{ Lang::choice('messages.control-name',1) }}</strong></p></div>
-                                        <div class="col-md-9">{{ $controlTest->control->name }}</div></div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <p><strong>{{Lang::choice("messages.instrument",1)}}</strong></p></div>
-                                        <div class="col-md-9">{{ $controlTest->control->lot->instrument->name }}</div>
-                                    </div>
-                                </div>
-                            </div> <!-- ./ panel-body -->
-                        </div> <!-- ./ panel -->
-                    </div>
                 </div>
             </div>
 	</div>

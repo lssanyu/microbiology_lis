@@ -102,11 +102,12 @@
                      <td>{{ $test->testType->name }}</td>
                      <td colspan="2">
                         @foreach($test->testResults as $result)
-                           <p>
-                              {{ Measure::find($result->measure_id)->name }}: {{ $result->result }}
-                              {{ Measure::getRange($test->specimen->patient, $result->measure_id) }}
-                              {{ Measure::find($result->measure_id)->unit }}
-                           </p>
+                          @if($test->measures->count() > 1)
+                          {{ Measure::find($result->measure_id)->name }}:
+                          @endif
+                          {{ $result->result }}
+                          {{ Measure::getRange($test->specimen->patient, $result->measure_id) }}
+                          {{ Measure::find($result->measure_id)->unit }}
                         @endforeach
                      </td>
                   </tr>

@@ -27,7 +27,7 @@ class SpecimenController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function create($patient_id = 0)
 	{
 		// sample collection default details
 		$now = new DateTime();
@@ -44,11 +44,26 @@ class SpecimenController extends \BaseController {
 		$specimenTypes = ['select Specimen Type']+SpecimenType::lists('name', 'id');
 		$facilities = ['select Facility']+UNHLSFacility::lists('name', 'id');
 
-
+		$existingPatient = false;
+		if ($patient_id!=0) {
+			$patient = UnhlsPatient::find($patient_id);
+			$existingPatient = true;
+			//Load Test Create View
+			return View::make('specimen.create')
+						->with('collectionDate', $collectionDate)
+						->with('receptionDate', $receptionDate)
+						->with('lab_id', $nextLabID)
+						->with('disease', $disease)
+						->with('patient', $patient)
+						->with('existingPatient', $existingPatient)
+						->with('specimenType', $specimenTypes)
+						->with('facilities', $facilities);
+		}
 		//Load Test Create View
 		return View::make('specimen.create')
 					->with('collectionDate', $collectionDate)
 					->with('receptionDate', $receptionDate)
+					->with('existingPatient', $existingPatient)
 					->with('lab_id', $nextLabID)
 					->with('disease', $disease)
 					->with('specimenType', $specimenTypes)
@@ -90,7 +105,7 @@ class SpecimenController extends \BaseController {
 		} else {
 
 			if (Input::get('patient_id')) {
-				$patient = UnhlsPatient::find($patient_id);
+				$patient = UnhlsPatient::find(Input::get('patient_id'));
 			}else{
 				$patient = new UnhlsPatient;
 				$patient->patient_number = Input::get('patient_number');
@@ -132,10 +147,8 @@ class SpecimenController extends \BaseController {
                 $test->created_by = Auth::user()->id;
                 $test->save();
             }
-
-			$url = Session::get('SOURCE_URL');
-			
-			return Redirect::to($url)->with('message', 'messages.success-creating-test');
+			return Redirect::route('specimen.show', [$specimen->id])
+				->with('message', 'Successfully Created Tests');
 		}
 	}
 

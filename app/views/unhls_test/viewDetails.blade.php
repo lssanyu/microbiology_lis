@@ -3,7 +3,7 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-		  <li><a href="{{ URL::route('unhls_test.index') }}">{{ Lang::choice('messages.test',2) }}</a></li>
+		  <li><a href="{{ URL::route('specimen.show', [$test->specimen->id]) }}">Specimen</a></li>
 		  <li class="active">{{trans('messages.test-details')}}</li>
 		</ol>
 	</div>
@@ -61,9 +61,7 @@
 					<div class="col-md-6">
 						<div class="display-details">
 							<h3 class="view"><strong>{{ Lang::choice('messages.test-type',1) }}</strong>
-								{{ $test->testType->name or trans('messages.unknown') }}</h3>
-							<p class="view"><strong>{{trans('messages.visit-number')}}</strong>
-								{{$test->specimen->visit_number or trans('messages.unknown') }}</p>
+								{{ $test->testType->name }}</h3>
 							<p class="view"><strong>{{trans('messages.date-ordered')}}</strong>
 								{{ $test->isExternal()?$test->external()->request_date:$test->time_created }}</p>
 							<p class="view"><strong>{{trans('messages.lab-receipt-date')}}</strong>
@@ -71,7 +69,7 @@
 							<p class="view"><strong>{{trans('messages.test-status')}}</strong>
 								{{trans('messages.'.$test->testStatus->name)}}</p>
 							<p class="view-striped"><strong>{{trans('messages.physician')}}</strong>
-								{{$test->requested_by or trans('messages.unknown') }}</p>
+								{{$test->requested_by}}</p>
 							<p class="view-striped"><strong>{{trans('messages.request-origin')}}</strong>
 								@if($test->specimen->isReferred() && $test->specimen->referral->status == Referral::REFERRED_IN)
 									{{ trans("messages.in") }}
@@ -79,12 +77,12 @@
 									{{ $test->specimen->visit_type }}
 								@endif</p>
 							<p class="view-striped"><strong>{{trans('messages.registered-by')}}</strong>
-								{{$test->createdBy->name or trans('messages.unknown') }}</p>
+								{{$test->createdBy->name}}</p>
 							<p class="view"><strong>{{trans('messages.tested-by')}}</strong>
-								{{$test->testedBy->name or trans('messages.unknown')}}</p>
+								{{$test->testedBy->name}}</p>
 							@if($test->isVerified())
 							<p class="view"><strong>{{trans('messages.verified-by')}}</strong>
-								{{$test->verifiedBy->name or trans('messages.verification-pending')}}</p>
+								{{$test->verifiedBy->name}}</p>
 							@endif
 							@if((!$test->specimen->isRejected()) && ($test->isCompleted() || $test->isVerified()))
 							<!-- Not Rejected and (Verified or Completed)-->
@@ -104,7 +102,7 @@
 										<div class="col-md-3">
 											<p><strong>{{trans("messages.patient-number")}}</strong></p></div>
 										<div class="col-md-9">
-											{{$test->specimen->patient->external_patient_number}}</div></div>
+											{{$test->specimen->patient->patient_number}}</div></div>
 									<div class="row">
 										<div class="col-md-3">
 											<p><strong>{{ Lang::choice('messages.name',1) }}</strong></p></div>
@@ -132,10 +130,10 @@
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-md-4">
-											<p><strong>{{ Lang::choice('messages.specimen-type',1) }}</strong></p>
+											<p><strong>Specimen Type</strong></p>
 										</div>
 										<div class="col-md-8">
-											{{$test->specimen->specimenType->name or trans('messages.pending') }}
+											{{$test->specimen->specimenType->name}}
 										</div>
 									</div>
 									<div class="row">

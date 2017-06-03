@@ -137,11 +137,11 @@ Route::group(array("before" => "auth"), function()
             "uses" => "InstrumentController@importDriver"
         ));
     });
-    Route::resource('specimen', 'SpecimenController');
-    Route::any("/test", array(
-        "as"   => "test.index",
-        "uses" => "TestController@index"
+    Route::any("/specimen/{patient_id}/create}", array(
+        "as"   => "specimen.patient.create",
+        "uses" => "SpecimenController@create"
     ));
+    Route::resource('specimen', 'SpecimenController');
     //Unhls test route starts 
     Route::any("/unhls_test", array(
         "as"   => "unhls_test.index",
@@ -160,12 +160,6 @@ Route::group(array("before" => "auth"), function()
         "uses" => "UnhlsTestController@addTestToSpecimenStore"
     ));
 
-    //unhls test route ends
-    Route::post("/test/resultinterpretation", array(
-    "as"   => "test.resultinterpretation",
-    "uses" => "TestController@getResultInterpretation"
-    ));
-    //Repeat of above route for UNHLS
     Route::post("/unhls_test/resultinterpretation", array(
     "as"   => "unhls_test.resultinterpretation",
     "uses" => "UnhlsTestController@getResultInterpretation"
@@ -204,18 +198,11 @@ Route::group(array("before" => "auth"), function()
         "as"   => "test.refer",
         "uses" => "TestController@showRefer"
     ));
-     //Repeat of above code for UNHLS test
     Route::get("/unhls_test/{id}/refer", array(
         "before" => "checkPerms:refer_specimens",
         "as"   => "unhls_test.refer",
         "uses" => "UnhlsTestController@showRefer"
     ));
-    Route::post("/test/referaction", array(
-        "before" => "checkPerms:refer_specimens",
-        "as"   => "test.referAction",
-        "uses" => "TestController@referAction"
-    ));
-    //Repeat of above Route for UNHLS
     Route::post("/unhls_test/referaction", array(
         "before" => "checkPerms:refer_specimens",
         "as"   => "unhls_test.referAction",
@@ -226,7 +213,6 @@ Route::group(array("before" => "auth"), function()
         "as"   => "test.reject",
         "uses" => "UnhlsTestController@reject"
     ));
-    //Repeat of above code for UNHLS
     Route::get("/unhls_test/{id}/reject", array(
         "before" => "checkPerms:reject_test_specimen",
         "as"   => "unhls_test.reject",
@@ -237,7 +223,6 @@ Route::group(array("before" => "auth"), function()
         "as"   => "test.rejectAction",
         "uses" => "UnhlsTestController@rejectAction"
     ));
-    //Repeat of above code for UNHLS
     Route::post("/unhls_test/rejectaction", array(
         "before" => "checkPerms:reject_test_specimen",
         "as"   => "unhls_test.rejectAction",
@@ -259,20 +244,17 @@ Route::group(array("before" => "auth"), function()
         "as"   => "test.updateSpecimenType",
         "uses" => "TestController@updateSpecimenType"
     ));
-     //Unhls test updatespecimentype starts here
      Route::post("/unhls_test/updatespecimentype", array(
         "before" => "checkPerms:change_test_specimen",
         "as"   => "unhls_test.updateSpecimenType",
         "uses" => "UnhlsTestController@updateSpecimenType"
     ));
-     //Unhls test updatespecimentype ends
 
     Route::post("/unhls_test/start", array(
         "before" => "checkPerms:start_test",
         "as"   => "unhls_test.start",
         "uses" => "UnhlsTestController@start"
     ));
-     //Repeat of above route for UNHLS
      Route::get("/unhls_test/{test}/enterresults", array(
         "before" => "checkPerms:enter_test_results",
         "as"   => "unhls_test.enterResults",
@@ -283,7 +265,6 @@ Route::group(array("before" => "auth"), function()
         "as"   => "test.edit",
         "uses" => "TestController@edit"
     ));
-    //Repeat of above route for UNHLS
     Route::get("/unhls_test/{test}/edit", array(
         "before" => "checkPerms:edit_test_results",
         "as"   => "unhls_test.edit",
@@ -321,12 +302,10 @@ Route::group(array("before" => "auth"), function()
     Route::get("unhls_test/verified", array(
         "as" => "unhls_test.verified",
         "uses" => "UnhlsTestController@verified"));
-    //Test viewDetails start
     Route::get("/unhls_test/{test}/viewdetails", array(
         "as"   => "unhls_test.viewDetails",
         "uses" => "UnhlsTestController@viewDetails"
     ));
-    //Test viewDetail ends
     Route::any("/test/{test}/verify", array(
         "before" => "checkPerms:verify_test_results",
         "as"   => "test.verify",

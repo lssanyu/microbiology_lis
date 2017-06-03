@@ -75,9 +75,9 @@
 					<td>
 						@if(Auth::user()->can('request_test'))
 						<a class="btn btn-sm btn-info" 
-							href="{{ URL::route('unhls_test.create', array('patient_id' => $patient->id)) }}">
+							href="{{ URL::route('specimen.patient.create', array($patient->id)) }}">
 							<span class="glyphicon glyphicon-edit"></span>
-							{{ trans('messages.new-test') }}
+							Receive Specimen
 						</a>
 						@endif
 						<!-- show the patient (uses the show method found at GET /patient/{id} -->
