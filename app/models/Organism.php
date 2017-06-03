@@ -22,8 +22,17 @@ class Organism extends Eloquent
 	 *
 	 * @return void
 	 */
-	public function setDrugs(){
-		// 
+	// todo: should set several antibiotics at ago... evetually
+	public function setAntibiotic($drug_id,$resistant_max,$intermediate_min,$intermediate_max,$sensitive_min){
+
+		$zoneDiameter = new ZoneDiameter;
+		$zoneDiameter->drug_id = $drug_id; 
+		$zoneDiameter->organism_id = $this->id;
+		$zoneDiameter->resistant_max = $resistant_max;
+		$zoneDiameter->intermediate_min = $intermediate_min;
+		$zoneDiameter->intermediate_max = $intermediate_max;
+		$zoneDiameter->sensitive_min = $sensitive_min;
+		$zoneDiameter->save();
 	}
 
 	/**
@@ -37,7 +46,7 @@ class Organism extends Eloquent
 	/**
 	 * sensitivity relationship for a single test
 	 */
-	public function zoneDiameter()
+	public function zoneDiameters()
 	{
 	  return $this->hasMany('ZoneDiameter');
 	}

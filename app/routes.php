@@ -336,10 +336,32 @@ Route::group(array("before" => "auth"), function()
     Route::resource('cultureobservation', 'CultureObservationController');
     Route::resource('drugsusceptibility', 'DrugSusceptibilityController');
     Route::resource('isolatedorganism', 'IsolatedOrganismController');
-    Route::get("/organismantibiotic/{id}/show", [
+
+    Route::get("/organismantibiotic/{organism_id}/show", array(
         "as"   => "organismantibiotic.show",
         "uses" => "OrganismAntibioticController@show"
-    ]);
+    ));
+    Route::get("/organismantibiotic/{organism_id}/create", array(
+        "as"   => "organismantibiotic.create",
+        "uses" => "OrganismAntibioticController@create"
+    ));
+    Route::get("/organismantibiotic/{zone_diameter_id}/edit", array(
+        "as"   => "organismantibiotic.edit",
+        "uses" => "OrganismAntibioticController@edit"
+    ));
+    Route::post("/organismantibiotic/store", array(
+        "as"   => "organismantibiotic.store",
+        "uses" => "OrganismAntibioticController@store"
+    ));
+    Route::put("/organismantibiotic/{zone_diameter_id}/update", array(
+        "as"   => "organismantibiotic.update",
+        "uses" => "OrganismAntibioticController@update"
+    ));
+    Route::delete("/organismantibiotic/{zone_diameter_id}/destroy", array(
+        "as"   => "organismantibiotic.destroy",
+        "uses" => "OrganismAntibioticController@destroy"
+    ));
+
     Route::group(array("before" => "admin"), function()
     {
         Route::resource("permission", "PermissionController");

@@ -161,8 +161,11 @@ class DrugController extends \BaseController {
 		}*/
 		// redirect
 			$url = Session::get('SOURCE_URL');
-            
-            return Redirect::to($url)
+
+			return Redirect::to($url)
+			->with('message', 'Delete Feature Not Functional, Contact Systems Programmer');
+
+/*            return Redirect::to($url)
 			->with('message', trans('messages.success-deleting-drug'));
-	}
+*/	}
 }

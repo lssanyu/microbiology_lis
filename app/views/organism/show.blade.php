@@ -15,23 +15,61 @@
 	<div class="panel panel-primary ">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-adjust"></span>
-			{{ trans('messages.organism-details') }}
+			{{ $organism->name }}
 			<div class="panel-btn">
 				<a class="btn btn-sm btn-info" href="{{ URL::route('organism.edit', array($organism->id)) }}">
 					<span class="glyphicon glyphicon-edit"></span>
-					{{ trans('messages.edit') }}
+					Edit Organism
+				</a>
+				<a class="btn btn-sm btn-info" href="{{ URL::route('organismantibiotic.create', array($organism->id)) }}">
+					<span class="glyphicon glyphicon-edit"></span>
+					Add Antibiotic
+					<!-- todo: Set Antiibiotic | should make more sense -->
 				</a>
 			</div>
 		</div>
 		<div class="panel-body">
-			<div class="display-details">
-				<h3 class="view"><strong>{{ Lang::choice('messages.name',1) }}:</strong>{{ $organism->name }} </h3>
-				<p class="view-striped"><strong>{{ trans('messages.description') }}:</strong>
-					{{ $organism->description }}</p>
-				<p class="view-striped"><strong>{{ trans('messages.compatible-drugs') }}:</strong>
-					{{ implode(", ", $organism->drugs->lists('name')) }}
-				</p>
-			</div>
+			<table class="table table-striped table-hover table-condensed search-table">
+				<thead>
+					<tr>
+						<th>Antibiotic</th>
+						<th>Resistant Max</th>
+						<th>Intermediate Min</th>
+						<th>Intermediate Max</th>
+						<th>Sensitive Min</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+				@foreach($organism->zoneDiameters as $key => $value)
+					<tr @if(Session::has('activedrug'))
+	                            {{(Session::get('activedrug') == $value->id)?"class='info'":""}}
+	                    @endif
+	                    >
+						<td>{{ $value->drug->name }}</td>
+						<td>{{ $value->resistant_max }}</td>
+						<td>{{ $value->intermediate_min }}</td>
+						<td>{{ $value->intermediate_max }}</td>
+						<td>{{ $value->sensitive_min }}</td>
+						<td>
+						<!-- edit this drug (uses edit method found at GET /organismantibiotic/{id}/edit -->
+							<a class="btn btn-sm btn-info" href="{{ URL::to("organismantibiotic/" . $value->id . "/edit") }}" >
+								<span class="glyphicon glyphicon-edit"></span>
+								{{ trans('messages.edit') }}
+							</a>
+						<!-- delete this drug (uses delete method found at GET /organismantibiotic/{id}/destroy -->
+						{{ Form::open(['route' => ['organismantibiotic.destroy', $value->id], 'method' => 'DELETE',
+						'style' => 'display: inline-block;']) }}
+							<button class="btn btn-sm btn-danger">
+								<span class="glyphicon glyphicon-trash"></span>
+								{{ trans('messages.delete') }}
+							</button>
+						{{ Form::close() }}
+						</td>
+					</tr>
+				@endforeach
+				</tbody>
+			</table>
 		</div>
 	</div>
 @stop

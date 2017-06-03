@@ -1,58 +1,4 @@
 @section("sidebar")
-<?php
-	$active = array("","","","","","", "", "", "");
-	$key = explode("?",str_replace("/", "?", Request::path()));
-	switch ($key[0]) {
-		case 'home': $active[0] = "active"; break;
-		case 'patient': $active[0] = "active"; break;
-		case 'patient_unhls': $active[1] = "active"; break;
-		case 'test': $active[2] = "active"; break;
-		case 'labconfig': 
-		case 'instrument':
-		case 'reportconfig':
-		case 'barcode':
-		case 'blisclient':
-		case 'facility': 
-			$active[3] = "active"; break;
-		case 'testcategory': 
-		case 'testtype': 
-		case 'measure': 
-		case 'specimentype': 
-		case 'specimenrejection': 
-		case 'drug':
-		case 'organism':
-			$active[4] = "active"; break;
-		case 'patientreport': 
-		case 'dailylog': 
-		case 'prevalence':
-		case 'surveillance':
-		case 'counts':
-		case 'tat':
-		case 'infection':
-		case 'userstatistics':
-		case 'moh706':
-		case 'hmis105':
-		case 'cd4':
-		case 'qualitycontrol':
-		case 'inventory':
-			$active[5] = "active"; break;
-		case 'permission': 
-		case 'assign':
-		case 'user': 
-		case 'role': 
-			$active[6] = "active"; break;
-		case 'issue': 
-		case 'receipt': 
-		case 'topup': 
-		case 'metric':
-		case 'supplier':
-		case 'commodity':
-			$active[7] = "active"; break;
-		case 'controlresults':
-		case 'control':
-		case 'lot': $active[8] = "active"; break;
-	}
-?>
 	<nav id="side_nav">
 			<ul>
 
@@ -119,18 +65,6 @@
 									<div><a href="{{ URL::route('reports.aggregate.userStatistics')}}">
 										<span class="glyphicon glyphicon-tag"></span>
 										{{trans('messages.user-statistics-report')}}</a>
-									</div>
-								</li>
-								<li>
-									<div><a href="{{ URL::route('reports.aggregate.moh706')}}">
-										<span class="glyphicon glyphicon-tag"></span>
-										{{trans('messages.moh-706')}}</a>
-									</div>
-								</li>
-								<li>
-									<div><a href="#">
-										<span class="glyphicon glyphicon-tag"></span>
-										HMIS 105</a>
 									</div>
 								</li>
 								<li>
@@ -273,6 +207,7 @@
 						<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 215px; display: none;"><div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 620px; display: none;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
 					</div>
 				</li>
+			@if(Entrust::can('manage_lab_configurations'))
 
 				<li class="nav_trigger">
 					<a href="#">
@@ -304,7 +239,11 @@
 					</div>
 				</li>
 
+			@endif
+
+			@if(Entrust::can('manage_test_catalog'))
 				<li class="nav_trigger">
+
 					<a href="#">
 					<span class="ion-gear-a"></span>
 						<span class="nav_title">Test Catalog</>
@@ -315,32 +254,34 @@
 							<ul>
 								<li>
 									<a href="{{URL::route("testcategory.index")}}">
-									<span class="glyphicon glyphicon-tag"></span> {{trans('messages.test-category')}}</a>
+									<span class="glyphicon glyphicon-tag"></span>Lab Sections</a>
 								</li>
 								<li>
 									<a href="{{URL::route("specimentype.index")}}">
-									<span class="glyphicon glyphicon-tag"></span> {{trans('messages.specimen-type')}}</a>
+									<span class="glyphicon glyphicon-tag"></span>Specimen Types</a>
 								</li>
 								<li>
 									<a href="{{URL::route("specimenrejection.index")}}">
-									<span class="glyphicon glyphicon-tag"></span> {{trans('messages.specimen-rejection')}}</a>
+									<span class="glyphicon glyphicon-tag"></span>Specimen Rejection</a>
 								</li>
 								<li>
 									<a href="{{URL::route("testtype.index")}}">
-									<span class="glyphicon glyphicon-tag"></span> {{trans('messages.test-type')}}</a>
-								</li>
-								<li>
-									<a href="{{URL::route("drug.index")}}">
-									<span class="glyphicon glyphicon-tag"></span> {{trans('messages.drug')}}</a>
+									<span class="glyphicon glyphicon-tag"></span>Test Types</a>
 								</li>
 								<li>
 									<a href="{{URL::route("organism.index")}}">
-									<span class="glyphicon glyphicon-tag"></span> {{trans('messages.organism')}}</a>
+									<span class="glyphicon glyphicon-tag"></span>Organisms</a>
+								</li>
+								<li>
+									<a href="{{URL::route("drug.index")}}">
+									<span class="glyphicon glyphicon-tag"></span>Antibiotics</a>
 								</li>
 							</ul>
 						</div>
 					</div>
 				</li>
+			@endif
+			@if(Entrust::can('manage_inventory'))
 
 				<li class="nav_trigger">
 					<a href="#">
@@ -383,6 +324,7 @@
 					</div>
 				</li>
 
+			@endif
 
 				<li class="nav_trigger">
 					<a href="#">
@@ -411,6 +353,7 @@
 					</div>
 				</li>
 
+			@if(Entrust::can('manage_users'))
 
 				<li class="nav_trigger">
 					<a href="#">
@@ -450,6 +393,7 @@
 						<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 215px; display: none;"><div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 620px; display: none;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
 					</div>
 				</li>
+			@endif
 				
 				<li class="nav_trigger">
 					<a href="#">

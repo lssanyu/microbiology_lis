@@ -3,11 +3,11 @@
 
 	<div>
 		<ol class="breadcrumb">
-		  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-		  <li>
-		  	<a href="{{ URL::route('drug.index') }}">{{ Lang::choice('messages.drug',1) }}</a>
-		  </li>
-		  <li class="active">{{trans('messages.create-drug')}}</li>
+			<li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
+			<li>
+				<a href="{{ URL::route('drug.index') }}">Antibiotics</a>
+			</li>
+			<li class="active">Add Antibiotic</li>
 		</ol>
 	</div>
 	<div class="panel panel-primary">

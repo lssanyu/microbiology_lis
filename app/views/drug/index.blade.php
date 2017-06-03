@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-	  <li class="active">{{ Lang::choice('messages.drug',1) }}</li>
+	  <li class="active">Antibiotics</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -12,11 +12,11 @@
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-adjust"></span>
-		{{ Lang::choice('messages.drug',1) }}
+		Antibiotics
 		<div class="panel-btn">
 			<a class="btn btn-sm btn-info" href="{{ URL::to("drug/create") }}" >
 				<span class="glyphicon glyphicon-plus-sign"></span>
-				{{ trans('messages.create-drug') }}
+				Add Antibiotic
 			</a>
 		</div>
 	</div>

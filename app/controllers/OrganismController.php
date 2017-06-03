@@ -23,9 +23,7 @@ class OrganismController extends \BaseController {
 	 */
 	public function create()
 	{
-		$drugs = Drug::orderBy('name')->get();
-		//Create organism
-		return View::make('organism.create')->with('drugs', $drugs);
+		return View::make('organism.create');
 	}
 
 
@@ -48,18 +46,11 @@ class OrganismController extends \BaseController {
 			$organism = new Organism;
 			$organism->name = Input::get('name');
 			$organism->description = Input::get('description');
-			try{
-				$organism->save();
-				if(Input::get('drugs')){
-					$organism->setDrugs(Input::get('drugs'));
-				}
-				$url = Session::get('SOURCE_URL');
-            
-            	return Redirect::to($url)
-					->with('message', trans('messages.success-creating-organism')) ->with('activeorganism', $organism ->id);
-			}catch(QueryException $e){
-				Log::error($e);
-			}
+			$organism->save();
+
+			// todo: put option to redirect to page to add antibiotic with zone diameters, save and add antibiotic
+			return Redirect::to('organism')
+				->with('message', trans('messages.success-creating-organism'))->with('activeorganism', $organism->id);
 		}
 	}
 
@@ -75,9 +66,9 @@ class OrganismController extends \BaseController {
 		//show a organism
 		$organism = Organism::find($id);
 		//show the view and pass the $organism to it
+		// todo: the loaded page should have add antibiotic
 		return View::make('organism.show')->with('organism',$organism);
 	}
-
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -87,14 +78,11 @@ class OrganismController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$drugs = Drug::orderBy('name')->get();
 		//Get the organism
 		$organism = Organism::find($id);
 
 		//Open the Edit View and pass to it the $organism
-		return View::make('organism.edit')
-					->with('organism', $organism)
-					->with('drugs', $drugs);
+		return View::make('organism.edit')->with('organism', $organism);
 	}
 
 
@@ -118,20 +106,9 @@ class OrganismController extends \BaseController {
 			$organism = Organism::find($id);
 			$organism->name = Input::get('name');
 			$organism->description = Input::get('description');
-			try{
-				$organism->save();
-				if(Input::get('drugs')){
-					$organism->setDrugs(Input::get('drugs'));
-				}
-			}catch(QueryException $e){
-				Log::error($e);
-			}
-
-			// redirect
-			$url = Session::get('SOURCE_URL');
-            
-            return Redirect::to($url)
-				->with('message', trans('messages.success-updating-organism')) ->with('activeorganism', $organism ->id);
+			$organism->save();
+            return Redirect::to('organism')
+				->with('message', trans('messages.success-updating-organism')) ->with('activeorganism', $organism->id);
 		}
 	}
 
@@ -171,7 +148,10 @@ class OrganismController extends \BaseController {
 		// redirect
 			$url = Session::get('SOURCE_URL');
             
-            return Redirect::to($url)
-			->with('message', trans('messages.success-deleting-organism'));
+			return Redirect::to($url)
+			->with('message', 'Delete Feature Not Functional, Contact Systems Programmer');
+
+            /*return Redirect::to($url)
+			->with('message', trans('messages.success-deleting-organism'));*/
 	}
 }
