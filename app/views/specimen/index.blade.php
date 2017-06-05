@@ -66,7 +66,7 @@
                 <thead>
                     <tr>
                         <th>Date Received</th>
-                        <th>ULIN</th>
+                        <th>Lab Id</th>
                         <th>Specimen Type</th>
                         <th>Patient ID</th>
                         <th>Facility</th>
@@ -80,7 +80,7 @@
                 @foreach($specimens as $specimen)
                     <tr>
                         <td>{{ date('d-m-Y H:i', strtotime($specimen->time_accepted));}}</td>
-                        <td>{{ $specimen->lab_no }}</td>
+                        <td>{{ $specimen->lab_id }}</td>
                         <td>{{ $specimen->specimenType->name }}</td>
                         <td>{{ $specimen->patient->patient_number }}</td>
                         <td>{{ $specimen->referral->facility->name }}</td>

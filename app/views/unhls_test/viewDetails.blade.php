@@ -11,47 +11,41 @@
 		<div class="panel-heading ">
             <div class="container-fluid">
                 <div class="row less-gutter">
-                    <div class="col-md-11">
-						<span class="glyphicon glyphicon-cog"></span>{{trans('messages.test-details')}}
+					<span class="glyphicon glyphicon-cog"></span>{{trans('messages.test-details')}}
 
-						@if($test->isCompleted() && $test->specimen->isAccepted())
-						<div class="panel-btn">
-							@if(Auth::user()->can('edit_test_results'))
-								<a class="btn btn-sm btn-info" href="{{ URL::to('unhls_test/'.$test->id.'/edit') }}">
-									<span class="glyphicon glyphicon-edit"></span>
-									{{trans('messages.edit-test-results')}}
-								</a>
-							@endif
-							@if(Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
-							<a class="btn btn-sm btn-success" href="{{ URL::route('test.verify', array($test->id)) }}">
-								<span class="glyphicon glyphicon-thumbs-up"></span>
-								{{trans('messages.verify')}}
+					@if($test->isCompleted() && $test->specimen->isAccepted())
+					<div class="panel-btn">
+						@if(Auth::user()->can('edit_test_results'))
+							<a class="btn btn-sm btn-info" href="{{ URL::to('unhls_test/'.$test->id.'/edit') }}">
+								<span class="glyphicon glyphicon-edit"></span>
+								{{trans('messages.edit-test-results')}}
 							</a>
-							@endif
-						</div>
 						@endif
-						@if($test->isCompleted() || $test->isVerified())
-						<div class="panel-btn">
-							@if(Auth::user()->can('view_reports'))
-								<a class="btn btn-sm btn-default"
-								href="{{ URL::to('visitreport/'.$test->specimen->id.'/print') }}"
-								>
-									<span class="glyphicon glyphicon-eye-open"></span>
-									{{trans('messages.view-visit-report')}}
-								</a>
-								<a class="btn btn-sm btn-default" href="{{ URL::to('patientreport/'.$test->specimen->patient->id.'/'.$test->specimen->id.'/'.$test->id ) }}">
-									<span class="glyphicon glyphicon-eye-open"></span>
-									{{trans('messages.view-test-report')}}
-								</a>
-							@endif
-						</div>
+						@if(Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
+						<a class="btn btn-sm btn-success" href="{{ URL::route('test.verify', array($test->id)) }}">
+							<span class="glyphicon glyphicon-thumbs-up"></span>
+							{{trans('messages.verify')}}
+						</a>
 						@endif
-                    </div>
-                    <div class="col-md-1">
-                        <a class="btn btn-sm btn-primary pull-right" href="#" onclick="window.history.back();return false;"
-                            alt="{{trans('messages.back')}}" title="{{trans('messages.back')}}">
-                            <span class="glyphicon glyphicon-backward"></span></a>
-                    </div>
+					</div>
+					@endif
+					@if($test->isCompleted() || $test->isVerified())
+					<div class="panel-btn">
+						@if(Auth::user()->can('view_reports'))
+							<a class="btn btn-sm btn-default"
+							href="{{ URL::to('visitreport/'.$test->specimen->id.'/print') }}"
+							>
+								<span class="glyphicon glyphicon-eye-open"></span>
+								View Report
+							</a>
+							<!-- todo: use commented logic to make the above dynamic -->
+							<!-- <a class="btn btn-sm btn-default" href="{{ URL::to('patientreport/'.$test->specimen->patient->id.'/'.$test->specimen->id.'/'.$test->id ) }}">
+								<span class="glyphicon glyphicon-eye-open"></span>
+								{{trans('messages.view-test-report')}}
+							</a> -->
+						@endif
+					</div>
+					@endif
                 </div>
             </div>
 		</div> <!-- ./ panel-heading -->

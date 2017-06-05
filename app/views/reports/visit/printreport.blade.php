@@ -63,32 +63,34 @@
     <table class="report-head">
       <tbody>
         <tr>
+          <th>Facility Name</th>
+          <td>{{$specimen->referral->facility->name}}</td>
+          <th>Date of Lab Request</th>
+          <td></td>
+        </tr>
+        <tr>
           <th>Patient Name</th>
           <td>{{ $specimen->patient->name }}</td>
-          <th>Specimen</th>
-          <td>{{ $specimen->specimenType->name }} | Lab ID: {{ $specimen->lab_id }}</td>
+          <th>Specimen Type</th>
+          <td>{{ $specimen->specimenType->name }}</td>
         </tr>
         <tr>
           <th>{{ trans('messages.patient-id')}}</th>
           <td>{{ $specimen->patient->patient_number}}</td>
-          <td></td>
+          <th>Lab ID</th>
+          <td>{{ $specimen->lab_id }}</td>
+        </tr>
+        <tr>
+          <th>{{ trans('messages.gender')}} & {{ trans('messages.age')}}</th>
+          <td>{{ $specimen->patient->getGender(false) }} | {{ $specimen->patient->getAge()}}</td>
+          <th>Study No.</th>
           <td></td>
         </tr>
         <tr>
-          <th>{{ trans('messages.gender')}}</th>
-          <td>{{ $specimen->patient->getGender(false) }}</td>
+          <th></th>
           <td></td>
+          <th>Test Requested</th>
           <td></td>
-        </tr>
-        <tr>
-          <th>{{ trans('messages.age')}}</th>
-          <td>{{ $specimen->patient->getAge()}}</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <th>{{ trans('messages.requesting-facility-department')}}</th>
-          <td>{{ Config::get('kblis.organization') }}</td>
         </tr>
       </tbody>
     </table>
@@ -97,7 +99,7 @@
          <caption>Laboratory Findings</caption>
          <tbody class="report-body">
             @forelse($specimen->tests as $test)
-                  @if(!$test->testType->isCulture())
+                  @if(!$test->testType->isCulture() && $test->isCompleted())
                   <tr>
                      <td>{{ $test->testType->name }}</td>
                      <td colspan="2">
@@ -120,7 +122,8 @@
          </tbody>
       </table>
         </br>
-        </br>
+        @foreach($specimen->tests as $test)
+        @if($test->testType->isCulture())
         <!-- Culture and Sensitivity analysis -->
         <table>
           <caption>Antimicrobial Susceptibility Testing(AST)</caption>
@@ -133,8 +136,6 @@
             </tr>
           </thead>
         </table>
-        @foreach($specimen->tests as $test)
-        @if($test->testType->isCulture())
         @foreach($test->isolated_organisms as $isolated_organism)
         <table class="ast-table">
             <tbody class="ast-body">
@@ -154,8 +155,17 @@
             </tbody>
         </table>
         @endforeach
-        @endif
-        @endforeach
+
+        <table>
+          <tbody>
+            <tr>
+              <td>Comment(s)</td>
+              <td colspan="2">
+              {{$test->interpretation}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
         </hr>
 
@@ -167,25 +177,31 @@
             </tr>
           </tbody>
         </table>
+        @endif
+        @endforeach
 
-        <hr style="border: 1px solid black;">
+        <hr style="border: 1px solid;">
         <table>
           <tbody>
             <tr>
-              <td>Comment(s)</td>
-              <td colspan="2">
-              .........................................................................................................................................
-              </td>
+              <th>Test/Analysis Performed by:</th>
+              <!-- todo: asks the question is it the same person to do all the tests -->
+              <td>{{$specimen->tests->first()->testedBy->name}}</td>
+              <td>Signature:</td>
             </tr>
             <tr>
-              <td><strong>Reviewed by:</strong></td>
-              <td>Name of Officer</td>
-              <td>Signed</td>
+              <th>Reviewed by:</th>
+              <!-- todo: confirm whether to use verified by -->
+              <td>{{Auth::user()->name}}</td>
+              <td>Signature:</td>
             </tr>
+          </tbody>
+        </table>
+        <table>
+          <tbody>
             <tr>
-              <td></td>
-              <td>{{ trans('messages.signature-holder') }}</td>
-              <td>{{ trans('messages.signature-holder') }}</td>
+              <td>Date Of Results Dispatch:</td>
+              <td>Time Of Results Dispatch:</td>
             </tr>
           </tbody>
         </table>

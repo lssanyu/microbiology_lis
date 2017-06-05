@@ -407,10 +407,6 @@ Route::group(array("before" => "auth"), function()
             "as" => "reports.patient.report", 
             "uses" => "ReportController@viewPatientReport"
         ));
-        Route::any("/visitreport/{id}", array(
-            "as" => "reports.visit.report", 
-            "uses" => "ReportController@viewVisitReport"
-        ));
         Route::any("/visitreport/{id}/print", array(
             "as" => "reports.visit.report.print", 
             "uses" => "ReportController@printVisitReport"

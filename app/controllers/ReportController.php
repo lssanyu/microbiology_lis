@@ -118,30 +118,6 @@ class ReportController extends \BaseController {
 		}
 	}
 
-
-	/**
-	 *
-	 *
-	 * @return Response
-	 */
-	public function viewVisitReport($id){
-		$date = date('Y-m-d');
-		$error = '';
-
-		$specimen = UnhlsSpecimen::find($id);
-		$specimen->load(
-			'patient',
-			'tests.testType',
-			'tests.testResults',
-			'tests.isolatedOrganisms.organism',
-			'tests.isolatedOrganisms.drugSusceptibilities.drug',
-			'tests.isolatedOrganisms.drugSusceptibilities.drugSusceptibilityMeasure');
-		return View::make('reports.visit.report')
-					->with('error', $error)
-					->with('specimen', $specimen)
-					->withInput(Input::all());
-	}
-
 	/**
 	 *
 	 *
@@ -159,7 +135,7 @@ class ReportController extends \BaseController {
 
 		$content = View::make('reports.visit.printreport')
 			->with('specimen', $specimen);
-		return PDF::loadHTML($content)->stream('pdf.pdf');
+		return PDF::loadHTML($content)->stream('results.pdf');
 		// return $content;
 
 	}
