@@ -233,7 +233,7 @@ $(function(){
             url:  organismAntibioticsUrl,
             success: function(data){
                 // populate drop down dynamically
-                antibiotics = data.zone_diameter;
+                antibiotics = data.zone_diameters;
                 $('.form-control.drug').empty();
                 // if drug susceptibility is being added for the first time
                 if ($(e.relatedTarget).data('verb') == 'POST') {
