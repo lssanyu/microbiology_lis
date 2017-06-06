@@ -72,8 +72,10 @@
 								@endif</p>
 							<p class="view-striped"><strong>{{trans('messages.registered-by')}}</strong>
 								{{$test->createdBy->name}}</p>
+							@if($test->isCompleted())
 							<p class="view"><strong>{{trans('messages.tested-by')}}</strong>
 								{{$test->testedBy->name}}</p>
+							@endif
 							@if($test->isVerified())
 							<p class="view"><strong>{{trans('messages.verified-by')}}</strong>
 								{{$test->verifiedBy->name}}</p>

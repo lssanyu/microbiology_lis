@@ -56,17 +56,14 @@
     </style>
   </head>
   <body>
-  <div id="wrap">
-      <div class="container-fluid">
-          <div class="row">
         @include("reportHeader")
     <table class="report-head">
       <tbody>
         <tr>
           <th>Facility Name</th>
           <td>{{$specimen->referral->facility->name}}</td>
-          <th>Date of Lab Request</th>
-          <td></td>
+          <th>Date Received</th>
+          <td>{{$specimen->time_accepted}}</td>
         </tr>
         <tr>
           <th>Patient Name</th>
@@ -83,13 +80,8 @@
         <tr>
           <th>{{ trans('messages.gender')}} & {{ trans('messages.age')}}</th>
           <td>{{ $specimen->patient->getGender(false) }} | {{ $specimen->patient->getAge()}}</td>
-          <th>Study No.</th>
-          <td></td>
-        </tr>
-        <tr>
-          <th></th>
-          <td></td>
-          <th>Test Requested</th>
+          <!-- todo: uncomment when functionality is done -->
+          <th><!-- Study No. --></th>
           <td></td>
         </tr>
       </tbody>
@@ -189,24 +181,22 @@
               <td>{{$specimen->tests->first()->testedBy->name}}</td>
               <td>Signature:</td>
             </tr>
+        @if($test->isVerified())
             <tr>
               <th>Reviewed by:</th>
-              <!-- todo: confirm whether to use verified by -->
-              <td>{{Auth::user()->name}}</td>
+              <td>{{$specimen->tests->first()->testedBy->name}}</td>
               <td>Signature:</td>
             </tr>
+        @endif
           </tbody>
         </table>
         <table>
           <tbody>
             <tr>
-              <td>Date Of Results Dispatch:</td>
-              <td>Time Of Results Dispatch:</td>
+              <td>Date Of Results Dispatch: {{$printTime}}</td>
             </tr>
           </tbody>
         </table>
-      </div>
-    </div>
         <p style="text-align: right;">1 of 1</p>
   </body>
 </html>
