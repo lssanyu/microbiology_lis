@@ -12,7 +12,7 @@
 
     <div class='container-fluid'>
         {{ Form::open(array('route' => array('unhls_test.index'))) }}
-            <div class='row'>
+<!--             <div class='row'>
                 <div class='col-md-3'>
                     <div class='col-md-2'>
                         {{ Form::label('date_from', trans('messages.from')) }}
@@ -39,7 +39,7 @@
                 <div class='col-md-1'>
                         {{ Form::submit(trans('messages.search'), array('class'=>'btn btn-primary')) }}
                 </div>
-            </div>
+            </div> -->
         {{ Form::close() }}
     </div>
 
