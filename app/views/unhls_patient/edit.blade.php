@@ -39,15 +39,16 @@
 					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group">
-					{{ Form::label('sex', trans('messages.sex')) }}
-					<div>{{ Form::radio('sex', '0', true) }}
-					<span class="input-tag">{{trans('messages.male')}}</span></div>
-					<div>{{ Form::radio("sex", '1', false) }}
-					<span class="input-tag">{{trans('messages.female')}}</span></div>
+					{{ Form::label('dob', trans('messages.date-of-birth'), ['class' => 'required']) }}
+					{{ Form::text('dob', Input::old('dob'), array('class' => 'form-control  input-sm', 'size' => '11')) }}
 				</div>
 				<div class="form-group">
-					{{ Form::label('dob', trans('messages.date-of-birth')) }}
-					{{ Form::text('dob', Input::old('dob'), array('class' => 'form-control standard-datepicker')) }}
+					<label class='required' for="age">Age</label>
+					<input type="text" name="age" id="age" class="form-control input-sm" size="11">
+					<select name="age_units" id="id_age_units" class="form-control input-sm">
+						<option value="Y">Years</option>
+						<option value="M">Months</option>
+					</select>
 				</div>
                 <div class="form-group">
                     {{ Form::label('gender', trans('messages.gender')) }}
