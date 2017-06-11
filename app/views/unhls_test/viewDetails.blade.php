@@ -29,7 +29,6 @@
 						@endif
 					</div>
 					@endif
-					@if($test->isCompleted() || $test->isVerified())
 					<div class="panel-btn">
 						@if(Auth::user()->can('view_reports'))
 							<a class="btn btn-sm btn-default"
@@ -45,7 +44,6 @@
 							</a> -->
 						@endif
 					</div>
-					@endif
                 </div>
             </div>
 		</div> <!-- ./ panel-heading -->

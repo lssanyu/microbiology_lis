@@ -175,12 +175,14 @@
         <hr style="border: 1px solid;">
         <table>
           <tbody>
+        @if($test->isCompleted())
             <tr>
               <th>Test/Analysis Performed by:</th>
               <!-- todo: asks the question is it the same person to do all the tests -->
               <td>{{$specimen->tests->first()->testedBy->name}}</td>
               <td>Signature:</td>
             </tr>
+        @endif
         @if($test->isVerified())
             <tr>
               <th>Reviewed by:</th>
