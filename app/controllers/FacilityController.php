@@ -10,7 +10,7 @@ class FacilityController extends \BaseController {
 	public function index()
 	{
 		//List all facilities
-		$facilities = Facility::orderBy('name', 'asc')->get();
+		$facilities = UNHLSFacility::orderBy('name', 'asc')->get();
 		//Load the view and pass the facilities
 		return View::make('facility.index')->with('facilities',$facilities);
 	}
@@ -23,9 +23,15 @@ class FacilityController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('facility.create');
-	}
+		$districts = District::orderBy('name','ASC')->lists('name', 'id');
+		$owners = UNHLSFacilityLevel::lists('name', 'id');
+		$levels = UNHLSFacilityOwnership::lists('name', 'id');
 
+		return View::make('facility.create')
+				->with('districts', $districts)
+				->with('owners', $owners)
+				->with('levels', $levels);
+	}
 
 	/**
 	 * Store a newly created resource in storage.
@@ -42,8 +48,11 @@ class FacilityController extends \BaseController {
 			return Redirect::route('facility.index')->withErrors($validator)->withInput();
 		} else {
 			// Add
-			$facility = new Facility;
+			$facility = new UNHLSFacility;
 			$facility->name = Input::get('name');
+			$facility->district_id = Input::get('district_id');
+			$facility->level_id = Input::get('level_id');
+			$facility->ownership_id = Input::get('ownership_id');
 			// redirect
 			try{
 				$facility->save();
@@ -78,9 +87,16 @@ class FacilityController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//Get the facility
-		$facility = Facility::find($id);
-		return View::make('facility.edit')->with('facility', $facility);
+		$facility = UNHLSFacility::find($id);
+		$districts = District::orderBy('name','ASC')->lists('name', 'id');
+		$owners = UNHLSFacilityLevel::lists('name', 'id');
+		$levels = UNHLSFacilityOwnership::lists('name', 'id');
+
+		return View::make('facility.edit')
+				->with('facility', $facility)
+				->with('districts', $districts)
+				->with('owners', $owners)
+				->with('levels', $levels);
 	}
 
 
@@ -100,8 +116,11 @@ class FacilityController extends \BaseController {
 			return Redirect::route('facility.index')->withErrors($validator)->withInput();
 		} else {
 			// Update
-			$facility = Facility::find($id);
+			$facility = UNHLSFacility::find($id);
 			$facility->name = Input::get('name');
+			$facility->district_id = Input::get('district_id');
+			$facility->level_id = Input::get('level_id');
+			$facility->ownership_id = Input::get('ownership_id');
 			$facility->save();
 			// redirect
 			$url = Session::get('SOURCE_URL');
@@ -122,7 +141,7 @@ class FacilityController extends \BaseController {
 	public function delete($id)
 	{
 		//Deleting the Item
-		$facility = Facility::find($id);
+		$facility = UNHLSFacility::find($id);
 
 		//Soft delete
 		$facility->delete();

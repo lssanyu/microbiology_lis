@@ -219,8 +219,8 @@
 							<h4 class="panel_heading panel_heading_first">Lab Configuration</h4>
 							<ul>
 								<li>
-									<a href="{{URL::route("instrument.index")}}">
-									<span class="glyphicon glyphicon-tag"></span> {{trans('messages.instrument')}}</a>
+									<a href="{{URL::route("facility.index")}}">
+									<span class="glyphicon glyphicon-tag"></span> Facilities</a>
 								</li>
 								<li>
 									<a href="{{URL::route("reportconfig.surveillance")}}">

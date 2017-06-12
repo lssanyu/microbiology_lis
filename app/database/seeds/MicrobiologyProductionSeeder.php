@@ -15,15 +15,128 @@ class MicrobiologyProductionSeeder extends DatabaseSeeder
         {
             $districts[] = District::create($district);
         }
-        $this->command->info('Districts seeded');
+        $this->command->info('Kampala seeded');
 
+        District::create(['name' => 'Buikwe']);
+        District::create(['name' => 'Bukomansimbi']);
+        District::create(['name' => 'Butambala']);
+        District::create(['name' => 'Buvuma']);
+        District::create(['name' => 'Gomba']);
+        District::create(['name' => 'Kalangala']);
+        District::create(['name' => 'Kalungu']);
+        District::create(['name' => 'Kayunga']);
+        District::create(['name' => 'Kiboga']);
+        District::create(['name' => 'Kyankwanzi']);
+        District::create(['name' => 'Luweero']);
+        District::create(['name' => 'Lwengo']);
+        District::create(['name' => 'Lyantonde']);
+        District::create(['name' => 'Masaka']);
+        District::create(['name' => 'Mityana']);
+        District::create(['name' => 'Mpigi']);
+        District::create(['name' => 'Mubende']);
+        District::create(['name' => 'Mukono']);
+        District::create(['name' => 'Nakaseke']);
+        District::create(['name' => 'Nakasongola']);
+        District::create(['name' => 'Rakai']);
+        District::create(['name' => 'Ssembabule']);
+        District::create(['name' => 'Wakiso']);
+        District::create(['name' => 'Amuria']);
+        District::create(['name' => 'Budaka']);
+        District::create(['name' => 'Bududa']);
+        District::create(['name' => 'Bugiri']);
+        District::create(['name' => 'Bukedea']);
+        District::create(['name' => 'Bukwa']);
+        District::create(['name' => 'Bulambuli']);
+        District::create(['name' => 'Busia']);
+        District::create(['name' => 'Butaleja']);
+        District::create(['name' => 'Buyende']);
+        District::create(['name' => 'Iganga']);
+        District::create(['name' => 'Jinja']);
+        District::create(['name' => 'Kaberamaido']);
+        District::create(['name' => 'Kaliro']);
+        District::create(['name' => 'Kamuli']);
+        District::create(['name' => 'Kapchorwa']);
+        District::create(['name' => 'Katakwi']);
+        District::create(['name' => 'Kibuku']);
+        District::create(['name' => 'Kumi']);
+        District::create(['name' => 'Kween']);
+        District::create(['name' => 'Luuka']);
+        District::create(['name' => 'Manafwa']);
+        District::create(['name' => 'Mayuge']);
+        District::create(['name' => 'Mbale']);
+        District::create(['name' => 'Namayingo']);
+        District::create(['name' => 'Namutumba']);
+        District::create(['name' => 'Ngora']);
+        District::create(['name' => 'Pallisa']);
+        District::create(['name' => 'Serere']);
+        District::create(['name' => 'Sironko']);
+        District::create(['name' => 'Soroti']);
+        District::create(['name' => 'Tororo']);
+        District::create(['name' => 'Abim']);
+        District::create(['name' => 'Adjumani']);
+        District::create(['name' => 'Agago']);
+        District::create(['name' => 'Alebtong']);
+        District::create(['name' => 'Amolatar']);
+        District::create(['name' => 'Amudat']);
+        District::create(['name' => 'Amuru']);
+        District::create(['name' => 'Apac']);
+        District::create(['name' => 'Arua']);
+        District::create(['name' => 'Dokolo']);
+        District::create(['name' => 'Gulu']);
+        District::create(['name' => 'Kaabong']);
+        District::create(['name' => 'Kitgum']);
+        District::create(['name' => 'Koboko']);
+        District::create(['name' => 'Kole']);
+        District::create(['name' => 'Kotido']);
+        District::create(['name' => 'Lamwo']);
+        District::create(['name' => 'Lira']);
+        District::create(['name' => 'Maracha']);
+        District::create(['name' => 'Moroto']);
+        District::create(['name' => 'Moyo']);
+        District::create(['name' => 'Nakapiripirit']);
+        District::create(['name' => 'Napak']);
+        District::create(['name' => 'Nebbi']);
+        District::create(['name' => 'Nwoya']);
+        District::create(['name' => 'Otuke']);
+        District::create(['name' => 'Oyam']);
+        District::create(['name' => 'Pader']);
+        District::create(['name' => 'Yumbe']);
+        District::create(['name' => 'Zombo']);
+        District::create(['name' => 'Buhweju']);
+        District::create(['name' => 'Buliisa']);
+        District::create(['name' => 'Bundibugyo']);
+        District::create(['name' => 'Bushenyi']);
+        District::create(['name' => 'Hoima']);
+        District::create(['name' => 'Ibanda']);
+        District::create(['name' => 'Isingiro']);
+        District::create(['name' => 'Kabale']);
+        District::create(['name' => 'Kabarole']);
+        District::create(['name' => 'Kamwenge']);
+        District::create(['name' => 'Kanungu']);
+        District::create(['name' => 'Kasese']);
+        District::create(['name' => 'Kibaale']);
+        District::create(['name' => 'Kiruhura']);
+        District::create(['name' => 'Kiryandongo']);
+        District::create(['name' => 'Kisoro']);
+        District::create(['name' => 'Kyegegwa']);
+        District::create(['name' => 'Kyenjojo']);
+        District::create(['name' => 'Masindi']);
+        District::create(['name' => 'Mbarara']);
+        District::create(['name' => 'Mitooma']);
+        District::create(['name' => 'Ntoroko']);
+        District::create(['name' => 'Ntungamo']);
+        District::create(['name' => 'Rubirizi']);
+        District::create(['name' => 'Rukungiri']);
+        District::create(['name' => 'Sheema']);
+
+        $this->command->info('Other Districts seeded');
 
         /* Facility Ownership table */
         $facilityownershipsData = array(
-            array("owner" => "Public"),
-            array("owner" => "PFP"),
-            array("owner" => "PNFP"),
-            array("owner" => "Other"),
+            array("name" => "Public"),
+            array("name" => "PFP"),
+            array("name" => "PNFP"),
+            array("name" => "Other"),
         );
 
         foreach ($facilityownershipsData as $facilityownership)
@@ -35,14 +148,14 @@ class MicrobiologyProductionSeeder extends DatabaseSeeder
         
         /* Facility Levels table */
         $facilitylevelsData = array(
-            array("level" => "Public NRH"),
-            array("level" => "Public RRH"),
-            array("level" => "Public GH"),
-            array("level" => "Public HCIV"),
-            array("level" => "Public HCIII"),
-            array("level" => "Private Level 3"),
-            array("level" => "Private Level 2"),
-            array("level" => "Private Level 1"),
+            array("name" => "Public NRH"),
+            array("name" => "Public RRH"),
+            array("name" => "Public GH"),
+            array("name" => "Public HCIV"),
+            array("name" => "Public HCIII"),
+            array("name" => "Private Level 3"),
+            array("name" => "Private Level 2"),
+            array("name" => "Private Level 1"),
         );
 
         foreach ($facilitylevelsData as $facilitylevel)

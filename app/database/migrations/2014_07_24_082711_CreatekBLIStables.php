@@ -22,14 +22,14 @@ class CreatekBLIStables extends Migration {
 
         Schema::create('unhls_facility_ownership', function($table){
             $table->increments('id');
-            $table->string('owner');
+            $table->string('name');
             $table->timestamps();
         });
 
         Schema::create('unhls_facility_level', function($table)
         {
             $table->increments('id');
-            $table->string('level');
+            $table->string('name');
             $table->timestamps();
 
         });
