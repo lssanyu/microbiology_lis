@@ -13,10 +13,4 @@ class CultureObservation extends Eloquent
 	{
 		return $this->belongsTo('UnhlsTest','test_id');
 	}
-
-	public function cultureDuration()
-	{
-		return $this->belongsTo('CultureDuration');
-	}
-
 }

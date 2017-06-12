@@ -9,8 +9,7 @@ class CultureObservationController extends \BaseController {
 	 */
 	public function index()
 	{
-		$cultureObservations = CultureObservation::with('test','cultureDuration')->get();
-		return $cultureObservations;
+		//
 	}
 
 
@@ -35,10 +34,9 @@ class CultureObservationController extends \BaseController {
 		$observation = new CultureObservation;
 		$observation->user_id = Auth::user()->id;
 		$observation->test_id = Input::get('test_id');
-		$observation->culture_duration_id = Input::get('culture_duration_id');
 		$observation->observation = Input::get('observation');
 		$observation->save();
-		return $observation->load('test','cultureDuration');
+		return $observation->load('test');
 	}
 
 
@@ -76,10 +74,9 @@ class CultureObservationController extends \BaseController {
 	{
 		$observation = CultureObservation::find($id);
 		$observation->user_id = Auth::user()->id;
-		$observation->culture_duration_id = Input::get('culture_duration_id');
 		$observation->observation = Input::get('observation');
 		$observation->save();
-		return $observation->load('test','cultureDuration');
+		return $observation->load('test');
 	}
 
 

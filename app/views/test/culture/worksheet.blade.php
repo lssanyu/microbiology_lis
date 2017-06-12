@@ -15,17 +15,33 @@
             <div class="container-fluid">
                 <div class="row less-gutter">
                     <span class="glyphicon glyphicon-adjust"></span>Culture and Sensitivity | ULIN: {{$test->specimen->id }}
-
-                </div>
-            </div>
-        </div>
-        <div class="panel-body">
-<!-- isolated organism -->
-            <div class="row isolated-organism">
-                <div class="col-md-9">Organisms Isolated
-                </div>
-                <div class="col-md-3">
-                    <a class="col-md-8 col-md-offset-2 btn btn-sm btn-success add-isolated-organism"
+                @if(!$test->culture_observation)
+                    <a class="btn btn-sm btn-success add-culture-observation"
+                        data-url="{{ URL::route('cultureobservation.store') }}"
+                        data-test-id="{{ $test->id }}"
+                        data-verb="POST"
+                        data-toggle="modal"
+                        data-target=".add-culture-observation-modal"
+                        title="Add Observation">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        Add Observation
+                    </a>
+                @endif
+                @if($test->culture_observation)
+                    <a class="btn btn-sm btn-info edit-culture-observation"
+                        data-url="{{ URL::route('cultureobservation.update',
+                            [$test->culture_observation->id]) }}"
+                        data-toggle="modal"
+                        data-verb="PUT"
+                        data-id="{{ $test->culture_observation->id }}"
+                        data-target=".add-culture-observation-modal"
+                        data-observation="{{ $test->culture_observation->observation }}"
+                        title="Edit Observation">
+                        <span class="glyphicon glyphicon-edit"></span>
+                        Edit Observation
+                    </a>
+                @endif
+                    <a class="btn btn-sm btn-success add-isolated-organism"
                         data-test-id="{{ $test->id }}"
                         data-url="{{ URL::route('isolatedorganism.store') }}"
                         data-toggle="modal"
@@ -35,6 +51,22 @@
                         <span class="glyphicon glyphicon-plus"></span>
                         Add Isolated Organism
                     </a>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+<!-- culture observation -->
+            <div class="row culture-worksheet">
+            @if($test->culture_observation)
+                <div class="col-md-12">
+                    Preliminary Result: <span class="observation-entry">{{$test->culture_observation->observation}}</span>
+                </div>
+            @endif
+
+            </div>
+<!-- isolated organism -->
+            <div class="row isolated-organism">
+                <div class="col-md-12">Organisms Isolated
                 </div>
                 <div class="col-md-12">
                     <table class="table">
@@ -223,6 +255,44 @@
                         </tbody>
                     </table>
 <!-- MODALS -->
+<div class="modal fade add-culture-observation-modal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;</button>
+                <h4 class="modal-title" id="myModalLabel">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Add Culture Observation
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="culture-observation">
+                    <div class="form-group">
+                        {{ Form::label('observation', 'Observation') }}
+                        <input class="form-control observation" name="observation" type="text"
+                            @if($test->culture_observation)
+                            value="{{ $test->culture_observation->observation }}"
+                            @endif
+                            >
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            {{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'),
+                array('class' => 'btn btn-primary  save-culture-observation',
+                'data-dismiss' => 'modal')) }}
+            {{ Form::button(trans('messages.cancel'),
+                ['class' => 'btn btn-default cancel-culture-observation-edition',
+                'data-dismiss' => 'modal']) }}
+            </div>
+        </div>
+    </div>
+</div><!-- /.add-culture-observation-modal -->
 <div class="modal fade add-isolated-organism-modal"
     tabindex="-1"
     role="dialog"

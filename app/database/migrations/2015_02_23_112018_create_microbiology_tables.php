@@ -34,28 +34,18 @@ class CreateMicrobiologyTables extends Migration {
         });
 
 
-        /* culture durations table */
-        Schema::create('culture_durations', function(Blueprint $table)
-        {
-            $table->increments('id')->unsigned();
-            $table->string('duration',30);
-            $table->softDeletes();
-            $table->timestamps();
-        });
         /* culture observations table */
         Schema::create('culture_observations', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->integer('test_id')->unsigned();
-            $table->integer('culture_duration_id')->unsigned();
             $table->string('observation',300);
             $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('test_id')->references('id')->on('unhls_tests');
-            $table->foreign('culture_duration_id')->references('id')->on('culture_durations');
         });
         /* isolated organisms table */
         Schema::create('isolated_organisms', function(Blueprint $table)

@@ -154,8 +154,69 @@ $(function(){
     var isolatedOrganismUrl;
     var organismAntibioticsUrl;
     var isolatedOrganismUrlVerb;
+    var cultureObservationUrl;
+    var cultureObservationUrlVerb;
     var drugSusceptibilityUrl;
     var drugSusceptibilityUrlVerb;
+
+    /*culture observation*/
+    $('.add-culture-observation-modal').on('show.bs.modal', function(e) {
+        // receive data from the clicked button
+        cultureTestID = $(e.relatedTarget).data('test-id');
+        cultureObservationUrl = $(e.relatedTarget).data('url');
+        cultureObservationUrlVerb = $(e.relatedTarget).data('verb');
+    });
+
+    $('.culture-observation-tbody').on('click', '.edit-culture-observation', function(){
+        $('.duration').val($(this).data('duration-id'));
+        $('.observation').val($(this).data('observation'));
+    });
+
+    // save culture observation addition or editon
+    $('.save-culture-observation').click(function(){
+        var duration = $('.duration').val();
+        var observation = $('.observation').val();
+
+        $.ajax({
+            type: cultureObservationUrlVerb,
+            url:  cultureObservationUrl,
+            data: {
+                test_id: cultureTestID,
+                observation: observation
+            },
+            success: function(cultureObservation){
+                if (cultureObservationUrlVerb == 'POST') {
+                    var cultureObservationEntry = $('.cultureObservationEntryLoader').html();
+                    $('.culture-observation-tbody').append(cultureObservationEntry);
+                    $('.culture-observation-tbody')
+                        .find('.new-culture-observation-tr')
+                        .addClass('culture-observation-tr-'+cultureObservation.id)
+                        .removeClass('new-culture-observation-tr')
+                        .find('.edit-culture-observation')
+                            .attr('data-id',cultureObservation.id)
+                            .attr('data-url',cultureObservationUrl+'/'+cultureObservation.id)
+                            .attr('data-duration-id',cultureObservation.culture_duration_id)
+                            .attr('data-observation',cultureObservation.observation);
+                    $('.culture-observation-tr-'+cultureObservation.id)
+                        .find('.delete-culture-observation')
+                            .attr('data-url',cultureObservationUrl+'/'+cultureObservation.id)
+                            .attr('data-id',cultureObservation.id);
+                    location.reload();
+                } else {
+                    $('.observation-entry').empty();
+                }
+                // update rows with edition already made in the database
+                $('.observation-entry')
+                    .append(cultureObservation.observation);
+                // clear fields for any new addition
+                $('.observation').val(cultureObservation.observation);
+            }
+        });
+    });
+
+    $('.cancel-culture-observation-edition').click(function(){
+        $('.observation').val('');
+    });
 
     /*isolated organism*/
     $('.add-isolated-organism-modal').on('show.bs.modal', function(e) {

@@ -1036,9 +1036,9 @@ class UnhlsTest extends Eloquent
 	/**
 	 * Isolated Organism relationship
 	 */
-	public function cultureObservations()
+	public function cultureObservation()
     {
-        return $this->hasMany('CultureObservation', 'test_id');
+        return $this->hasOne('CultureObservation', 'test_id');
     }
 
 	/**
