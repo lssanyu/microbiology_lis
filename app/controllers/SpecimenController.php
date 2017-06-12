@@ -41,7 +41,7 @@ class SpecimenController extends \BaseController {
 		$thisYear = substr($now->format('Y'), 2);
 		$nextLabID = $thisYear.'/'.$nextSpecimenID;
 		$disease = ['select Suspected Disease']+Disease::lists('name', 'id');
-		$specimenTypes = ['select Specimen Type']+SpecimenType::lists('name', 'id');
+		$specimenTypes = ['select Specimen Type']+SpecimenType::orderBy('name','ASC')->lists('name', 'id');
 		$facilities = ['select Facility']+UNHLSFacility::lists('name', 'id');
 
 		$existingPatient = false;
