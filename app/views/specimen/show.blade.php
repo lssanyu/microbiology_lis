@@ -23,7 +23,8 @@
                                 <span class="glyphicon glyphicon-plus-sign"></span>
                                 Add New Test
                             </a>
-                            <a class="btn btn-sm btn-default" href="{{ URL::to('visitreport/'.$specimen->id.'/print') }}">
+                            <a class="btn btn-sm btn-default" href="{{ URL::to('visitreport/'.$specimen->id.'/print') }}"
+                                target="_blank">
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 View Report
                             </a>
