@@ -117,8 +117,11 @@
         @foreach($specimen->tests as $test)
         @if($test->testType->isCulture())
         <!-- Culture and Sensitivity analysis -->
+
+        @if(count($test->isolated_organisms)>0)<!-- if there are any isolated organisms -->
         <table>
           <caption>Antimicrobial Susceptibility Testing(AST)</caption>
+
           <thead class="ast-head">
             <tr>
                 <th class="organism" scope="col">Organism(s)</th>
@@ -169,6 +172,20 @@
             </tr>
           </tbody>
         </table>
+        @else<!-- if there are no isolated organisms -->
+        <table>
+          <caption>Antimicrobial Susceptibility Testing(AST)</caption>
+        </table>
+
+        <table class="ast-table">
+            <tbody class="ast-body">
+              <tr>
+                <td>{{ $test->culture_observation->observation }}</td>
+              </tr>
+            </tbody>
+        </table> 
+
+        @endif<!--./ if there are no isolated organisms -->
         @endif
         @endforeach
 
