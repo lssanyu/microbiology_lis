@@ -174,7 +174,6 @@ $(function(){
 
     // save culture observation addition or editon
     $('.save-culture-observation').click(function(){
-        var duration = $('.duration').val();
         var observation = $('.observation').val();
 
         $.ajax({
@@ -186,21 +185,6 @@ $(function(){
             },
             success: function(cultureObservation){
                 if (cultureObservationUrlVerb == 'POST') {
-                    var cultureObservationEntry = $('.cultureObservationEntryLoader').html();
-                    $('.culture-observation-tbody').append(cultureObservationEntry);
-                    $('.culture-observation-tbody')
-                        .find('.new-culture-observation-tr')
-                        .addClass('culture-observation-tr-'+cultureObservation.id)
-                        .removeClass('new-culture-observation-tr')
-                        .find('.edit-culture-observation')
-                            .attr('data-id',cultureObservation.id)
-                            .attr('data-url',cultureObservationUrl+'/'+cultureObservation.id)
-                            .attr('data-duration-id',cultureObservation.culture_duration_id)
-                            .attr('data-observation',cultureObservation.observation);
-                    $('.culture-observation-tr-'+cultureObservation.id)
-                        .find('.delete-culture-observation')
-                            .attr('data-url',cultureObservationUrl+'/'+cultureObservation.id)
-                            .attr('data-id',cultureObservation.id);
                     location.reload();
                 } else {
                     $('.observation-entry').empty();
