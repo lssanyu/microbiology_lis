@@ -274,11 +274,10 @@
                 <div class="culture-observation">
                     <div class="form-group">
                         {{ Form::label('observation', 'Comment') }}
-                        <textarea  class="form-control observation" name="observation"
-                            @if($test->culture_observation)
-                            value="{{ $test->culture_observation->observation }}"
-                            @endif
-                            >
+                        <textarea  class="form-control observation" name="observation">
+                        @if($test->culture_observation)
+                            {{ $test->culture_observation->observation }}
+                        @endif
                         </textarea>
                     </div>
                 </div>
