@@ -57,7 +57,7 @@
                                     data-target=".add-drug-susceptibility-test-modal"
                                     title="Add Susceptibility Test Results">
                                     <span class="glyphicon glyphicon-plus"></span>
-                                    Add Results
+                                    Add Antibiotic
                                 </a>
                                 <a class="btn btn-sm btn-danger delete-isolated-organism"
                                     data-url="{{ URL::route('isolatedorganism.destroy',
