@@ -6,7 +6,7 @@
 					<a href="{{ URL::route('user.home')}}"><span class="ion-home"></span> <span class="nav_title">Main Menu</span></a>
 				</li>
 				
-				<li class="nav_trigger">
+				<!-- <li class="nav_trigger">
 					<a href="#">
 						<span class="ion-stats-bars"></span>
 						<span class="nav_title">Reports</span>
@@ -101,7 +101,7 @@
 
 						<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 215px; display: none;"><div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 620px; display: none;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
 					</div>
-				</li>
+				</li> -->
 				
 				<li class="nav_trigger">
 					<a href="#">
@@ -222,7 +222,7 @@
 									<a href="{{URL::route("facility.index")}}">
 									<span class="glyphicon glyphicon-tag"></span> Facilities</a>
 								</li>
-								<li>
+								<!-- <li>
 									<a href="{{URL::route("reportconfig.surveillance")}}">
 									<span class="glyphicon glyphicon-tag"></span> {{trans('messages.surveillance')}}</a>
 								</li>
@@ -233,7 +233,7 @@
 								<li>
 									<a href="{{ URL::route("blisclient.index") }}">
 									<span class="glyphicon glyphicon-tag"></span>{{ trans('messages.interfaced-equipment')}}</a>
-								</li>
+								</li> -->
 							</ul>
 						</div>
 					</div>
@@ -283,7 +283,7 @@
 			@endif
 			@if(Entrust::can('manage_inventory'))
 
-				<li class="nav_trigger">
+				<!-- <li class="nav_trigger">
 					<a href="#">
 					<span class="ion-ios-cart"></span>
 						<span class="nav_title">Inventory & Equipment</span>
@@ -322,11 +322,11 @@
 							</ul>
 						<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 215px; display: none;"><div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 620px; display: none;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
 					</div>
-				</li>
+				</li> -->
 
 			@endif
 
-				<li class="nav_trigger">
+				<!-- <li class="nav_trigger">
 					<a href="#">
 						<span class="ion-nuclear"></span>
 						<span class="nav_title">Biosafety & Biosecurity</span>
@@ -351,7 +351,7 @@
 
 						<div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; width: 215px; display: none;"><div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 620px; display: none;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
 					</div>
-				</li>
+				</li> -->
 
 			@if(Entrust::can('manage_users'))
 
