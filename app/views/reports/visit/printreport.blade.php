@@ -127,7 +127,6 @@
                 <th class="organism" scope="col">Organism(s)</th>
                 <th class="antibiotic" scope="col">Antibiotic(s)</th>
                 <th class="result" scope="col">Result(s)</th>
-                <th class="comment" scope="col">Comment(s)</th>
             </tr>
           </thead>
         </table>
@@ -144,7 +143,6 @@
                 @endif <?php $i++; ?>
                 <td class="antibiotic">{{$drug_susceptibility->drug->name}}</td>
                 <td class="result">{{$drug_susceptibility->drug_susceptibility_measure->symbol}}</td>
-                <td class="comment">-</td>
               </tr>
               @endforeach
             </tbody>
