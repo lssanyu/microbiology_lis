@@ -177,6 +177,7 @@
           <caption>Antimicrobial Susceptibility Testing(AST)</caption>
         </table>
 
+        @if($test->culture_observation)<!-- if there are comments -->
         <table class="ast-table">
             <tbody class="ast-body">
               <tr>
@@ -184,6 +185,7 @@
               </tr>
             </tbody>
         </table> 
+        @endif<!--./ if there are comments -->
 
         @endif<!--./ if there are no isolated organisms -->
         @endif
