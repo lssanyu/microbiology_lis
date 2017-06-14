@@ -318,12 +318,12 @@
                         {{trans('messages.pending')}}</span>
                 </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-md-12">
                     <span class='label label-success'>
                         {{trans('messages.specimen-accepted-label')}}</span>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div> <!-- /. pending-test-accepted-specimen -->
 
@@ -335,12 +335,12 @@
                         {{trans('messages.started')}}</span>
                 </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-md-12">
                     <span class='label label-success'>
                         {{trans('messages.specimen-accepted-label')}}</span>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div> <!-- /. started-test-accepted-specimen -->
 
