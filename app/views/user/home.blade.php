@@ -49,12 +49,13 @@
 		<span class="ion-icon ion-nuclear"></span> <br><span class="nav_title">BIOSAFETY & BIOSECURITY</span>
 		</div>
 	</a> -->
-	
+	@if(Entrust::can('manage_users'))
 	<a href="{{ URL::route('user.index')}}">
 		<div class="panel panel-default col-sm-3">
 		<span class="ion-icon ion-key"></span> <br><span class="nav_title">ACCESS CONTROL</span>
 		</div>
 	</a>
+	@endif
 	
 </div>
 
