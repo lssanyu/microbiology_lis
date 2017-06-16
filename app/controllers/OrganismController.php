@@ -134,24 +134,22 @@ class OrganismController extends \BaseController {
 		//Soft delete the organism
 		$organism = Organism::find($id);
 
-		/*$organismInUse = TestType::where('test_category_id', '=', $id)->first();
+		$organismInUse = ZoneDiameter::where('organism_id', '=', $id)->first();
+		// todo: there is also and issue when the organism has already been isolated chech that too
+		// isolated organisms are also
 		if (empty($organismInUse)) {
-		    // The test category is not in use
+			// The test category is not in use
 			$organism->delete();
 		} else {
-		    // The test category is in use
-		    $url = Session::get('SOURCE_URL');
-            
-            return Redirect::to($url)
-		    	->with('message', trans('messages.failure-test-category-in-use'));
-		}*/
-		// redirect
+			// The test category is in use
 			$url = Session::get('SOURCE_URL');
-            
-			return Redirect::to($url)
-			->with('message', 'Delete Feature Not Functional, Contact Systems Programmer');
 
-            /*return Redirect::to($url)
-			->with('message', trans('messages.success-deleting-organism'));*/
+			return Redirect::to($url)
+				->with('message', 'Delete Action Failed, Organism in Use');
+		}
+			$url = Session::get('SOURCE_URL');
+
+			return Redirect::to($url)
+				->with('message', trans('messages.success-deleting-organism'));
 	}
 }

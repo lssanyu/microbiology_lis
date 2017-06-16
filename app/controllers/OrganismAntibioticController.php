@@ -135,22 +135,10 @@ class OrganismAntibioticController extends \BaseController {
 	{
 		//Soft delete the organism
 		$zoneDiameter = ZoneDiameter::find($zoneDiameterId);
-
-		/*$zoneDiameterInUse = ;
-		if (empty($zoneDiameterInUse)) {
-		    // The test category is not in use
-			$organism->delete();
-		} else {
-		    $url = Session::get('SOURCE_URL');
-            return Redirect::to($url)
-            // todo: confirm this massage makes sense
-		   		->with('message', 'This Zone Diameter is in use');
-		}*/
+		$organismId = $zoneDiameter->organism_id;
+		$zoneDiameter->delete();
 		// redirect
-			return Redirect::route('organism.show', [$zoneDiameter->organism_id])
-				->with('message', 'Delete Feature Not Functional, Contact Systems Programmer');
-/*            return Redirect::to($url)
-			->with('message', trans('messages.success-deleting-organism'));
-*/
+		return Redirect::route('organism.show', [$organismId])
+			->with('message', 'Break Point Successfully Deleted');
 	}
 }
