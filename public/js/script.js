@@ -496,9 +496,9 @@ $(function(){
 			template: 'D / MMM / YYYY',
 			//min year
             minYear: '1916',
-			maxYear: '2022'
-		});
-	});
+            maxYear: new Date().getFullYear()
+        });
+    });
 
     $(function(){
         $('#datetime12').combodate();
@@ -533,7 +533,9 @@ $(function(){
         }
         var age_s = age*365*24*3600*1000;
         var dob_s = now_s-age_s;
+
         var dob = new Date(dob_s);
+        dob.setMonth(0, 1);
         $("#dob").combodate('setValue', dob);
     }
 
@@ -554,10 +556,10 @@ $(function(){
 
     $(function(){
         $('#collection-date').combodate({
-            maxYear:2022
+            maxYear: new Date().getFullYear()
         });
     	$('#reception-date').combodate({
-            maxYear:2022
+            maxYear: new Date().getFullYear()
         });
     });
     
