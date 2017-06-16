@@ -38,9 +38,11 @@
 								</div>
 								<div class="panel-body inline-display-details">
 									<div class="form-pane panel panel-default">
-										{{ Form::hidden('specimen_id', $specimen->id) }}
-										{{Form::label('test-list', trans("messages.select-tests"))}}
 										<div class="container-fluid">
+											<div class="col-md-12">
+												{{ Form::hidden('specimen_id', $specimen->id) }}
+												{{Form::label('test-list', trans("messages.select-tests"))}}
+											</div>
 											@foreach($specimen->specimenType->testTypes as $key=>$value)
 											<div class="col-md-4">
 												<label  class="checkbox">
