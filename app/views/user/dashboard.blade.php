@@ -35,9 +35,10 @@
 									</div>
 								</div>
 
+<!--
 								<div class="col-lg-4 col-md-6">
 									<div class="panel panel-default"><b>Prevalences</b>
-<!-- 										<div class="stat_box stat_up">
+ 										<div class="stat_box stat_up">
 											<div class="stat_ico color_b"><i class="ion-ios-personadd"></i></div>
 											<div class="stat_content">
 												<span class="stat_count"> Unknown </span>
@@ -58,26 +59,27 @@
 												<span class="stat_name">TB Prevalence</span>
 											</div>
 										</div>																				
- -->									</div>
+ 									</div>
 								</div>
+ -->
 
 								<div class="col-lg-4 col-md-6">
 									<div class="panel panel-default"><b>Samples</b>
-										<div class="stat_box stat_down">
+										<div class="stat_box">
 											<div class="stat_ico color_c"><i class="ion-ios-people"></i></div>
 											<div class="stat_content">
 												<span class="stat_count">{{UnhlsSpecimen::count()}}</span>
 												<span class="stat_name">Samples collected</span>
 											</div>
 										</div>
-										<div class="stat_box stat_down">
+										<div class="stat_box">
 											<div class="stat_ico color_c"><i class="ion-ios-close"></i></div>
 											<div class="stat_content">
 												<span class="stat_count">{{round(UnhlsSpecimen::where('specimen_status_id', '=',3)->count()*100/UnhlsSpecimen::count(), 2)}} % </span>
 												<span class="stat_name">Samples rejected</span>
 											</div>
 										</div>
-										<div class="stat_box stat_down">
+										<div class="stat_box">
 											<div class="stat_ico color_c"><i class="ion-ios-checkmark"></i></div>
 											<div class="stat_content">
 												<span class="stat_count">{{round(UnhlsSpecimen::where('specimen_status_id', '=', 2)->count()*100/UnhlsSpecimen::count(), 2)}} %</span>
@@ -87,8 +89,30 @@
 									</div>
 								</div>
 
+								<div class="col-lg-4 col-md-6">
+									<div class="panel panel-default">
+										<div class="stat_box">
+											<div class="stat_ico color_f"><i class="ion-ios-people"></i></div>
+											<div class="stat_content">
+												{{--*/ $staff = count(User::all())  - 1 /*--}}
+												<span class="stat_count">{{ $staff }}</span>
+												<span class="stat_name">Number of Lab Staff</span>
+											</div>
+										</div>
+<!-- 										<div class="stat_box stat_down">
+											<div class="stat_ico color_f"><i class="ion-ios-person"></i></div>
+											<div class="stat_content">
+												<span class="stat_count">0 %</span>
+												<span class="stat_name">Percentage of volunteers</span>
+											</div>
+										</div>
+ -->
+									</div>
+								</div>
+
+
 							</div>
-								
+<!-- 
 							<div class="row">
 								<div class="col-lg-4 col-md-6">
 									<div class="panel panel-default"><b>Commodities</b>
@@ -115,10 +139,11 @@
 												<span class="stat_name">Non functional equipment</span>
 											</div>
 											
-										</div>										
+										</div>
 									</div>
 								</div>
-
+ -->
+<!-- 
 								<div class="col-lg-4 col-md-6">
 									<div class="panel panel-default"><b>Biosafety & Biosecurity Incidents</b>
 										<div class="stat_box">
@@ -151,36 +176,16 @@
 													</span>
 												<span class="stat_name">Minor incidents</span>
 											</div>
-										</div>																				
+										</div>
 									</div>
 								</div>
-
-								<div class="col-lg-4 col-md-6">
-									<div class="panel panel-default">
-										<div class="stat_box stat_down">
-											<div class="stat_ico color_f"><i class="ion-ios-people"></i></div>
-											<div class="stat_content">
-												{{--*/ $staff = count(User::all())  - 1 /*--}}
-												<span class="stat_count">{{ $staff }}</span>
-												<span class="stat_name">Number of Lab Staff</span>
-											</div>
-										</div>
-										<div class="stat_box stat_down">
-											<div class="stat_ico color_f"><i class="ion-ios-person"></i></div>
-											<div class="stat_content">
-												<span class="stat_count">0 %</span>
-												<span class="stat_name">Percentage of volunteers</span>
-											</div>
-										</div>
-
-									</div>
-								</div>
+ -->
 
 							</div>								
 						</div>
 					</div>
 
-
+<!-- 
 	<div class="row">
 						<div class="col-md-6">
 							<div class="panel panel-default">
@@ -195,7 +200,7 @@
 														<th class="text-right">Days stocked out</th>
 													</tr>
 												</thead>
-<!-- 												<tbody>
+												<tbody>
 													<tr>
 														<td>Humacount Diluent ,20L </td>
 														<td class="text-right">3</td>
@@ -209,7 +214,7 @@
 														<td class="text-right">6</td>
 													</tr>
 												</tbody>
- -->											</table>
+											</table>
 										</div>
 
 									</div>
@@ -244,5 +249,5 @@
 								</div>
 							</div>
 						</div>
-	</div>
+	</div> -->
 @stop
