@@ -78,45 +78,6 @@
 				{{ Form::label('targetTAT', trans('messages.target-turnaround-time')) }}
 				{{ Form::text('targetTAT', Input::old('targetTAT'), array('class' => 'form-control')) }}
 			</div>
-			<div class="form-group">
-				{{ Form::label('prevalence_threshold', trans('messages.prevalence-threshold')) }}
-				{{ Form::text('prevalence_threshold', Input::old('prevalence_threshold'), 
-					array('class' => 'form-control')) }}
-			</div>
-			<div class="form-group">
-				{{ Form::label('culture-worksheet', trans('messages.show-culture-worksheet')) }}
-				<?php if(count($testtype->organisms)>0){$checked=true;} else{$checked=false;} ?>
-				{{ Form::checkbox(trans('messages.show-culture-worksheet'), "1", $checked, array('onclick'=>'toggle(".organismsClass", this)')) }}
-			</div>
-			<div class="form-group organismsClass" <?php if($checked==true){ ?>style="dispaly:block;"<?php }else{ ?>style="display:none;"<?php } ?>>
-				{{ Form::label('organisms', trans('messages.select-organisms')) }}
-				<div class="form-pane panel panel-default">
-
-
-					<div class="container-fluid">
-						<div class='row $alternator'>
-							<div class="col-md-3">
-								<label  class="checkbox">
-									<input type="checkbox" name="organisms[]" value="1">
-										fmgnbdfg
-								</label>
-							</div>
-						</div>
-					</div>
-
-
-
-
-				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			{{ Form::label('orderable_test', trans('messages.orderable-test')) }}
-			{{ Form::checkbox('orderable_test', 1, Input::old('orderable_test')) }}
-		</div>
-		<div class="form-group">
-			{{ Form::label('accredited', trans('messages.accredited')) }}
-			{{ Form::checkbox('accredited', "1", $testtype->isAccredited(), array()) }}
 		</div>
 		<div class="panel-footer">
 			<div class="form-group actions-row">
