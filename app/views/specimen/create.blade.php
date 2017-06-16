@@ -48,7 +48,7 @@
 									<p>ULIN: {{$patient->ulin}}</p>
 									<p>Patient Name: {{$patient->name}}</p>
 									<p>Age: {{$patient->getAge()}}</p>
-									<p>Gender: {{$patient->sex}}</p>
+									<p>Gender: {{$patient->getGender()}}</p>
 								@else
 									<div class="form-group">
 											{{ Form::label('patient_name','Patient Name', array('text-align' => 'right', 'class' => 'required')) }}
