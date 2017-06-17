@@ -77,8 +77,7 @@ class SpecimenController extends \BaseController {
 				'time_accepted' => 'required',
 				'specimen_type' => 'required',
 				'test_types' => 'required',
-				'facility_from' => 'required|non_zero_key',
-				'rejectionReason' => 'required|non_zero_key',
+				'facility_from' => 'required',
 			];
 		} else {
 			$rules = [
@@ -86,9 +85,8 @@ class SpecimenController extends \BaseController {
 				'time_accepted' => 'required',
 				'specimen_type' => 'required',
 				'test_types' => 'required',
-				'facility_from' => 'required|non_zero_key',
+				'facility_from' => 'required',
 				'patient_name' => 'required',
-				'rejectionReason' => 'required|non_zero_key',
 			];
 		}
 
@@ -97,7 +95,7 @@ class SpecimenController extends \BaseController {
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::route('specimen.create')->withInput()->withErrors($validator);
+			return Redirect::route('specimen.create')->withInput(Input::all())->withErrors($validator);
 		} else {
 
 			$thisYear = substr(date('Y'), 2);
@@ -121,14 +119,18 @@ class SpecimenController extends \BaseController {
 				$patient->created_by = Auth::user()->id;
 				$patient->save();
 			}
-
-            $referral = new Referral;
-            $referral->facility_from = Input::get('facility_from');
-            $referral->facility_to = Input::get('facility_to');
-            $referral->person = Input::get('person');
-            $referral->contacts = Input::get('contacts');
-            $referral->user_id =  Auth::user()->id;
-            $referral->save();
+// todo: check that the from is not equivalent to same facility that the entry is being done in....
+			if (Input::get('facility_from')||Input::get('facility_to')) {
+				$referral = new Referral;
+				$referral->facility_from = Input::get('facility_from');
+				if (Input::get('facility_to')) {
+					$referral->facility_to = Input::get('facility_to');
+				}
+				$referral->person = Input::get('person');
+				$referral->contacts = Input::get('contacts');
+				$referral->user_id =  Auth::user()->id;
+				$referral->save();
+			}
 
 			try {
 				$nextSpecimenID = UnhlsSpecimen::orderBy('id','DESC')->first()->id++;
