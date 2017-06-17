@@ -74,7 +74,7 @@ class SpecimenController extends \BaseController {
 				'time_accepted' => 'required',
 				'specimen_type' => 'required',
 				'test_types' => 'required',
-				'facility' => 'required|non_zero_key',
+				'facility_from' => 'required|non_zero_key',
 			];
 		} else {
 			$rules = [
@@ -82,7 +82,7 @@ class SpecimenController extends \BaseController {
 				'time_accepted' => 'required',
 				'specimen_type' => 'required',
 				'test_types' => 'required',
-				'facility' => 'required|non_zero_key',
+				'facility_from' => 'required|non_zero_key',
 				'patient_name' => 'required',
 			];
 		}
@@ -118,9 +118,8 @@ class SpecimenController extends \BaseController {
 			}
 
             $referral = new Referral;
-            // todo: clearify but for now assume all referals are in bound
-            $referral->status = Referral::REFERRED_IN;
-            $referral->facility_id = Input::get('facility');
+            $referral->facility_from = Input::get('facility_from');
+            $referral->facility_to = Input::get('facility_to');
             $referral->person = Input::get('person');
             $referral->contacts = Input::get('contacts');
             $referral->user_id =  Auth::user()->id;
@@ -134,7 +133,6 @@ class SpecimenController extends \BaseController {
 			}
 
 			$thisMonth = date('m');
-			// $nextLabID = $thisYear.'/'.$nextSpecimenID;
 			$nextLabID = \Config::get('constants.FACILITY_CODE').'-'.$thisYear.$thisMonth.str_pad($nextSpecimenID, 4, '0', STR_PAD_LEFT);
 
             // Create Specimen - specimen_type_id, accepted_by, referred_from, referred_to

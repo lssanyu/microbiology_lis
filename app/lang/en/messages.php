@@ -519,6 +519,7 @@ return array(
     'lab-configuration' => 'Lab Configuration',
     'list-facilities' => 'List of facilities',
     'new-disease' => 'New Disease',
+    'successfully-created-facility' => 'Facility was successfully created!',
     'successfully-updated-facility' => 'Facility was successfully updated!',
     'successfully-deleted-facility' => 'Facility was successfully deleted!',
 

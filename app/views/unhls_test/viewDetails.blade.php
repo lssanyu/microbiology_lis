@@ -166,9 +166,10 @@
 											<p><strong>{{trans("messages.specimen-referred-label")}}</strong></p>
 										</div>
 										<div class="col-md-8">
-											@if($test->specimen->referral->status == Referral::REFERRED_IN)
+											@if($test->specimen->referral->facility_from
 												{{ trans("messages.in") }}
-											@elseif($test->specimen->referral->status == Referral::REFERRED_OUT)
+											@endif
+											@if($test->specimen->referral->facility_to)
 												{{ trans("messages.out") }}
 											@endif
 										</div>

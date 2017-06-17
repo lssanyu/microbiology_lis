@@ -88,7 +88,7 @@
                 </div>
                 <div class="display-details">
                     <p><strong>{{ Lang::choice('messages.test-type',1) }}</strong>
-                        {{$unhlsspecimen->test->testType->name}}</p> <!-- query failing unhls -->
+                        {{$unhlsspecimen->tests->first()->testType->name}}</p>
                     </p>
                 </div>
                 <br>

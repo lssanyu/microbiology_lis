@@ -246,14 +246,15 @@ class CreatekBLIStables extends Migration {
         Schema::create('referrals', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
-            $table->integer('status')->unsigned();
-            $table->integer('facility_id')->unsigned();
+            $table->integer('facility_from')->unsigned();
+            $table->integer('facility_to')->unsigned();
             $table->string('person')->nullable();
             $table->text('contacts')->nullable();
             $table->integer('user_id')->unsigned();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('facility_id')->references('id')->on('unhls_facilities');
+            $table->foreign('facility_from')->references('id')->on('unhls_facilities');
+            $table->foreign('facility_to')->references('id')->on('unhls_facilities');
 
             $table->timestamps();
         });

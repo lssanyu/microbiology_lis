@@ -77,7 +77,7 @@ class UnhlsSpecimen extends Eloquent
 	 */
 	public function referral()
     {
-        return $this->belongsTo('Referral');
+        return $this->belongsTo('Referral', 'facility_from');
     }
     
     /**

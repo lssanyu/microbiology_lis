@@ -68,7 +68,7 @@
 										<select name="age_units" id="id_age_units" class="form-control input-sm">
 											<option value="Y">Years</option>
 											<option value="M">Months</option>
-										</select>												
+										</select>
 									</div>
 									<div class="form-group">
 										{{ Form::label('gender', trans('messages.sex'), array('class' => 'required')) }}
@@ -79,9 +79,9 @@
 									</div>
 								@endif
 									<div class="form-group">
-										{{Form::label('facility', 'Facility')}}
-										{{ Form::select('facility', $facilities,
-										Input::get('facility'),
+										{{Form::label('facility_from', 'Facility')}}
+										{{ Form::select('facility_from', $facilities,
+										Input::get('facility_from'),
 										['class' => 'form-control']) }}
 									</div>
 									<div class="form-pane panel panel-default">
@@ -116,9 +116,15 @@
 										<div class="col-md-6 test-type-list">
 										</div>
 									</div>
+									<div class="form-group">
+										{{Form::label('facility_to', 'Destination Facility')}}
+										{{ Form::select('facility_to', $facilities,
+										Input::get('facility_to'),
+										['class' => 'form-control']) }}
 									</div>
 								</div>
-							</div> <!--div that closes the panel div for clinical and sample information -->
+							</div>
+						</div> <!--div that closes the panel div for clinical and sample information -->
 
 								<div class="form-group actions-row">
 								{{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save-test'),
