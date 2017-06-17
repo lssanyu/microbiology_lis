@@ -642,6 +642,23 @@ $(function(){
         });
     });
 
+    $('a.specimen-referral').click(function() {
+        if ( $('div.specimen-referral').hasClass('hidden')) {
+                $('div.specimen-referral').removeClass('hidden');
+        }else {
+            $('div.specimen-referral').addClass('hidden');
+            // todo: remove values that would otherwise be submitteed
+        }
+    });
+
+    $('a.specimen-rejection').click(function() {
+        if ( $('div.specimen-rejection').hasClass('hidden')) {
+                $('div.specimen-rejection').removeClass('hidden');
+        }else {
+            $('div.specimen-rejection').addClass('hidden');
+            // todo: remove values that would otherwise be submitteed
+        }
+    });
 
 	/** Receive Test Request button.
 	 *  - Updates the Test status via an AJAX call

@@ -127,9 +127,9 @@
 										</div>
 									</div>
 									<div class="form-group">
-										{{Form::label('', 'Specimen Referral')}}
+										<a href="javascript:void(0)" class="specimen-referral">Specimen Referral</a>
 									</div>
-									<div class="form-pane panel panel-default">
+									<div class="form-pane panel panel-default specimen-referral hidden">
 										<div class="form-group">
 											{{Form::label('facility_to', 'Facility')}}
 											{{ Form::select('facility_to', $facilities,
@@ -138,9 +138,9 @@
 										</div>
 									</div>
 									<div class="form-group">
-										{{Form::label('', 'Specimen Rejection')}}
+									<a href="javascript:void(0)" class="specimen-rejection">Specimen Rejection</a>
 									</div>
-									<div class="form-pane panel panel-default">
+									<div class="form-pane panel panel-default specimen-rejection hidden">
 										<div class="form-group">
 											{{ Form::label('rejectionReason', trans('messages.rejection-reason')) }}
 											{{ Form::select('rejectionReason', array(0 => '')+$specimenRejectionReasons->lists('reason', 'id'),
