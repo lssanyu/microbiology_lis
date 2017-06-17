@@ -166,7 +166,7 @@
 											<p><strong>{{trans("messages.specimen-referred-label")}}</strong></p>
 										</div>
 										<div class="col-md-8">
-											@if($test->specimen->referral->facility_from
+											@if($test->specimen->referral->facility_from)
 												{{ trans("messages.in") }}
 											@endif
 											@if($test->specimen->referral->facility_to)
@@ -184,9 +184,9 @@
 									</div>
 									<div class="row">
 										<div class="col-md-4">
-											<p><strong>@if($test->specimen->referral->status == Referral::REFERRED_IN)
+											<p><strong>@if($test->specimen->referral->facility_from)
 												{{ trans("messages.originating-from") }}
-											@elseif($test->specimen->referral->status == Referral::REFERRED_OUT)
+											@elseif($test->specimen->referral->facility_to)
 												{{ trans("messages.intended-reciepient") }}
 											@endif</strong></p>
 										</div>
@@ -204,9 +204,9 @@
 									</div>
 									<div class="row">
 										<div class="col-md-4">
-											<p><strong>@if($test->specimen->referral->status == Referral::REFERRED_IN)
+											<p><strong>@if($test->specimen->referral->facility_from)
 												{{ trans("messages.recieved-by") }}
-											@elseif($test->specimen->referral->status == Referral::REFERRED_OUT)
+											@elseif($test->specimen->referral->facility_to)
 												{{ trans("messages.referred-by") }}
 											@endif</strong></p>
 										</div>

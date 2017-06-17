@@ -139,7 +139,7 @@ class ReportController extends \BaseController {
 		$content = View::make('reports.visit.printreport')
 			->with('printTime', $printTime)
 			->with('specimen', $specimen);
-		return PDF::loadHTML($content)->stream('results.pdf');
+		return PDF::loadHTML($content)->stream($specimen->lab_id.'.pdf');
 		// return $content;
 
 	}

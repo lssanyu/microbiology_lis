@@ -36,6 +36,7 @@ class SpecimenController extends \BaseController {
 		$disease = ['select Suspected Disease']+Disease::lists('name', 'id');
 		$specimenTypes = ['select Specimen Type']+SpecimenType::orderBy('name','ASC')->lists('name', 'id');
 		$facilities = ['']+UNHLSFacility::lists('name', 'id');
+		$specimenRejectionReasons = RejectionReason::all();
 
 		$existingPatient = false;
 		if ($patient_id!=0) {
@@ -49,6 +50,7 @@ class SpecimenController extends \BaseController {
 						->with('patient', $patient)
 						->with('existingPatient', $existingPatient)
 						->with('specimenType', $specimenTypes)
+						->with('specimenRejectionReasons', $specimenRejectionReasons)
 						->with('facilities', $facilities);
 		}
 		//Load Test Create View
@@ -58,6 +60,7 @@ class SpecimenController extends \BaseController {
 					->with('existingPatient', $existingPatient)
 					->with('disease', $disease)
 					->with('specimenType', $specimenTypes)
+					->with('specimenRejectionReasons', $specimenRejectionReasons)
 					->with('facilities', $facilities);
 	}
 
@@ -75,6 +78,7 @@ class SpecimenController extends \BaseController {
 				'specimen_type' => 'required',
 				'test_types' => 'required',
 				'facility_from' => 'required|non_zero_key',
+				'rejectionReason' => 'required|non_zero_key',
 			];
 		} else {
 			$rules = [
@@ -84,6 +88,7 @@ class SpecimenController extends \BaseController {
 				'test_types' => 'required',
 				'facility_from' => 'required|non_zero_key',
 				'patient_name' => 'required',
+				'rejectionReason' => 'required|non_zero_key',
 			];
 		}
 
@@ -125,7 +130,6 @@ class SpecimenController extends \BaseController {
             $referral->user_id =  Auth::user()->id;
             $referral->save();
 
-
 			try {
 				$nextSpecimenID = UnhlsSpecimen::orderBy('id','DESC')->first()->id++;
 			} catch (Exception $e) {
@@ -146,6 +150,19 @@ class SpecimenController extends \BaseController {
             $specimen->suspected_disease_id = Input::get('disease');
             $specimen->time_accepted = Input::get('time_accepted');
             $specimen->save();
+
+            if (Input::get('rejectionReason')) {
+				// this refers to pre-analytic rejection of specimen
+				$specimen->test_status_id = UnhlsSpecimen::REJECTED;
+				// todo: create cascade deletion for it, incase rejection is reversed
+				$rejection = new PreAnalyticSpecimenRejection;
+				$rejection->rejection_reason_id = Input::get('rejectionReason');
+				$rejection->specimen_id = $specimen->id;
+				$rejection->rejected_by = Auth::user()->id;
+				$rejection->time_rejected = date('Y-m-d H:i:s');
+				$rejection->save();
+            }
+
             // create tests
             foreach (Input::get('test_types') as $id) {
                 $testTypeID = (int)$id;

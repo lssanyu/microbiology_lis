@@ -79,19 +79,24 @@
 									</div>
 								@endif
 									<div class="form-group">
-										{{Form::label('facility_from', 'Facility')}}
-										{{ Form::select('facility_from', $facilities,
-										Input::get('facility_from'),
-										['class' => 'form-control']) }}
+										{{Form::label('', 'Specimen')}}
 									</div>
 									<div class="form-pane panel panel-default">
 										<div class="col-md-6">
 											<div class="form-group">
-												{{Form::label('specimen_type', 'Sample Type')}}
+												{{Form::label('facility_from', 'Facility')}}
+												{{ Form::select('facility_from', $facilities,
+												Input::get('facility_from'),
+												['class' => 'form-control']) }}
+											</div>
+											<div class="form-group">
+												{{Form::label('specimen_type', 'Specimen Type')}}
 												{{ Form::select('specimen_type', $specimenType,
 												Input::get('specimenType'),
 												['class' => 'form-control specimen-type']) }}
 											</div>
+										</div>
+										<div class="col-md-6">
 											<div class="form-group">
 												<label for="time_collected">Time of Sample Collection</label>
 												<input class="form-control"
@@ -113,19 +118,38 @@
 													value="{{$receptionDate}}">
 											</div>
 										</div>
-										<div class="col-md-6 test-type-list">
+									</div>
+									<div class="form-group">
+										{{Form::label('', 'Tests Request')}}
+									</div>
+									<div class="form-pane panel panel-default">
+										<div class="test-type-list">
 										</div>
 									</div>
 									<div class="form-group">
-										{{Form::label('facility_to', 'Destination Facility')}}
-										{{ Form::select('facility_to', $facilities,
-										Input::get('facility_to'),
-										['class' => 'form-control']) }}
+										{{Form::label('', 'Specimen Referral')}}
+									</div>
+									<div class="form-pane panel panel-default">
+										<div class="form-group">
+											{{Form::label('facility_to', 'Facility')}}
+											{{ Form::select('facility_to', $facilities,
+											Input::get('facility_to'),
+											['class' => 'form-control']) }}
+										</div>
+									</div>
+									<div class="form-group">
+										{{Form::label('', 'Specimen Rejection')}}
+									</div>
+									<div class="form-pane panel panel-default">
+										<div class="form-group">
+											{{ Form::label('rejectionReason', trans('messages.rejection-reason')) }}
+											{{ Form::select('rejectionReason', array(0 => '')+$specimenRejectionReasons->lists('reason', 'id'),
+												Input::old('rejectionReason'), array('class' => 'form-control')) }}
+										</div>
 									</div>
 								</div>
 							</div>
 						</div> <!--div that closes the panel div for clinical and sample information -->
-
 								<div class="form-group actions-row">
 								{{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save-test'),
 									['class' => 'btn btn-primary', 'onclick' => 'submit()', 'alt' => 'save_new_test']) }}

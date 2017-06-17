@@ -13,7 +13,6 @@ class Referral extends Eloquent
 
     public function facility()
     {
-    	return $this->belongsTo('UNHLSFacility');
+        return $this->belongsTo('UNHLSFacility','facility_from','id');
     }
-
 }
