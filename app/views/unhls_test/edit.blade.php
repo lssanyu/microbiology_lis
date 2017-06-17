@@ -11,7 +11,7 @@
 		<div class="panel-heading ">
             <div class="container-fluid">
 	            <div class="row less-gutter">
-		            <span class="glyphicon glyphicon-adjust"></span>{{$test->testType->name }} | ULIN: {{$test->specimen->id }}
+		            <span class="glyphicon glyphicon-adjust"></span>{{$test->testType->name }} | Lab Id: {{$test->specimen->lab_id }}
 
                         @if($test->testType->instruments->count() > 0)
                         <div class="panel-btn">

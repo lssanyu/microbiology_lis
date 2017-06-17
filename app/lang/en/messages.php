@@ -150,7 +150,7 @@ return array(
     'specimen-details' => 'Specimen Details',
     'specimen-id' => 'Specimen ID',
     'specimen-information' => 'Sample Information', //UNHLS terminology
-    'specimen-number' => 'ID',
+    'specimen-number' => 'Lab Id',
     'specimen-number-title' => 'Specimen ID',
     'specimen-not-collected' => 'Not Collected',
     'specimen-not-collected-label' => 'Specimen Not Collected',

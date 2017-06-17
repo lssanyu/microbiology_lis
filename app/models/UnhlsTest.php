@@ -217,8 +217,7 @@ class UnhlsTest extends Eloquent
     */
     public function getSpecimenId()
     {
-    	$testCategoryName = $this->testType->testCategory->name;
-    	return substr($testCategoryName, 0 , 3).'-'.$this->specimen->id;
+    	return $this->specimen->lab_id;
     }
 
 	/**
@@ -239,7 +238,7 @@ class UnhlsTest extends Eloquent
 	 */
 	public function getTurnaroundTime()
 	{
-		$startTime = new DateTime($this->time_started);
+		$startTime = new DateTime($this->specimen->time_accepted);
 		$endTime = new DateTime($this->time_completed);
 		$interval = $startTime->diff($endTime);
 

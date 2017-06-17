@@ -33,16 +33,9 @@ class SpecimenController extends \BaseController {
 		$now = new DateTime();
 		$collectionDate = $now->format('Y-m-d H:i');
 		$receptionDate = $now->format('Y-m-d H:i');
-		try {
-			$nextSpecimenID = UnhlsSpecimen::orderBy('id','DESC')->first()->id++;
-		} catch (Exception $e) {
-			$nextSpecimenID = 1;
-		}
-		$thisYear = substr($now->format('Y'), 2);
-		$nextLabID = $thisYear.'/'.$nextSpecimenID;
 		$disease = ['select Suspected Disease']+Disease::lists('name', 'id');
 		$specimenTypes = ['select Specimen Type']+SpecimenType::orderBy('name','ASC')->lists('name', 'id');
-		$facilities = ['select Facility']+UNHLSFacility::lists('name', 'id');
+		$facilities = ['']+UNHLSFacility::lists('name', 'id');
 
 		$existingPatient = false;
 		if ($patient_id!=0) {
@@ -52,7 +45,6 @@ class SpecimenController extends \BaseController {
 			return View::make('specimen.create')
 						->with('collectionDate', $collectionDate)
 						->with('receptionDate', $receptionDate)
-						->with('lab_id', $nextLabID)
 						->with('disease', $disease)
 						->with('patient', $patient)
 						->with('existingPatient', $existingPatient)
@@ -64,7 +56,6 @@ class SpecimenController extends \BaseController {
 					->with('collectionDate', $collectionDate)
 					->with('receptionDate', $receptionDate)
 					->with('existingPatient', $existingPatient)
-					->with('lab_id', $nextLabID)
 					->with('disease', $disease)
 					->with('specimenType', $specimenTypes)
 					->with('facilities', $facilities);
@@ -104,10 +95,20 @@ class SpecimenController extends \BaseController {
 			return Redirect::route('specimen.create')->withInput()->withErrors($validator);
 		} else {
 
+			$thisYear = substr(date('Y'), 2);
 			if (Input::get('patient_id')) {
 				$patient = UnhlsPatient::find(Input::get('patient_id'));
 			}else{
+
+				try {
+					$nextPatientID = UnhlsPatient::orderBy('id','DESC')->first()->id++;
+				} catch (Exception $e) {
+					$nextPatientID = 1;
+				}
 				$patient = new UnhlsPatient;
+				$nextULIN = $thisYear.'/'.\Config::get('constants.FACILITY_CODE').'/'.str_pad($nextPatientID, 6, '0', STR_PAD_LEFT);
+
+				$patient->ulin = $nextULIN;
 				$patient->patient_number = Input::get('patient_number');
 				$patient->name = Input::get('patient_name');
 				$patient->gender = Input::get('gender');
@@ -125,9 +126,20 @@ class SpecimenController extends \BaseController {
             $referral->user_id =  Auth::user()->id;
             $referral->save();
 
+
+			try {
+				$nextSpecimenID = UnhlsSpecimen::orderBy('id','DESC')->first()->id++;
+			} catch (Exception $e) {
+				$nextSpecimenID = 1;
+			}
+
+			$thisMonth = date('m');
+			// $nextLabID = $thisYear.'/'.$nextSpecimenID;
+			$nextLabID = \Config::get('constants.FACILITY_CODE').'-'.$thisYear.$thisMonth.str_pad($nextSpecimenID, 4, '0', STR_PAD_LEFT);
+
             // Create Specimen - specimen_type_id, accepted_by, referred_from, referred_to
             $specimen = new UnhlsSpecimen;
-            $specimen->lab_id = Input::get('lab_id');
+            $specimen->lab_id = $nextLabID;
             $specimen->specimen_type_id = Input::get('specimen_type');
             $specimen->accepted_by = Auth::user()->id;
             $specimen->time_collected = Input::get('time_collected');
@@ -148,7 +160,7 @@ class SpecimenController extends \BaseController {
                 $test->save();
             }
 			return Redirect::route('specimen.show', [$specimen->id])
-				->with('message', 'Successfully Created Tests');
+				->with('message', 'Successfully Created Specimen|Lab Id:'.$specimen->lab_id);
 		}
 	}
 

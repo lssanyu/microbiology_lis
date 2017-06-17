@@ -62,10 +62,19 @@ class UnhlsPatientController extends \BaseController {
 
 			return Redirect::back()->withErrors($validator)->withInput(Input::all());
 		} else {
+			try {
+				$nextPatientID = UnhlsPatient::orderBy('id','DESC')->first()->id++;
+			} catch (Exception $e) {
+				$nextPatientID = 1;
+			}
+
+			$patient = new UnhlsPatient;
+			$thisYear = substr($now->format('Y'), 2);
+			$nextULIN = $thisYear.'/'.\Config::get('constants.FACILITY_CODE').'/'.$nextPatientID;
 			// store
 			$patient = new UnhlsPatient;
 			$patient->patient_number = Input::get('patient_number');
-			$patient->ulin =Input::get('ulin');
+			$patient->ulin =$nextULIN;
 			$patient->nin = Input::get('nin');
 			$patient->name = Input::get('name');
 			$patient->gender = Input::get('gender');

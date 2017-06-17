@@ -79,10 +79,6 @@
 									</div>
 								@endif
 									<div class="form-group">
-										<label for="lab_id" text-align="right">Lab ID</label>
-										<input class="form-control" name="lab_id" value="{{$lab_id}}" type="text">
-									</div>
-									<div class="form-group">
 										{{Form::label('facility', 'Facility')}}
 										{{ Form::select('facility', $facilities,
 										Input::get('facility'),

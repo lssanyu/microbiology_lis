@@ -60,14 +60,9 @@
 								{{$test->time_created}}</p>
 							<p class="view"><strong>{{trans('messages.test-status')}}</strong>
 								{{trans('messages.'.$test->testStatus->name)}}</p>
-							<p class="view-striped"><strong>{{trans('messages.physician')}}</strong>
-								{{$test->requested_by}}</p>
 							<p class="view-striped"><strong>{{trans('messages.request-origin')}}</strong>
-								@if($test->specimen->isReferred() && $test->specimen->referral->status == Referral::REFERRED_IN)
-									{{ trans("messages.in") }}
-								@else
-									{{ $test->specimen->visit_type }}
-								@endif</p>
+									{{ $test->specimen->referral->facility->name }}
+							</p>
 							<p class="view-striped"><strong>{{trans('messages.registered-by')}}</strong>
 								{{$test->createdBy->name}}</p>
 							@if($test->isCompleted())
