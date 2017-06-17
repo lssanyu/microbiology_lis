@@ -13,14 +13,7 @@
 		<div class="panel-heading ">
             <div class="container-fluid">
                 <div class="row less-gutter">
-                    <div class="col-md-11">
-						<span class="glyphicon glyphicon-adjust"></span>Receive Specimen
-                    </div>
-                    <div class="col-md-1">
-                        <a class="btn btn-sm btn-primary pull-right" href="#" onclick="window.history.back();return false;"
-                            alt="{{trans('messages.back')}}" title="{{trans('messages.back')}}">
-                            <span class="glyphicon glyphicon-backward"></span></a>
-                    </div>
+					<span class="glyphicon glyphicon-adjust"></span>Receive Specimen
                 </div>
             </div>
 		</div>
