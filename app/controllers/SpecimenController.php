@@ -95,7 +95,8 @@ class SpecimenController extends \BaseController {
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::route('specimen.create')->withInput(Input::all())->withErrors($validator);
+			$url = Session::get('SOURCE_URL');
+			return Redirect::to($url)->withInput(Input::all())->withErrors($validator);
 		} else {
 
 			$thisYear = substr(date('Y'), 2);

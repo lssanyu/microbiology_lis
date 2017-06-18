@@ -50,8 +50,8 @@
 											{{ Form::text('patient_number', Input::old('patient_number'), array('class' => 'form-control')) }}
 									</div>
 									<div class="form-group">
-										<label class= 'required' for="dob">Date Of Birth</label>
-										<input type="text" name="dob" id="dob" class="form-control input-sm" size="11"> 
+										{{ Form::label('dob','Date Of Birth', array('class' => 'required')) }}
+										{{ Form::text('dob', Input::old('dob'), array('class' => 'form-control input-sm', 'size' => '11')) }}
 									</div>
 									<div class="form-group">
 										<label class='required' for="age">Age</label>
@@ -149,6 +149,7 @@
 					</div>
 				</div>
 			{{ Form::close() }}
+		<?php Session::put('SOURCE_URL', URL::full());?>
 		</div>
 	</div>
 @stop

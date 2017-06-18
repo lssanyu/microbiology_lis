@@ -14,7 +14,7 @@
         <div class="panel-heading">
             <div class="container-fluid">
                 <div class="row less-gutter">
-                    <span class="glyphicon glyphicon-adjust"></span>Culture and Sensitivity | ULIN: {{$test->specimen->id }}
+                    <span class="glyphicon glyphicon-adjust"></span>Culture and Sensitivity | Lab Id: {{$test->specimen->lab_id }}
                     <a class="btn btn-sm btn-success add-isolated-organism"
                         data-test-id="{{ $test->id }}"
                         data-url="{{ URL::route('isolatedorganism.store') }}"
