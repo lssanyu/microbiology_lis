@@ -201,7 +201,7 @@ class UnhlsTest extends Eloquent
     */
     public function specimenIsRejected()
     {
-        if($this->test_status_id == UnhlsTest::REJECTED)
+        if($this->test_status_id == UnhlsTest::REJECTED_PREANALYSIS)
         {
             return true;
         }

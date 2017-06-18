@@ -250,6 +250,9 @@
                                         @elseif($test->isVerified())
                                             <span class='label label-success'>
                                                 {{trans('messages.verified')}}</span>
+                                        @elseif($test->specimenIsRejected())
+                                            <span class='label label-danger'>
+                                                {{trans('messages.specimen-rejected-label')}}</span>
                                         @endif
                                     </div>
 
