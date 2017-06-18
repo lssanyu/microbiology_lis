@@ -19,8 +19,8 @@ class UnhlsTest extends Eloquent
 	const STARTED = 3;
 	const COMPLETED = 4;
 	const VERIFIED = 5;
-	// when a specimen is at the analytic stage, it's rejected only for that particular test
-	const REJECTED = 6;
+	const REJECTED_PREANALYSIS = 6;
+	const REJECTED_ATANALYSIS = 7;
 
 
 	/**

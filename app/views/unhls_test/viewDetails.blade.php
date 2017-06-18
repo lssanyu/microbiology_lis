@@ -147,7 +147,7 @@
 											<p><strong>{{trans('messages.rejection-reason-title')}}</strong></p>
 										</div>
 										<div class="col-md-8">
-											{{$test->specimen->rejectionReason->reason or trans('messages.pending') }}
+											{{$test->specimen->rejectedSpecimen}}
 										</div>
 									</div>
 									<div class="row">
@@ -155,7 +155,7 @@
 											<p><strong>{{trans('messages.reject-explained-to')}}</strong></p>
 										</div>
 										<div class="col-md-8">
-											{{$test->specimen->reject_explained_to or trans('messages.pending') }}
+											{{$test->specimen->reject_explained_to}}
 										</div>
 									</div>
 								@endif

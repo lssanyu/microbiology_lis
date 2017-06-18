@@ -28,7 +28,6 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 View Report
                             </a>
-
                         </div>
                         @endif
                 </div>
@@ -253,7 +252,7 @@
                                                 {{trans('messages.verified')}}</span>
                                         @endif
                                     </div>
-    
+
                                     </div>
 
                             </div>

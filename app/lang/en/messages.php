@@ -330,6 +330,8 @@ return array(
     'receive-test' => 'Receive',
     'receive-test-title' => 'Receive Test',
     'registered-by' => 'Registered By',
+    'rejected-preanalysis' => 'Specimen Rejected',
+    'rejected-atanalysis' => 'Specimen Rejected',
     'save-test' => 'Save Test Request',
     'select-tests' => 'Select Test(s)',
     'start-test' => 'Analysis',

@@ -119,7 +119,7 @@ class SpecimenController extends \BaseController {
 				$patient->created_by = Auth::user()->id;
 				$patient->save();
 			}
-// todo: check that the from is not equivalent to same facility that the entry is being done in....
+			// todo: check that the from is not equivalent to same facility that the entry is being done in....
 			if (Input::get('facility_from')||Input::get('facility_to')) {
 				$referral = new Referral;
 				$referral->facility_from = Input::get('facility_from');
@@ -151,19 +151,24 @@ class SpecimenController extends \BaseController {
             $specimen->referral_id = $referral->id;
             $specimen->suspected_disease_id = Input::get('disease');
             $specimen->time_accepted = Input::get('time_accepted');
-            $specimen->save();
 
             if (Input::get('rejectionReason')) {
 				// this refers to pre-analytic rejection of specimen
-				$specimen->test_status_id = UnhlsSpecimen::REJECTED;
+				$specimen->specimen_status_id = UnhlsSpecimen::REJECTED;
+				$specimen->save();
+
 				// todo: create cascade deletion for it, incase rejection is reversed
 				$rejection = new PreAnalyticSpecimenRejection;
-				$rejection->rejection_reason_id = Input::get('rejectionReason');
 				$rejection->specimen_id = $specimen->id;
+				$rejection->rejection_reason_id = Input::get('rejectionReason');
 				$rejection->rejected_by = Auth::user()->id;
 				$rejection->time_rejected = date('Y-m-d H:i:s');
 				$rejection->save();
-            }
+				$message = 'Successfully Rejected Specimen|Lab Id:'.$specimen->lab_id;
+			}else{
+				$message = 'Successfully Accepted Specimen|Lab Id:'.$specimen->lab_id;
+				$specimen->save();
+			}
 
             // create tests
             foreach (Input::get('test_types') as $id) {
@@ -172,12 +177,16 @@ class SpecimenController extends \BaseController {
                 $test = new UnhlsTest;
                 $test->test_type_id = $testTypeID;
                 $test->specimen_id = $specimen->id;
-                $test->test_status_id = UnhlsTest::PENDING;
+                if (Input::get('rejectionReason')) {
+	                $test->test_status_id = UnhlsTest::REJECTED_PREANALYSIS;
+                }else{
+	                $test->test_status_id = UnhlsTest::PENDING;
+                }
                 $test->created_by = Auth::user()->id;
                 $test->save();
             }
 			return Redirect::route('specimen.show', [$specimen->id])
-				->with('message', 'Successfully Created Specimen|Lab Id:'.$specimen->lab_id);
+				->with('message', $message);
 		}
 	}
 

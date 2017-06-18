@@ -61,7 +61,7 @@ class UnhlsSpecimen extends Eloquent
 	 */
 	public function rejectedSpecimen()
 	{
-		return $this->belongsTo('PreAnalyticSpecimenRejection', 'specimen_id');
+		return $this->belongsTo('PreAnalyticSpecimenRejection', 'specimen_id', 'id');
 	}
 
 	/**
