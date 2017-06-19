@@ -30,7 +30,6 @@
 	</a> -->	
 </div>
 
-
 <div class="">
 	<!-- <a href="{{ URL::route('reports.index')}}">
 		<div class="panel panel-default col-sm-3">
