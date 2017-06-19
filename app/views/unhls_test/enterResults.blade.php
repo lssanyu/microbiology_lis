@@ -43,15 +43,15 @@
                         @foreach($test->testType->measures as $measure)
                             <div class="form-group">
                                 <?php
-                                $ans = "";
-                                foreach ($test->testResults as $res) {
-                                    if($res->measure_id == $measure->id)$ans = $res->result;
+                                $matchedTestResult = "";
+                                foreach ($test->testResults as $testResult) {
+                                    if($testResult->measure_id == $measure->id)$matchedTestResult = $testResult->result;
                                 }
                                 $fieldName = "m_".$measure->id;
                                 ?>
                                 @if ( $measure->isNumeric() ) 
                                     {{ Form::label($fieldName , $measure->name) }}
-                                    {{ Form::text($fieldName, $ans, array(
+                                    {{ Form::text($fieldName, $matchedTestResult, array(
                                         'class' => 'form-control result-interpretation-trigger',
                                         'data-url' => URL::route('unhls_test.resultinterpretation'),
                                         'data-age' => $test->specimen->patient->dob,
@@ -64,21 +64,21 @@
                                         {{Measure::getRange($test->specimen->patient, $measure->id)}}
                                         {{$measure->unit}}
                                     </span>
-                                @elseif ( $measure->isAlphanumeric() || $measure->isAutocomplete() ) 
+                                @elseif ( $measure->isAlphanumeric()) 
                                     <?php
                                     $measure_values = array();
-                                    $measure_values[] = '';
+                                    if ($measure->name != 'Gram Staining') $measure_values[] = '';
                                     foreach ($measure->measureRanges as $range) {
                                         $measure_values[$range->alphanumeric] = $range->alphanumeric;
                                     }
                                     ?>
-                                    {{ Form::label($fieldName , $measure->name) }}
-                                    {{ Form::select($fieldName, $measure_values, array_search($ans, $measure_values),
-                                        array('class' => 'form-control result-interpretation-trigger',
-                                        'data-url' => URL::route('unhls_test.resultinterpretation'),
-                                        'data-measureid' => $measure->id
-                                        )) 
-                                    }}
+                                        {{ Form::label($fieldName , $measure->name) }}
+                                        {{ Form::select($fieldName, $measure_values, array_search($matchedTestResult, $measure_values),
+                                            array('class' => 'form-control result-interpretation-trigger',
+                                            'data-url' => URL::route('unhls_test.resultinterpretation'),
+                                            'data-measureid' => $measure->id
+                                            )) 
+                                        }}
                                 @elseif ( $measure->isFreeText() ) 
                                     {{ Form::label($fieldName, $measure->name) }}
                                     <?php
@@ -86,7 +86,7 @@
                                         if($measure->name=="Sensitivity"||$measure->name=="sensitivity")
                                             $sense = ' sense'.$test->id;
                                     ?>
-                                    {{Form::text($fieldName, $ans, array('class' => 'form-control'.$sense))}}
+                                    {{Form::text($fieldName, $matchedTestResult, array('class' => 'form-control'.$sense))}}
                                 @endif
                             </div>
                         @endforeach
