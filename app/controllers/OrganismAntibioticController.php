@@ -9,8 +9,10 @@ class OrganismAntibioticController extends \BaseController {
 	 */
 	public function index()
 	{
-		// not a logical function since OrganismAntibiotic shd be specific to an organism
-		// organism.show used instead
+		/*
+		|	not a logical function since OrganismAntibiotic shd be specific to an organism
+		|	organism.show used instead
+		*/
 	}
 
 	/**
