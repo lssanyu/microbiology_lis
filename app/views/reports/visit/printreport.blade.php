@@ -212,7 +212,9 @@
         <table>
           <tbody>
             <tr>
-              <td>Date Of Results Dispatch: {{$printTime}}</td>
+              <th>Printed by:</th>
+              <td>{{Auth::user()->name}}</td>
+              <td>Date: {{$printTime}}</td>
             </tr>
           </tbody>
         </table>
