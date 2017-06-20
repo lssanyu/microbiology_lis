@@ -149,7 +149,9 @@ class SpecimenController extends \BaseController {
             $specimen->accepted_by = Auth::user()->id;
             $specimen->time_collected = Input::get('time_collected');
             $specimen->patient_id = $patient->id;
-            $specimen->referral_id = $referral->id;
+			if (Input::get('facility_from')||Input::get('facility_to')) {
+	            $specimen->referral_id = $referral->id;
+			}
             $specimen->suspected_disease_id = Input::get('disease');
             $specimen->time_accepted = Input::get('time_accepted');
 
@@ -266,7 +268,8 @@ class SpecimenController extends \BaseController {
 			$specimen->specimen_type_id = Input::get('specimen_type');
 			$specimen->accepted_by = Auth::user()->id;
 			$specimen->time_collected = Input::get('time_collected');
-			$specimen->referral_id = $referral->id;
+			// todo: fix unknown variable
+			// $specimen->referral_id = $referral->id;
 			$specimen->suspected_disease_id = Input::get('disease');
 			$specimen->time_accepted = Input::get('time_accepted');
 			$specimen->save();
