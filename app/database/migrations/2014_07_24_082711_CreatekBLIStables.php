@@ -376,6 +376,16 @@ class CreatekBLIStables extends Migration {
             $table->foreign('test_type_id')->references('id')->on('test_types');
             $table->unique(array('instrument_id','test_type_id'));
         });
+
+        Schema::create('gram_stain_results', function($table)
+        {
+            $table->increments('id');
+            $table->integer('test_id')->unsigned();
+            $table->integer('measure_range_id')->unsigned();
+
+            $table->foreign('test_id')->references('id')->on('unhls_tests');
+            $table->foreign('measure_range_id')->references('id')->on('measure_ranges');
+        });
 	}
 
 	/**
@@ -385,6 +395,7 @@ class CreatekBLIStables extends Migration {
 	 */
 	public function down()
 	{
+        Schema::dropIfExists('gram_stain_results');
         Schema::dropIfExists('instrument_testtypes');
         Schema::dropIfExists('instruments');
 		Schema::dropIfExists('unhls_test_results');

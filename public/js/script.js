@@ -430,6 +430,81 @@ $(function(){
         });
     });
 
+    var testID;
+    var gramStainRangeUrl;
+    var gramStainRangeUrlVerb;
+
+    /*gram stain range*/
+    $('.add-gram-stain-range-modal').on('show.bs.modal', function(e) {
+        // receive data from the clicked button
+        // update global varible so that it's available in the save  gram stain range function
+        gramStainRangeUrl = $(e.relatedTarget).data('url');
+        testID = $(e.relatedTarget).data('test-id');
+        gramStainRangeUrlVerb = 'POST';
+        $('.gram-stain-range-input').val('');
+        $('.save-gram-stain-range').attr('data-url', gramStainRangeUrl);
+    });
+
+    // save selected gram stain range
+    $('.save-gram-stain-range').click(function(){
+        var measureRangeID = $('.gram-stain-range-input').val();
+        $.ajax({
+            type: gramStainRangeUrlVerb,
+            url:  gramStainRangeUrl,
+            data: {
+                measure_range_id: measureRangeID,
+                test_id: testID
+            },
+            success: function(gramStainResult){
+                // update rows with edition already made in the database
+                var gramStainRangeEntry = $('.gramStainRangeEntryLoader').html();
+                $('.gram-stain-range-tbody').append(gramStainRangeEntry);
+                $('.gram-stain-range-tbody')
+                    .find('.new-gram-stain-range-tr')
+                    .addClass('gram-stain-range-tr-'+gramStainResult.id)
+                    .removeClass('new-gram-stain-range-tr');
+                $('.gram-stain-range-tr-'+gramStainResult.id)
+                    .find('.delete-gram-stain-range')
+                        .attr('data-url',$(this).data('url')+'/'+gramStainResult.id)
+                        .attr('data-id',gramStainResult.id);
+                $('.gram-stain-range-tr-'+gramStainResult.id+' .gram-stain-range-entry')
+                        .append(gramStainResult.measure_range.alphanumeric);
+                $('.organism').val('');
+            }
+        });
+    });
+
+    $('.save-gram-stain-results').click(function(){
+        $.ajax({
+            type: 'POST',
+            url:  $(this).data('url'),
+            data: {
+                interpretation: ''
+            },
+            success: function(){
+                location.href = $('.save-gram-stain-results')
+                    .data('redirect-url');
+            }
+        });
+    });
+
+    // delete drug susceptbility entry from database and dynamicallly remove from UI
+    $('.gram-stain-range-tbody').on('click', '.delete-gram-stain-range', function(){
+        var url = $(this).data('url');
+        $.ajax({
+            type: 'DELETE',
+            url:  url,
+            success: function(id){
+            // remove newly deleted(dynamically) entry of drug susceptibility
+            $('.gram-stain-range-tr-'+id).remove();
+            }
+        });
+    });
+    // cancel a drug susceptibility addition or edition
+    $('.cancel-gram-stain-range-addition').click(function(){
+        $('.gram-stain-range-input').val('');
+    });
+
 	UIComponents();
 
 	/* Clicking the label of an radio/checkbox, checks the control*/

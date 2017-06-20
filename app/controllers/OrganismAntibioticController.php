@@ -27,7 +27,6 @@ class OrganismAntibioticController extends \BaseController {
 		//Get the organism
 		$organism = Organism::find($organismId);
 
-
 		return View::make('organism.antibiotic.create')
 					->with('organism', $organism)
 					->with('antibiotics', $antibiotics);

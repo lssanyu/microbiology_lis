@@ -315,6 +315,7 @@ Route::group(array("before" => "auth"), function()
     Route::resource('cultureobservation', 'CultureObservationController');
     Route::resource('drugsusceptibility', 'DrugSusceptibilityController');
     Route::resource('isolatedorganism', 'IsolatedOrganismController');
+    Route::resource('gramstain', 'GramStainResultController');
 
     Route::get("/organismantibiotic/{organism_id}/show", array(
         "as"   => "organismantibiotic.show",

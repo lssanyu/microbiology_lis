@@ -1047,4 +1047,12 @@ class UnhlsTest extends Eloquent
     {
         return $this->hasMany('IsolatedOrganism', 'test_id');
     }
+
+    /**
+     * drug relationship
+     */
+    public function gramStainResults()
+    {
+      return $this->hasMany('GramStainResult','test_id','id');
+    }
 }

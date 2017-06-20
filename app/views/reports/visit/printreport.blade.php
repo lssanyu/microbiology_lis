@@ -91,7 +91,12 @@
          <caption>Laboratory Findings</caption>
          <tbody class="report-body">
             @forelse($specimen->tests as $test)
-                  @if(!$test->testType->isCulture() && $test->isCompleted())
+                  @if($test->testType->name == 'Gram Staining')
+                  <tr>
+                     <td>{{ $test->testType->name }}</td>
+                     <td colspan="2">{{$test->interpretation}}</td>
+                  </tr>
+                  @elseif(!$test->testType->isCulture() && $test->isCompleted())
                   <tr>
                      <td>{{ $test->testType->name }}</td>
                      <td colspan="2">
