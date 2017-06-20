@@ -119,6 +119,22 @@ class UnhlsSpecimen extends Eloquent
             return false;
         }
     }
+
+    /**
+    * Check if specimen is REFFERED OUT
+    *
+    * @return boolean
+    */
+    public function isReferredOut()
+    {
+        if($this->referral->facility_to)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     
     /**
     * Check if specimen is rejected

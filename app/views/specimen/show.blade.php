@@ -106,6 +106,8 @@
                                                     <!-- Specimen statuses -->
                                                     @if($specimen->isRejected())
                                                         Rejected
+                                                    @elseif($specimen->isReferredOut())
+                                                        Referred
                                                     @elseif($specimen->isAccepted())
                                                         Accepted
                                                     @endif
@@ -255,9 +257,7 @@
                                                 {{trans('messages.specimen-rejected-label')}}</span>
                                         @endif
                                     </div>
-
-                                    </div>
-
+                                </div>
                             </div>
                         </td>
                     </tr>
