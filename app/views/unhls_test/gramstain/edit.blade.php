@@ -42,7 +42,7 @@
                       <tbody class="gram-stain-range-tbody">
                         @foreach($test->gramStainResults as $gramStainResult)
                             <tr class="gram-stain-range-tr-{{$gramStainResult->id}}">
-                              <td class="col-md-9 gram-stain-range-entry">{{$gramStainResult->measureRange->alphanumeric}}</td>
+                              <td class="col-md-9 gram-stain-range-entry">{{$gramStainResult->gramStainRange->name}}</td>
                               <td class="col-md-3">
                                 <a class="btn btn-sm btn-danger delete-gram-stain-range"
                                     data-url="{{ URL::route('gramstain.destroy',
@@ -113,11 +113,8 @@
                     </div>
                     <div class="col-md-12">
                        <div class="form-group">
-                           <select class="form-control gram-stain-range-input" name="gram-stain-range">
-                               @foreach($test->testType->measures->first()->measureRanges as $measureRange)
-                                   <option value="{{$measureRange->id}}">{{$measureRange->alphanumeric}}</option>
-                               @endforeach
-                           </select>
+                          {{ Form::select('name', $gramStainRanges,
+                              Input::get('name'), ['class' => 'form-control gram-stain-range-input'])}}
                        </div>
                     </div>
                 </div>

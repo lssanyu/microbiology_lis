@@ -33,9 +33,10 @@ class GramStainResultController extends \BaseController {
 	{
 		$gramStainResult = new GramStainResult;
 		$gramStainResult->test_id = Input::get('test_id');
-		$gramStainResult->measure_range_id = Input::get('measure_range_id');
+		$gramStainResult->user_id = Auth::user()->id;
+		$gramStainResult->gram_stain_range_id = Input::get('gram_stain_range_id');
 		$gramStainResult->save();
-		return $gramStainResult->load('measureRange');
+		return $gramStainResult->load('gramStainRange');
 	}
 
 	/**
@@ -58,9 +59,12 @@ class GramStainResultController extends \BaseController {
 	 */
 	public function edit($testId)
 	{
-		//Get the measure ranges for gram stain
+		//Get the gram stain ranges for gram stain
 		$test = UnhlsTest::find($testId);
-		return View::make('unhls_test.gramstain.edit')->with('test', $test);
+		$gramStainRanges = ['']+GramStainRange::lists('name', 'id');
+		return View::make('unhls_test.gramstain.edit')
+			->with('gramStainRanges', $gramStainRanges)
+			->with('test', $test);
 	}
 
 	/**

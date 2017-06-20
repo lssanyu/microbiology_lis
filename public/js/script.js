@@ -432,7 +432,6 @@ $(function(){
 
     var testID;
     var gramStainRangeUrl;
-    var gramStainRangeUrlVerb;
 
     /*gram stain range*/
     $('.add-gram-stain-range-modal').on('show.bs.modal', function(e) {
@@ -440,19 +439,18 @@ $(function(){
         // update global varible so that it's available in the save  gram stain range function
         gramStainRangeUrl = $(e.relatedTarget).data('url');
         testID = $(e.relatedTarget).data('test-id');
-        gramStainRangeUrlVerb = 'POST';
         $('.gram-stain-range-input').val('');
         $('.save-gram-stain-range').attr('data-url', gramStainRangeUrl);
     });
 
     // save selected gram stain range
     $('.save-gram-stain-range').click(function(){
-        var measureRangeID = $('.gram-stain-range-input').val();
+        var gramStainRangeID = $('.gram-stain-range-input').val();
         $.ajax({
-            type: gramStainRangeUrlVerb,
+            type: 'POST',
             url:  gramStainRangeUrl,
             data: {
-                measure_range_id: measureRangeID,
+                gram_stain_range_id: gramStainRangeID,
                 test_id: testID
             },
             success: function(gramStainResult){
@@ -465,10 +463,10 @@ $(function(){
                     .removeClass('new-gram-stain-range-tr');
                 $('.gram-stain-range-tr-'+gramStainResult.id)
                     .find('.delete-gram-stain-range')
-                        .attr('data-url',$(this).data('url')+'/'+gramStainResult.id)
+                        .attr('data-url',gramStainRangeUrl+'/'+gramStainResult.id)
                         .attr('data-id',gramStainResult.id);
                 $('.gram-stain-range-tr-'+gramStainResult.id+' .gram-stain-range-entry')
-                        .append(gramStainResult.measure_range.alphanumeric);
+                        .append(gramStainResult.gram_stain_range.name);
                 $('.organism').val('');
             }
         });

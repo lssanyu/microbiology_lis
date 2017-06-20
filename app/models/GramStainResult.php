@@ -12,7 +12,7 @@ class GramStainResult extends Eloquent
     public $timestamps = false;
 
     /**
-     * drug relationship
+     * test relationship
      */
     public function test()
     {
@@ -20,10 +20,10 @@ class GramStainResult extends Eloquent
     }
 
     /**
-     * organism relationship
+     * gram stain range relationship
      */
-    public function measureRange()
+    public function gramStainRange()
     {
-      return $this->belongsTo('MeasureRange','measure_range_id','id');
+      return $this->belongsTo('GramStainRange');
     }
 }

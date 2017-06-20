@@ -12,7 +12,7 @@ class CreateZoneDiameterTable extends Migration {
 	 */
 	public function up()
 	{
-// todo: call the table, break_points
+		// todo: call the table, organism_break_points
 		Schema::create('zone_diameters', function($table)
 		{
 			$table->increments('id');

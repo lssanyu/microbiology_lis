@@ -379,34 +379,36 @@ class UnhlsTestController extends \BaseController {
 	{
 		$test = UnhlsTest::find($testID);
 		$test->test_status_id = UnhlsTest::COMPLETED;
-		if ($test->testType->name == 'Gram Staining') {
-			$interpretation = Input::get('interpretation');
-			foreach ($test->gramStainResults as $gramStainResult) {
-				$interpretation = $interpretation.$gramStainResult->measureRange->alphanumeric.',';
-			}
-			$test->interpretation = $interpretation;
-		}else{
-			$test->interpretation = Input::get('interpretation');
-		}
+		$test->interpretation = Input::get('interpretation');
 		$test->tested_by = Auth::user()->id;
 		$test->time_completed = date('Y-m-d H:i:s');
 		$test->save();
 
-		if ($test->testType->name != 'Gram Staining') {
-			foreach ($test->testType->measures as $measure) {
-				$testResult = UnhlsTestResult::firstOrCreate(array('test_id' => $testID, 'measure_id' => $measure->id));
-				$testResult->result = Input::get('m_'.$measure->id);
+		if ($test->testType->name == 'Gram Staining') {
+			$results = '';
+			foreach ($test->gramStainResults as $gramStainResult) {
+				$results = $results.$gramStainResult->gramStainRange->name.',';
+			}
+		}
 
+		foreach ($test->testType->measures as $measure) {
+			$testResult = UnhlsTestResult::firstOrCreate(array('test_id' => $testID, 'measure_id' => $measure->id));
+			if ($test->testType->name == 'Gram Staining') {
+
+				$testResult->result = $results;
 				$inputName = "m_".$measure->id;
-				$rules = array("$inputName" => 'max:255');
+			}else{
+				$testResult->result = Input::get('m_'.$measure->id);
+				$inputName = "m_".$measure->id;
+			}
+			$rules = array("$inputName" => 'max:255');
 
-				$validator = Validator::make(Input::all(), $rules);
+			$validator = Validator::make(Input::all(), $rules);
 
-				if ($validator->fails()) {
-					return Redirect::back()->withErrors($validator)->withInput(Input::all());
-				} else {
-					$testResult->save();
-				}
+			if ($validator->fails()) {
+				return Redirect::back()->withErrors($validator)->withInput(Input::all());
+			} else {
+				$testResult->save();
 			}
 		}
 
