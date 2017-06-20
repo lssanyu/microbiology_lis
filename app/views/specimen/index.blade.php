@@ -89,6 +89,8 @@
                             <div class="col-md-12">
                                 @if($specimen->isRejected())
                                 <span class='label label-danger'>Rejected</span>
+                                @elseif($specimen->isReferredOut())
+                                <span class='label label-info'>Referred</span>
                                 @elseif($specimen->isAccepted())
                                 <span class='label label-success'>Accepted</span>
                                 @endif
