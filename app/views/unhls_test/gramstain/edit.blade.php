@@ -60,16 +60,29 @@
                 </div>
             </div>
 <!-- save action -->
+            @if($test->isCompleted())
             <div class="col-md-12">
                 <div class="form-group actions-row">
                     {{ Form::button(
-                        '<span class="glyphicon glyphicon-save"></span> '.trans('messages.save-test-results'), [
+                        '<span class="glyphicon glyphicon-save"></span> '.'Update Results', [
                             'class' => 'btn btn-default save-gram-stain-results',
                             'data-redirect-url' => URL::route('unhls_test.viewDetails',[$test->id]),
                             'data-url' => URL::route('unhls_test.saveResults',[$test->id])]
                     ) }}
                 </div>
             </div>
+            @else
+            <div class="col-md-12">
+                <div class="form-group actions-row">
+                    {{ Form::button(
+                        '<span class="glyphicon glyphicon-save"></span> '.'Set To Completed', [
+                            'class' => 'btn btn-default save-gram-stain-results',
+                            'data-redirect-url' => URL::route('unhls_test.viewDetails',[$test->id]),
+                            'data-url' => URL::route('unhls_test.saveResults',[$test->id])]
+                    ) }}
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 
