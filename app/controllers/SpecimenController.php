@@ -103,15 +103,10 @@ class SpecimenController extends \BaseController {
 			if (Input::get('patient_id')) {
 				$patient = UnhlsPatient::find(Input::get('patient_id'));
 			}else{
+				$nextPatientID = DB::table('unhls_patients')->max('id')+1;
 
-				try {
-					$nextPatientID = UnhlsPatient::orderBy('id','DESC')->first()->id++;
-				} catch (Exception $e) {
-					$nextPatientID = 1;
-				}
 				$patient = new UnhlsPatient;
 				$nextULIN = $thisYear.'/'.\Config::get('constants.FACILITY_CODE').'/'.str_pad($nextPatientID, 6, '0', STR_PAD_LEFT);
-
 				$patient->ulin = $nextULIN;
 				$patient->patient_number = Input::get('patient_number');
 				$patient->name = Input::get('patient_name');
@@ -132,12 +127,7 @@ class SpecimenController extends \BaseController {
 				$referral->user_id =  Auth::user()->id;
 				$referral->save();
 			}
-
-			try {
-				$nextSpecimenID = UnhlsSpecimen::orderBy('id','DESC')->first()->id++;
-			} catch (Exception $e) {
-				$nextSpecimenID = 1;
-			}
+			$nextSpecimenID = DB::table('specimens')->max('id')+1;
 
 			$thisMonth = date('m');
 			$nextLabID = \Config::get('constants.FACILITY_CODE').'-'.$thisYear.$thisMonth.str_pad($nextSpecimenID, 4, '0', STR_PAD_LEFT);
