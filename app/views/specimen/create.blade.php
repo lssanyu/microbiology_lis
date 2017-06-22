@@ -36,7 +36,7 @@
 								@if($existingPatient)
 									{{ Form::hidden('patient_id', $patient->id) }}
 									<p>Patient No: {{$patient->patient_number}}</p>
-									<p>ULIN: {{$patient->ulin}}</p>
+									<!-- <p>ULIN: {{$patient->ulin}}</p> -->
 									<p>Patient Name: {{$patient->name}}</p>
 									<p>Age: {{$patient->getAge()}}</p>
 									<p>Gender: {{$patient->getGender()}}</p>

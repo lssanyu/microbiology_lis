@@ -26,14 +26,14 @@
 					{{ Form::text('patient_number', Input::old('patient_number'), 
 						array('class' => 'form-control', 'readonly')) }}
 				</div>
-				<div class="form-group">
-					{{ Form::label('nin', trans('messages.nin')) }}
-					{{ Form::text('nin', Input::old('nin'), array('class' => 'form-control')) }}
-				</div>
-				<div class="form-group">
+<!-- 				<div class="form-group">
 					{{ Form::label('ulin', trans('messages.ulin')) }}
 					{{ Form::text('ulin', Input::old('ulin'), array('class' => 'form-control')) }}
 				</div>
+				<div class="form-group">
+					{{ Form::label('nin', trans('messages.nin')) }}
+					{{ Form::text('nin', Input::old('nin'), array('class' => 'form-control')) }}
+				</div> -->
 				<div class="form-group">
 					{{ Form::label('name', Lang::choice('messages.name',1)) }}
 					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}

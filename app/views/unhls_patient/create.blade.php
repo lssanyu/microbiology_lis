@@ -27,15 +27,15 @@
 					{{ Form::text('patient_number', $lastInsertId,
 						array('class' => 'form-control')) }}
 				</div>
-				<div class="form-group">
+<!-- 				<div class="form-group">
 					{{ Form::label('ulin', trans('messages.ulin'), array('class' => 'required')) }}
 					{{ Form::text('ulin', $ulin,
 						array('class' => 'form-control', 'readonly' =>'true')) }}
-				</div> 
+				</div>
 				<div class="form-group">
 					{{ Form::label('nin', trans('messages.national-id')) }}
 					{{ Form::text('nin', Input::old('nin'), array('class' => 'form-control')) }}
-				</div>
+				</div> --> 
 				<div class="form-group">
 					{{ Form::label('name', trans('messages.names'), array('class' => 'required')) }}
 					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}

@@ -30,10 +30,11 @@
                 <h3 class="view"><strong>{{ Lang::choice('messages.name',1) }}</strong>{{ $patient->name }} </h3>
                 <p class="view-striped"><strong>{{ trans('messages.patient-number') }}</strong>
                     {{ $patient->patient_number }}</p>
+<!--
                 <p class="view-striped"><strong>NIN</strong>
                     {{ $patient->nin }}</p>
-                <p class="view-striped"><strong>{{ trans('messages.ulin') }}</strong>
-                    {{ $patient->ulin }}</p>
+                 <p class="view-striped"><strong>{{ trans('messages.ulin') }}</strong>
+                    {{ $patient->ulin }}</p> -->
                 <p class="view"><strong>{{ trans('messages.external-patient-number') }}</strong>
                     {{ $patient->external_patient_number }}</p>
                 <p class="view-striped"><strong>{{ trans('messages.date-of-birth') }}</strong>

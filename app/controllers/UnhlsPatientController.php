@@ -51,7 +51,7 @@ class UnhlsPatientController extends \BaseController {
 		$rules = array(
 
 			'patient_number' => 'required|unique:unhls_patients,patient_number',
-			'ulin'			=> 'required',
+			// 'ulin'			=> 'required',
 			'name'       => 'required',
 			'gender' => 'required',
 			'dob' => 'required'
@@ -62,15 +62,11 @@ class UnhlsPatientController extends \BaseController {
 
 			return Redirect::back()->withErrors($validator)->withInput(Input::all());
 		} else {
-			try {
-				$nextPatientID = UnhlsPatient::orderBy('id','DESC')->first()->id++;
-			} catch (Exception $e) {
-				$nextPatientID = 1;
-			}
+			$thisYear = substr(date('Y'), 2);
+			$nextPatientID = DB::table('unhls_patients')->max('id')+1;
 
-			$patient = new UnhlsPatient;
-			$thisYear = substr($now->format('Y'), 2);
-			$nextULIN = $thisYear.'/'.\Config::get('constants.FACILITY_CODE').'/'.$nextPatientID;
+			$nextULIN = $thisYear.'/'.\Config::get('constants.FACILITY_CODE').'/'.str_pad($nextPatientID, 6, '0', STR_PAD_LEFT);
+
 			// store
 			$patient = new UnhlsPatient;
 			$patient->patient_number = Input::get('patient_number');
