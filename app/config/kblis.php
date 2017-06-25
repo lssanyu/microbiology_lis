@@ -47,7 +47,7 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	*/
-	'address-info' => 'P.O. BOX 7272 KAMPALA, UGANDA.',
+	'address-info' => 'P.O. BOX 7272 Kampala, Uganda.',
 	
 	/*
 	|--------------------------------------------------------------------------
@@ -56,11 +56,11 @@ return array(
 	|
 	*/
 
-	// 'organization-logo' => '/i/coat_of_arms_of_uganda.png',
 	'organization-logo' => '/i/coat_of_arms.png',
 	'uganda-logo' => '/i/uganda.png',
 	'cdc-logo' => '/i/cdc.png',
-	'aslm-logo' => '/i/aslm.png',		
+	'aslm-logo' => '/i/aslm.png',
+	'cphl-logo' => '/i/cphl.jpg',
 	
 	/*
 	|--------------------------------------------------------------------------

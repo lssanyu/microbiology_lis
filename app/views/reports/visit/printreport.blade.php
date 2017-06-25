@@ -192,7 +192,7 @@
         <hr style="border: 1px solid;">
         <table>
           <tbody>
-        @if($test->isCompleted())
+        @if($test->isCompleted() || $test->isVerified())
             <tr>
               <th>Test/Analysis Performed by:</th>
               <!-- todo: asks the question is it the same person to do all the tests -->
@@ -207,10 +207,6 @@
               <td>Signature:</td>
             </tr>
         @endif
-          </tbody>
-        </table>
-        <table>
-          <tbody>
             <tr>
               <th>Printed by:</th>
               <td>{{Auth::user()->name}}</td>
