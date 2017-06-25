@@ -73,7 +73,6 @@ class SpecimenController extends \BaseController {
 	{
 		if (Input::get('patient_id')) {
 			$rules = [
-				'dob' => 'required',
 				'time_collected' => 'required',
 				'time_accepted' => 'required',
 				'specimen_type' => 'required',
