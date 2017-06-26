@@ -109,6 +109,7 @@ return array(
 		'Zizaco\Entrust\EntrustServiceProvider',
 		'Way\Generators\GeneratorsServiceProvider',
 		'Barryvdh\Snappy\ServiceProvider',
+		'Maxxscho\LaravelTcpdf\LaravelTcpdfServiceProvider',
 	),
 
 	/*
