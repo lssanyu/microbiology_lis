@@ -128,7 +128,11 @@ class MicrobiologyProductionSeeder extends DatabaseSeeder
         District::create(['name' => 'Rubirizi']);
         District::create(['name' => 'Rukungiri']);
         District::create(['name' => 'Sheema']);
-
+        District::create(['name' => 'Omoro']);
+        District::create(['name' => 'Kagadi']);
+        District::create(['name' => 'Kakumiro']);
+        District::create(['name' => 'Rubanda']);
+        District::create(['name' => 'Bukwo']);
         $this->command->info('Other Districts seeded');
 
         /* Facility Ownership table */
@@ -148,14 +152,18 @@ class MicrobiologyProductionSeeder extends DatabaseSeeder
         
         /* Facility Levels table */
         $facilitylevelsData = array(
-            array("name" => "Public NRH"),
-            array("name" => "Public RRH"),
-            array("name" => "Public GH"),
-            array("name" => "Public HCIV"),
-            array("name" => "Public HCIII"),
-            array("name" => "Private Level 3"),
-            array("name" => "Private Level 2"),
-            array("name" => "Private Level 1"),
+            array("name" => "Public NRH"),//1
+            array("name" => "Public RRH"),//2
+            array("name" => "Public GH"),//3
+            array("name" => "Public HCIV"),//4
+            array("name" => "Public HCIII"),//5
+            array("name" => "Public HCII"),//6
+            array("name" => "Public HCI"),//7
+            array("name" => "Private Level 3"),//8
+            array("name" => "Private Level 2"),//9
+            array("name" => "Private Level 1"),//10
+            array("name" => "Special Clinic"),//11
+            array("name" => "Clinic"),//12
         );
 
         foreach ($facilitylevelsData as $facilitylevel)
@@ -449,6 +457,5 @@ class MicrobiologyProductionSeeder extends DatabaseSeeder
         }
         //Assign role Administrator to user 1 administrator
         $user1->attachRole($role1);
-
     }
 }

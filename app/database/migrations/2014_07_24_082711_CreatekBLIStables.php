@@ -37,7 +37,7 @@ class CreatekBLIStables extends Migration {
         Schema::create('unhls_facilities', function($table)
         {
             $table->increments('id');
-            $table->string('code');
+            $table->string('code')->nullable();
             $table->string('name');
             $table->integer('district_id')->unsigned();
             $table->integer('level_id')->unsigned();

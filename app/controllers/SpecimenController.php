@@ -35,7 +35,7 @@ class SpecimenController extends \BaseController {
 		$receptionDate = $now->format('Y-m-d H:i');
 		$disease = ['select Suspected Disease']+Disease::lists('name', 'id');
 		$specimenTypes = ['select Specimen Type']+SpecimenType::orderBy('name','ASC')->lists('name', 'id');
-		$facilities = ['']+UNHLSFacility::lists('name', 'id');
+		$facilities = ['']+UNHLSFacility::orderBy('name','ASC')->lists('name', 'id');
 		$specimenRejectionReasons = RejectionReason::all();
 
 		$existingPatient = false;
