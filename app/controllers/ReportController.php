@@ -136,12 +136,15 @@ class ReportController extends \BaseController {
 			'tests.isolatedOrganisms.drugSusceptibilities.drug',
 			'tests.isolatedOrganisms.drugSusceptibilities.drugSusceptibilityMeasure');
 
-		$content = View::make('reports.visit.printreport')
+		$html = View::make('reports.visit.printreport')
 			->with('printTime', $printTime)
 			->with('specimen', $specimen);
-		return PDF::loadHTML($content)->stream($specimen->lab_id.'.pdf');
-		// return $content;
 
+		$pdf = new MYPDF;
+		$pdf->AddPage();
+		$pdf->SetFont('', '', 10);
+		$pdf->writeHTML($html, true, false, true, false, '');
+		return $pdf->output($specimen->lab_id.'.pdf');
 	}
 
 	/**
