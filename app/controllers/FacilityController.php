@@ -88,8 +88,8 @@ class FacilityController extends \BaseController {
 	{
 		$facility = UNHLSFacility::find($id);
 		$districts = District::orderBy('name','ASC')->lists('name', 'id');
-		$owners = UNHLSFacilityLevel::lists('name', 'id');
-		$levels = UNHLSFacilityOwnership::lists('name', 'id');
+		$levels = UNHLSFacilityLevel::lists('name', 'id');
+		$owners = UNHLSFacilityOwnership::lists('name', 'id');
 
 		return View::make('facility.edit')
 				->with('facility', $facility)
