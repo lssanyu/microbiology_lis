@@ -91,6 +91,7 @@
                                                 Status
                                                 </th>
                                                 <th class="col-md-3">
+                                                Facility
                                                 </th>
                                             </tr>
                                         </thead>
@@ -113,6 +114,7 @@
                                                     @endif
                                                 </td>
                                                 <td>
+                                                {{ $specimen->referral->facility->name }}
                                                 </td>
                                             </tr>
                                         </tbody>
