@@ -24,8 +24,8 @@ class FacilityController extends \BaseController {
 	public function create()
 	{
 		$districts = District::orderBy('name','ASC')->lists('name', 'id');
-		$owners = UNHLSFacilityLevel::lists('name', 'id');
-		$levels = UNHLSFacilityOwnership::lists('name', 'id');
+		$owners = UNHLSFacilityOwnership::lists('name', 'id');
+		$levels = UNHLSFacilityLevel::lists('name', 'id');
 
 		return View::make('facility.create')
 				->with('districts', $districts)
@@ -65,7 +65,6 @@ class FacilityController extends \BaseController {
 			}
 		}
 	}
-
 
 	/**
 	 * Display the specified resource.
