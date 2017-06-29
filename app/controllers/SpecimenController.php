@@ -77,7 +77,7 @@ class SpecimenController extends \BaseController {
 				'time_accepted' => 'required',
 				'specimen_type' => 'required',
 				'test_types' => 'required',
-				'facility_from' => 'required',
+				'facility_from' => 'required|non_zero_key',
 			];
 		} else {
 			$rules = [
@@ -86,7 +86,7 @@ class SpecimenController extends \BaseController {
 				'time_accepted' => 'required',
 				'specimen_type' => 'required',
 				'test_types' => 'required',
-				'facility_from' => 'required',
+				'facility_from' => 'required|non_zero_key',
 				'patient_name' => 'required',
 			];
 		}
