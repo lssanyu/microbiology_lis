@@ -1,8 +1,5 @@
 @section ("reportHeader")
     <style type="text/css">
-/*        table {
-          padding: 10px 15px;
-        }*/
     </style>
     <table style="text-align:center;">
             <tr>
