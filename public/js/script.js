@@ -282,7 +282,7 @@ $(function(){
                 $('.form-control.drug').empty();
                 // if drug susceptibility is being added for the first time
                 if ($(e.relatedTarget).data('verb') == 'POST') {
-                    $('.form-control.drug').append('<option value="">All</option>');
+                    $('.form-control.drug').append('<option value=""></option>');
                 }
                 for (i in antibiotics ) {
                     $('.form-control.drug').append(
@@ -290,6 +290,7 @@ $(function(){
                 }
                 if ($(e.relatedTarget).data('verb') == 'PUT') {
                     $('.form-control.drug').val($(e.relatedTarget).data('drug-id'));
+                    $('.form-control.zone-diameter').val($(e.relatedTarget).data('zone-diameter'));
                 }
             }
         });
