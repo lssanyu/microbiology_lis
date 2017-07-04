@@ -39,6 +39,14 @@
          <td colspan="3">Laboratory Findings</td>
         </tr>
     </table>
+
+    <table style="border-bottom: 1px solid #cecfd5;">
+        <tr>
+         <td colspan="1"><b>Test</b></td>
+         <td colspan="2"><b>Results</b></td>
+         <td colspan="1"><b>Comments</b></td>
+        </tr>
+    </table>
     @forelse($specimen->tests as $test)
         @if(!$test->testType->isCulture() && ($test->isCompleted() || $test->isVerified()))
         <?php
@@ -58,6 +66,9 @@
                   {{ Measure::getRange($test->specimen->patient, $result->measure_id) }}
                   {{ Measure::find($result->measure_id)->unit }}
                 @endforeach
+             </td>
+             <td colspan="1">
+                {{ $test->interpretation }}
              </td>
           </tr>
         </table>
