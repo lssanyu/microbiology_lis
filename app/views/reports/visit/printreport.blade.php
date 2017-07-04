@@ -3,6 +3,9 @@
       padding: 2px;
     }
     </style>
+    <?php
+    $testedBy = '';
+    ?>
     <table>
         <tr>
           <td><b>Facility Name</b></td>
@@ -37,7 +40,12 @@
         </tr>
     </table>
     @forelse($specimen->tests as $test)
-        @if(!$test->testType->isCulture() && $test->isCompleted())
+        @if(!$test->testType->isCulture() && ($test->isCompleted() || $test->isVerified()))
+        <?php
+          if ($test->isCompleted() || $test->isVerified()) {
+            $testedBy = $test->testedBy->name;
+          }
+        ?>
         <table style="border-bottom: 1px solid #cecfd5;">
           <tr>
              <td colspan="1">{{ $test->testType->name }}</td>
@@ -65,6 +73,11 @@
         @foreach($specimen->tests as $test)
         @if($test->testType->isCulture())
         <!-- Culture and Sensitivity analysis -->
+        <?php
+          if ($test->isCompleted() || $test->isVerified()) {
+            $testedBy = $test->testedBy->name;
+          }
+        ?>
 
         @if(count($test->isolated_organisms)>0)<!-- if there are any isolated organisms -->
         <p>
@@ -128,23 +141,19 @@
         @endif<!--./ if there are no isolated organisms -->
         @endif
         @endforeach
-
+        <br>
+        <br>
         <table>
-        @if($test->isCompleted() || $test->isVerified())
             <tr>
               <td><b>Test/Analysis Performed by:</b></td>
-              <!-- todo: asks the question is it the same person to do all the tests -->
-              <td>{{ $test->testedBy->name }}</td>
-              <td>Signature:</td>
+              <td>{{ $testedBy }}</td>
+              <td>Signed:</td>
             </tr>
-        @endif
-        @if($test->isVerified())
             <tr>
               <td><b>Reviewed by:</b></td>
-              <td>{{$test->verifiedBy->name}}</td>
-              <td>Signature:</td>
+              <td></td>
+              <td>Signed:</td>
             </tr>
-        @endif
             <tr>
               <td><b>Printed by:</b></td>
               <td>{{ Auth::user()->name }}</td>
