@@ -1049,7 +1049,7 @@ class UnhlsTest extends Eloquent
     }
 
     /**
-     * drug relationship
+     * gram stain relationship
      */
     public function gramStainResults()
     {
