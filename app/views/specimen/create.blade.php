@@ -100,13 +100,8 @@
 											</div>
 											<div class="form-group">
 												<label for="time_accepted">Time Sample was Received in Lab</label>
-												<input class="form-control"
-													data-format="YYYY-MM-DD HH:mm"
-													data-template="DD / MM / YYYY HH : mm"
-													name="time_accepted"
-													type="text"
-													id="reception-date"
-													value="{{$receptionDate}}">
+												Captured Automatically
+												{{ Form::hidden('time_accepted', $receptionDate) }}
 											</div>
 										</div>
 									</div>
