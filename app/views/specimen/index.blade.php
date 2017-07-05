@@ -11,8 +11,8 @@
     @endif
 
     <div class='container-fluid'>
-        {{ Form::open(array('route' => array('unhls_test.index'))) }}
-<!--             <div class='row'>
+        {{ Form::open(array('route' => array('specimen.index'))) }}
+            <div class='row'>
                 <div class='col-md-3'>
                     <div class='col-md-2'>
                         {{ Form::label('date_from', trans('messages.from')) }}
@@ -39,7 +39,7 @@
                 <div class='col-md-1'>
                         {{ Form::submit(trans('messages.search'), array('class'=>'btn btn-primary')) }}
                 </div>
-            </div> -->
+            </div>
         {{ Form::close() }}
     </div>
 
@@ -62,7 +62,7 @@
             </div>
         </div>
         <div class="panel-body">
-            <table class="table table-striped table-hover table-condensed search-table">
+            <table class="table table-striped table-hover table-condensed">
                 <thead>
                     <tr>
                         <th>Date Received</th>

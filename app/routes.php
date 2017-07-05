@@ -137,11 +137,19 @@ Route::group(array("before" => "auth"), function()
             "uses" => "InstrumentController@importDriver"
         ));
     });
-    Route::any("/specimen/{patient_id}/create}", array(
+    Route::any("/specimen/{patient_id}/create", array(
         "as"   => "specimen.patient.create",
         "uses" => "SpecimenController@create"
     ));
-    Route::resource('specimen', 'SpecimenController');
+    Route::any("/specimens", array(
+        "as"   => "specimen.index",
+        "uses" => "SpecimenController@index"
+    ));
+
+    Route::resource('specimen', 'SpecimenController', [
+        'except' => ['index']
+    ]);
+
     //Unhls test route starts 
     Route::any("/unhls_test", array(
         "as"   => "unhls_test.index",

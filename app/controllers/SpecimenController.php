@@ -15,10 +15,54 @@ class SpecimenController extends \BaseController {
 	 */
 	public function index()
 	{
-		//List all specimens
-		$specimens = UnhlsSpecimen::orderBy('time_accepted','DESC')->get();
+		$fromRedirect = Session::pull('fromRedirect');
+
+		if($fromRedirect){
+			$input = Session::get('TESTS_FILTER_INPUT');
+
+		}else{
+			$input = Input::except('_token');
+		}
+
+		$searchString = isset($input['search'])?$input['search']:'';
+		$specimenStatusId = isset($input['specimen_status'])?$input['specimen_status']:'';
+		$dateFrom = isset($input['date_from'])?$input['date_from']:'';
+		$dateTo = isset($input['date_to'])?$input['date_to']:'';
+
+		// Search Conditions
+		if($searchString||$specimenStatusId||$dateFrom||$dateTo){
+
+			$specimens = UnhlsSpecimen::search($searchString, $specimenStatusId, $dateFrom, $dateTo);
+
+			if (count($specimens) == 0) {
+				Session::flash('message', trans('messages.empty-search'));
+			}
+		}
+		else
+		{
+			// List all the active specimens
+			$specimens = UnhlsSpecimen::with('tests')->where(function($q) use ($searchString){
+				$q->whereHas('tests', function($q) use ($searchString){
+					$q->whereIn('test_status_id',[UnhlsTest::PENDING, UnhlsTest::STARTED]);
+				});
+			});
+
+		}
+
+		// Create Test Statuses array. Include a first entry for ALL
+		$statuses = array('all')+SpecimenStatus::all()->lists('name','id');
+
+		foreach ($statuses as $key => $value) {
+			$statuses[$key] = trans("messages.$value");
+		}
+
+		$specimens = $specimens->paginate(Config::get('kblis.page-items'))->appends($input);
+
 		//Load the view and pass the specimens
-		return View::make('specimen.index')->with('specimens',$specimens);
+		return View::make('specimen.index')
+					->with('specimens',$specimens)
+					->with('specimenStatus', $statuses)
+					->withInput($input);
 	}
 
 

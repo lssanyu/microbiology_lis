@@ -151,5 +151,69 @@ class UnhlsSpecimen extends Eloquent
             return false;
         }
     }
+	/**
+	* Search for tests meeting the given criteria
+	*
+	* @param String $searchString
+	* @param String $specimenStatusId
+	* @param String $dateFrom
+	* @param String $dateTo
+	* @return Collection
+	*/
+	public static function search($searchString = '', $specimenStatusId = 0, $dateFrom = NULL, $dateTo = NULL)
+	{
+		if ($searchString != '') {
+			$specimens = UnhlsSpecimen::with('specimenStatus', 'patient', 'referral.facility', 'specimenType')
+				->where(function($q) use ($searchString){
 
+					$q->whereHas('specimenStatus', function($q) use ($searchString){
+						$q->where('name', 'like', '%' . $searchString . '%');
+
+					})->orWhereHas('specimenType', function($q) use ($searchString){
+						$q->where('name', 'like', '%' . $searchString . '%');
+
+					})->orWhereHas('referral', function($q) use ($searchString){
+						$q->whereHas('facility', function($q)  use ($searchString){
+							$q->where('name', 'like', '%' . $searchString . '%');
+						});
+
+					})->orWhereHas('patient',  function($q) use ($searchString){
+						$q->where(function($q) use ($searchString){
+							$q->where('name', 'like', '%' . $searchString . '%' )
+							->orWhere('patient_number', 'like', '%' . $searchString . '%');
+
+						});
+					});
+			});
+
+			$specimens = $specimens->orWhere(function($q) use ($searchString){
+				$q->where('lab_id', 'like', '%' . $searchString . '%');
+			});
+
+		}elseif ($specimenStatusId > 0) {
+		// todo: not being used right now
+				$specimens = UnhlsSpecimen::where(function($q) use ($specimenStatusId)
+				{
+					$q->whereHas('specimenStatus', function($q) use ($specimenStatusId){
+					    $q->where('specimen_status_id','=', $specimenStatusId);
+					});
+				});
+		}elseif ($dateFrom||$dateTo) {
+			$specimens = UnhlsSpecimen::where(function($q) use ($dateFrom, $dateTo)
+			{
+				if($dateFrom){
+					$q->where('time_accepted', '>=', $dateFrom);
+				}
+				if($dateTo){
+					$dateTo = $dateTo . ' 23:59:59';
+					$q->where('time_accepted', '<=', $dateTo);
+				}
+			});
+		}
+
+
+		$specimens = $specimens->orderBy('time_accepted', 'DESC');
+
+		return $specimens;
+	}
 }
