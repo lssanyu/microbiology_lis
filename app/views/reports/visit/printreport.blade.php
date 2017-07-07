@@ -33,7 +33,6 @@
           <td></td>
         </tr>
     </table>
-    <p>
     <table style="border-bottom: 1px solid #cecfd5;">
         <tr>
          <td colspan="3">Laboratory Findings</td>
@@ -91,7 +90,7 @@
         ?>
 
         @if(count($test->isolated_organisms)>0)<!-- if there are any isolated organisms -->
-        <p>
+        <br>
         <table style="border-bottom: 1px solid #cecfd5;">
             <tr>
               <td colspan="3">Antimicrobial Susceptibility Testing(AST)</td>
@@ -108,7 +107,7 @@
                 <td rowspan="{{$isolated_organism->drug_susceptibilities->count()}}"
                   class="organism">{{$isolated_organism->organism->name}}</td>
                   <?php $i = 1; ?>
-                @foreach($isolated_organism->drug_susceptibilities as $drug_susceptibility)
+              @foreach($isolated_organism->drug_susceptibilities as $drug_susceptibility)
                 @if ($i > 1)
               <tr>
                 @endif <?php $i++; ?>
@@ -128,7 +127,7 @@
             </tr>
         </table>
 
-        </hr>
+        <br>
 
         <table style="border-bottom: 1px solid #cecfd5;">
             <tr>
