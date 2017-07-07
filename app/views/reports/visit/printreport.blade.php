@@ -79,7 +79,7 @@
      </tr>
     </table>
     @endforelse
-        </br>
+        <br>
         @foreach($specimen->tests as $test)
         @if($test->testType->isCulture())
         <!-- Culture and Sensitivity analysis -->
