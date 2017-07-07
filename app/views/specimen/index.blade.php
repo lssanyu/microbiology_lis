@@ -112,6 +112,7 @@
                 @endforeach
                 </tbody>
             </table>
+            {{ $specimens->links() }}
 	        {{ Session::put('SOURCE_URL', URL::full()) }}
 	        {{ Session::put('TESTS_FILTER_INPUT', Input::except('_token')); }}
         </div>
