@@ -103,18 +103,18 @@
         </table>
         @foreach($test->isolated_organisms as $isolated_organism)
         <table style="border-bottom: 1px solid #cecfd5;">
-              <tr>
-                <td rowspan="{{$isolated_organism->drug_susceptibilities->count()}}"
-                  class="organism">{{$isolated_organism->organism->name}}</td>
-                  <?php $i = 1; ?>
+          <tr>
+            <td rowspan="{{$isolated_organism->drug_susceptibilities->count()}}" class="organism">{{$isolated_organism->organism->name}}</td>
+              <?php $i = 1; ?>
+            @if($isolated_organism->drug_susceptibilities->count() == 0)
+              </tr>
+            @else
               @foreach($isolated_organism->drug_susceptibilities as $drug_susceptibility)
-                @if ($i > 1)
-              <tr>
-                @endif <?php $i++; ?>
                 <td class="antibiotic">{{$drug_susceptibility->drug->name}}</td>
                 <td class="result">{{$drug_susceptibility->drug_susceptibility_measure->symbol}}</td>
               </tr>
               @endforeach
+            @endif
         </table>
         @endforeach
 
@@ -145,7 +145,7 @@
               <tr>
                 <td>{{ $test->culture_observation->observation }}</td>
               </tr>
-        </table> 
+        </table>
         @endif<!--./ if there are comments -->
 
         @endif<!--./ if there are no isolated organisms -->
