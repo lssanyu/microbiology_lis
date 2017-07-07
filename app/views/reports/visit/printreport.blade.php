@@ -110,6 +110,10 @@
               </tr>
             @else
               @foreach($isolated_organism->drug_susceptibilities as $drug_susceptibility)
+                @if ($i > 1)
+                <tr>
+                @endif
+                <?php $i++; ?>
                 <td class="antibiotic">{{$drug_susceptibility->drug->name}}</td>
                 <td class="result">{{$drug_susceptibility->drug_susceptibility_measure->symbol}}</td>
               </tr>
