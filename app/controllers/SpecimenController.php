@@ -191,6 +191,7 @@ class SpecimenController extends \BaseController {
             if (Input::get('rejectionReason')) {
 				// this refers to pre-analytic rejection of specimen
 				$specimen->specimen_status_id = UnhlsSpecimen::REJECTED;
+				$specimen->test_status_id = UnhlsSpecimen::COMPLETED;
 				$specimen->save();
 
 				// todo: create cascade deletion for it, incase rejection is reversed
@@ -203,6 +204,7 @@ class SpecimenController extends \BaseController {
 				$message = 'Successfully Rejected Specimen|Lab Id:'.$specimen->lab_id;
 			}else{
 				$message = 'Successfully Accepted Specimen|Lab Id:'.$specimen->lab_id;
+				$specimen->test_status_id = UnhlsSpecimen::PENDING;
 				$specimen->save();
 			}
 
