@@ -13,7 +13,7 @@ class SpecimenController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($status='pending')
 	{
 		$fromRedirect = Session::pull('fromRedirect');
 
@@ -31,22 +31,20 @@ class SpecimenController extends \BaseController {
 
 		// Search Conditions
 		if($searchString||$specimenStatusId||$dateFrom||$dateTo){
-
 			$specimens = UnhlsSpecimen::search($searchString, $specimenStatusId, $dateFrom, $dateTo);
 
 			if (count($specimens) == 0) {
 				Session::flash('message', trans('messages.empty-search'));
 			}
-		}
-		else
-		{
-			// List all the active specimens
-			$specimens = UnhlsSpecimen::with('tests')->where(function($q) use ($searchString){
-				$q->whereHas('tests', function($q) use ($searchString){
-					$q->whereIn('test_status_id',[UnhlsTest::PENDING, UnhlsTest::STARTED]);
-				});
-			});
-
+		}elseif ($status == 'pending') {
+			// List all the active{pending} specimens
+			$specimens = UnhlsSpecimen::with('tests')->where('test_status_id',UnhlsSpecimen::PENDING)->orderBy('id','desc');
+		}elseif ($status == 'completed') {
+			// List all the completed specimens
+			$specimens = UnhlsSpecimen::with('tests')->where('test_status_id',UnhlsSpecimen::COMPLETED)->orderBy('id','desc');
+		}elseif ($status == 'all') {
+			// List all the completed specimens
+			$specimens = UnhlsSpecimen::with('tests')->orderBy('id','desc');
 		}
 
 		// Create Test Statuses array. Include a first entry for ALL
@@ -61,7 +59,7 @@ class SpecimenController extends \BaseController {
 		//Load the view and pass the specimens
 		return View::make('specimen.index')
 					->with('specimens',$specimens)
-					->with('specimenStatus', $statuses)
+					->with('status', $status)
 					->withInput($input);
 	}
 

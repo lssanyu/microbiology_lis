@@ -176,6 +176,12 @@ class UnhlsTestController extends \BaseController {
                 $test->created_by = Auth::user()->id;
                 $test->save();
             }
+
+			// Update Specimen status
+			$specimen = UnhlsSpecimen::find(Input::get('specimen_id'));
+			$specimen->test_status_id = UnhlsSpecimen::PENDING;
+			$specimen->save();
+
 			return Redirect::route('specimen.show', [$test->specimen_id])
 				->with('message', 'messages.success-creating-test');
 		}
@@ -231,7 +237,6 @@ class UnhlsTestController extends \BaseController {
 	 * @param
 	 * @return
 	 */
-	// todo: create a functions for pre-analytic rejection
 	public function rejectAction()
 	{
 		//Reject justifying why.
@@ -411,6 +416,16 @@ class UnhlsTestController extends \BaseController {
 				$testResult->save();
 			}
 		}
+
+		// Update Specimen status
+		$specimen = UnhlsSpecimen::find($test->specimen->id);
+		if ($specimen->hasPendingTest()) {
+			$specimen->test_status_id = UnhlsSpecimen::PENDING;
+
+		}else{
+			$specimen->test_status_id = UnhlsSpecimen::COMPLETED;
+		}
+		$specimen->save();
 
 		//Fire of entry saved/edited event
 		Event::fire('test.saved', array($testID));

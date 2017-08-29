@@ -49,7 +49,7 @@
         <div class="panel-heading ">
             <div class="container-fluid">
                 <div class="row less-gutter">
-                    <span class="glyphicon glyphicon-filter"></span>Specimens
+                    <span class="glyphicon glyphicon-filter"></span>{{ucfirst($status)}} Specimens
                     @if(Auth::user()->can('request_test'))
                     <div class="panel-btn">
                         <a class="btn btn-sm btn-info" href="{{ URL::route('specimen.create')}}">
@@ -89,12 +89,16 @@
 
                         <td id="test-status-{{$specimen->id}}" class='test-status'>
                             <div class="col-md-12">
-                                @if($specimen->isRejected())
-                                <span class='label label-danger'>Rejected</span>
-                                @elseif($specimen->isReferredOut())
-                                <span class='label label-info'>Referred</span>
-                                @elseif($specimen->isAccepted())
-                                <span class='label label-success'>Accepted</span>
+                                @if($status == 'pending')
+                                <span class='label label-info'>
+                                    {{$specimen->countPendingTests()}}/
+                                    {{$specimen->tests->count()}}
+                                    Pending
+                                </span>
+                                @else
+                                <span class='label label-success'>
+                                    Completed
+                                </span>
                                 @endif
                             </div>
                         </td>

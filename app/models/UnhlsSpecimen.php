@@ -17,12 +17,12 @@ class UnhlsSpecimen extends Eloquent
 	const ACCEPTED = 1;
 	const REJECTED = 2;
 	const REFERRED = 3;
+
 	/**
-	 * Enabling soft deletes for specimen details.
-	 *
-	 * @var boolean
+	 * Specimen-Tests status constants
 	 */
-	// protected $softDelete = true;//it wants deleted at fills,
+	const PENDING = 1;// if there any uncompleted tests
+	const COMPLETED = 2;// if all tests are completed
 
 	/**
 	 * Test Phase relationship
@@ -143,14 +143,42 @@ class UnhlsSpecimen extends Eloquent
     */
     public function isRejected()
     {
-        if($this->specimen_status_id == UnhlsSpecimen::REJECTED)
-        {
-            return true;
-        }
-        else {
-            return false;
-        }
+		return ($this->specimen_status_id == UnhlsSpecimen::REJECTED) ? true : false ;
     }
+
+	public function isCompleted()
+	{
+		return ($this->test_status_id == UnhlsSpecimen::COMPLETED) ? true : false ;
+	}
+
+	public function isPending()
+	{
+		return ($this->test_status_id == UnhlsSpecimen::PENDING) ? true : false ;
+	}
+
+	public function hasPendingTest()
+	{
+		$i = 0;
+		foreach ($this->tests as $test) {
+			if ($test->test_status_id == UnhlsTest::PENDING ||
+			$test->test_status_id == UnhlsTest::STARTED) {
+				$i++;
+			}
+		}
+		return ($i>0) ? true : false;
+	}
+
+	public function countPendingTests()
+	{
+		$i = 0;
+		foreach ($this->tests as $test) {
+			if ($test->test_status_id == UnhlsTest::PENDING ||
+			$test->test_status_id == UnhlsTest::STARTED) {
+				$i++;
+			}
+		}
+		return $i;
+	}
 	/**
 	* Search for tests meeting the given criteria
 	*

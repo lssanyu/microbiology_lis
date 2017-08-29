@@ -141,7 +141,7 @@ Route::group(array("before" => "auth"), function()
         "as"   => "specimen.patient.create",
         "uses" => "SpecimenController@create"
     ));
-    Route::any("/specimens", array(
+    Route::any("/specimens/{status?}", array(
         "as"   => "specimen.index",
         "uses" => "SpecimenController@index"
     ));

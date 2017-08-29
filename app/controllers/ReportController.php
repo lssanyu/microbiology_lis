@@ -124,8 +124,6 @@ class ReportController extends \BaseController {
 	 * @return Response
 	 */
 	public function printVisitReport($id){
-		$now = new DateTime();
-		$printTime = $now->format('Y-m-d H:i');
 		$specimen = UnhlsSpecimen::find($id);
 
 		$specimen->load(
@@ -137,7 +135,6 @@ class ReportController extends \BaseController {
 			'tests.isolatedOrganisms.drugSusceptibilities.drugSusceptibilityMeasure');
 
 		$html = View::make('reports.visit.printreport')
-			->with('printTime', $printTime)
 			->with('specimen', $specimen);
 
 		$pdf = new MYPDF;

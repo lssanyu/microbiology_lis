@@ -164,13 +164,13 @@
               <td>Signed:</td>
             </tr>
             <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
               <td><b>Reviewed by:</b></td>
               <td></td>
               <td>Signed:</td>
-            </tr>
-            <tr>
-              <td><b>Printed by:</b></td>
-              <td>{{ Auth::user()->name }}</td>
-              <td>Date: {{ $printTime }}</td>
             </tr>
         </table>

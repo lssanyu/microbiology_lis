@@ -75,7 +75,7 @@ class CultureController extends \BaseController {
 			'isolatedOrganisms.drugSusceptibilities.drugSusceptibilityMeasure');
 
 		$drugSusceptibilityMeasures = ['']+DrugSusceptibilityMeasure::all()->lists('interpretation','id');
-		$organisms = ['']+Organism::all()->lists('name','id');
+		$organisms = ['']+Organism::all()->sortBy('name')->lists('name','id');
 
 		return View::make('test.culture.worksheet')
 			->with('drugSusceptibilityMeasures', $drugSusceptibilityMeasures)

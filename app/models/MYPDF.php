@@ -16,11 +16,17 @@ class MYPDF extends TCPDF {
 
 	// Page footer
 	public function Footer() {
+		$now = new DateTime();
+		$printTime = $now->format('Y-m-d H:i');
+
 		// Position at 15 mm from bottom
 		$this->SetY(-15);
 		// Set font
 		$this->SetFont('helvetica', 'I', 8);
+		$this->Cell(0, 10, "Printed by: ".Auth::user()->name." Date: ".$printTime, 0, false, 'L', 0, '', 0, false, 'T', 'M');
+
 		// Page number
 		$this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'R', 0, '', 0, false, 'T', 'M');
+
 	}
 }
