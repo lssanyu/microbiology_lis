@@ -12,7 +12,7 @@ class ZoneDiameter extends Eloquent
 
     public $timestamps = false;
 
-    // todo: move to a place where the seeding will use the same resource
+    // todo: use the same resource when seeding
     const SENSITIVE = 1;
     const INTERMEDIATE = 2;
     const RESISTANT = 3;
