@@ -203,7 +203,6 @@ $(function(){
     });
 
     /*isolated organism*/
-    $('.add-isolated-organism-modal').on('show.bs.modal', function(e) {
         // receive data from the clicked button
         // update global varible so that it's available in the save isolated organism function
         isolatedOrganismUrl = $(e.relatedTarget).data('url');
@@ -385,104 +384,7 @@ $(function(){
                 $('.susceptibility').val('');
             }
         });
-	});
-	
-//lee
-
-	$('.add-previous-drug-susceptibility-results-modal').on('show.bs.modal', function(e) {
-
-        // fetch relevant list of antibiotics for organism
-        organismAntibioticsUrl = $(e.relatedTarget).data('antibiotics-url');
-        var antibiotics;
-        $.ajax({
-            type: 'GET',
-            url:  organismAntibioticsUrl,
-            success: function(data){
-                // populate drop down dynamically
-                antibiotics = data.zone_diameters;
-                $('.form-control.drug').empty();
-                // if drug susceptibility is being added for the first time
-                if ($(e.relatedTarget).data('verb') == 'POST') {
-                    $('.form-control.drug').append('<option value=""></option>');
-                }
-                for (i in antibiotics ) {
-                    $('.form-control.drug').append(
-                        '<option value="' + antibiotics[i].drug_id + '">' + antibiotics[i].drug.name + '</option>');
-                }
-                if ($(e.relatedTarget).data('verb') == 'PUT') {
-                    $('.form-control.drug').val($(e.relatedTarget).data('drug-id'));
-                    $('.form-control.zone-diameter').val($(e.relatedTarget).data('zone-diameter'));
-                }
-            }
-		});
-	});
-
-
- // save previous isolate's drug susceptibility on addition or editon-->Lee
- $('.save-previous-drug-susceptibility').click(function(){
-	var drug = $('.drug').val();
-	var result = $('.result').val();
-	
-	$.ajax({
-		type: drugSusceptibilityUrlVerb,
-		url:  drugSusceptibilityUrl,
-		data: {
-			isolated_organism_id: isolatedOrganismID,
-			drug_id: drug,			
-			result: result		
-		},
-		success: function(previousDrugSusceptibility){
-
-			if (drugSusceptibilityUrlVerb == 'POST') {
-				// update rows with addition already made in the database
-				var drugSusceptibilityEntry = $('.drugSusceptibilityEntryLoader').html();
-				$('.drug-susceptibility-tbody').append(drugSusceptibilityEntry);
-				$('.drug-susceptibility-tbody')
-					.find('.new-drug-susceptibility-tr')
-					.addClass('drug-susceptibility-tr-'+drugSusceptibility.id)
-					.removeClass('new-drug-susceptibility-tr')
-					.find('.edit-drug-susceptibility')
-						.attr('data-url',drugSusceptibilityUrl+'/'+drugSusceptibility.id)
-						.attr('data-id',drugSusceptibility.id)
-						.attr('data-drug-id',drugSusceptibility.drug_id)
-						.attr('data-isolated-organism-id',drugSusceptibility.isolated_organism_id)
-						.attr('data-drug-susceptibility-measure-id',drugSusceptibility.drug_susceptibility_measure_id)
-						.attr('data-zone-diameter',drugSusceptibility.zone_diameter)
-						.attr('data-antibiotics-url',organismAntibioticsUrl)
-				$('.drug-susceptibility-tr-'+drugSusceptibility.id)
-					.find('.delete-drug-susceptibility')
-						.attr('data-url',drugSusceptibilityUrl+'/'+drugSusceptibility.id)
-						.attr('data-id',drugSusceptibility.id);
-			} else {
-				// clear rows before updating with new values from the backend
-				$('.drug-susceptibility-tr-'+drugSusceptibility.id+' .isolated-organism-entry').empty();
-				$('.drug-susceptibility-tr-'+drugSusceptibility.id+' .drug-entry').empty();
-				$('.drug-susceptibility-tr-'+drugSusceptibility.id+' .zone-diameter-entry').empty();
-				$('.drug-susceptibility-tr-'+drugSusceptibility.id+' .result-entry').empty();
-					$('.drug-susceptibility-tr-'+drugSusceptibility.id)
-						.find('.edit-drug-susceptibility')
-							.attr('data-drug-id',drugSusceptibility.drug_id)
-							.attr('data-isolated-organism-id',drugSusceptibility.isolated_organism_id)
-							.attr('data-drug-susceptibility-measure-id',drugSusceptibility.drug_susceptibility_measure_id)
-							.attr('data-zone-diameter',drugSusceptibility.zone_diameter)
-			}
-			// update rows with edition already made in the database
-			$('.drug-susceptibility-tr-'+drugSusceptibility.id+' .isolated-organism-entry')
-				.append(drugSusceptibility.isolated_organism.organism.name);
-			$('.drug-susceptibility-tr-'+drugSusceptibility.id+' .drug-entry')
-				.append(drugSusceptibility.drug.name);
-			$('.drug-susceptibility-tr-'+drugSusceptibility.id+' .zone-diameter-entry')
-				.append(drugSusceptibility.zone_diameter);
-			$('.drug-susceptibility-tr-'+drugSusceptibility.id+' .result-entry')
-				.append(drugSusceptibility.drug_susceptibility_measure.interpretation);
-			$('.drug').val('');
-			$('.susceptibility').val('');
-		}
-	});
-});
-
-
-
+    });
     // delete drug susceptbility entry from database and dynamicallly remove from UI
     $('.drug-susceptibility-tbody').on('click', '.delete-drug-susceptibility', function(){
         var url = $(this).data('url');
@@ -649,53 +551,8 @@ $(function(){
                 $('.test-type-list').append(testTypes);
             }
         });
-	});
-	
-	/*
-	fetch antibiotics for the selected organism 
-	micro-organism is the formcontrol indentifier, 
-	
-	isolate/antibioticsLists--> refers to the function in the isolate controller to fetch antibiotics
-	antibiotics-list--> refers to the formcontrol id to hold the antibiotics-->Lydia	
-	*/
-	//
+    });
 
-	$('.micro-organism').on('change', function() {
-        var organismId = $('.micro-organism').val();
-        $.ajax({
-            type: 'POST',
-            url: "/isolate/antibioticsLists",
-            data: {
-                organism_id: organismId
-            },
-            success: function(antibiotics){
-                $('.antibiotics-list').empty();
-                $('.antibiotics-list').append(antibiotics);
-            }
-        });
-	});
-
-
-	//add-susceptibility'
-
-//Drugs/antibiotics
-	$('.save-drug-susceptibility').on('click', function() {
-		var drugId = '<input type=hidden name=drugID[] value='+$('#drug').val()+'>';
-		var drugName = $('#drug option:selected').text();
-
-		var measureId =  '<input type=hidden name=measureID[] value='+$('#measure').val()+'>';
-		var measureName = $('#measure option:selected').text();
-
-		$('.antibiotics-list').append(drugName);
-		$('.susceptibility-measure-list').append(measureName);
-
-		$('#dsp tr:last').after('<tr><td>'+drugName+drugId+'</td><td>'+measureName+measureId+'</td></tr>');
-
-
-		//console.log($('#drug'));
-
-		//alert("drug ID is "+drugId+"drug name is "+drugName);        
-	});
 
     // todo: fix, not entirely functional at the moment
     $('.test-list-panel').on( "click", '.delete-test-from-list', function(e) {
@@ -777,6 +634,7 @@ $(function(){
     	$('#reception-date').combodate({
             maxYear: new Date().getFullYear()
         });
+		
 		$('#received-date').combodate({
             maxYear: new Date().getFullYear()
         });			

@@ -163,9 +163,15 @@ Route::group(array("before" => "auth"), function()
         "as"   => "unhls_test.getAddTest",
         "uses" => "UnhlsTestController@addTestToSpecimenCreate"
     ));
+   
     Route::post("/unhls_test/addtest", array(
         "as"   => "unhls_test.addtest",
         "uses" => "UnhlsTestController@addTestToSpecimenStore"
+    ));
+    //create test for isolate
+    Route::get("/unhls_test/{isolate_id}/addTestToIsolateStore", array(
+        "as"   => "unhls_test.getAddIsolateTest",
+        "uses" => "UnhlsTestController@addTestToIsolateStore"
     ));
 
     Route::post("/unhls_test/resultinterpretation", array(
@@ -802,6 +808,20 @@ Route::group(array("before" => "auth"), function()
         "uses" => "EventController@eventfilter"
     ));
 	
-	 Route::resource('unhls_els', 'UnhlsElsController');
+     Route::resource('unhls_els', 'UnhlsElsController');
 
+     Route::get('isolate/antibioticsLists', 'IsolateController@antibioticsLists');
+
+     Route::resource('isolate', 'IsolateController');
+     Route::get('isolate', 'IsolateController@index');
+
+     Route::post('/isolate/store', 'IsolateController');
+     //Route::any('isolate', 'IsolateController');
+     
+     
+     //test saving isoltes
+     Route::any('/isolate/store', array(
+        "as"   => "isolate.store",
+        "uses" => "IsolateController@store"
+    )); 
 });

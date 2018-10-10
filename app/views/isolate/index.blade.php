@@ -3,15 +3,16 @@
     <div>
         <ol class="breadcrumb">
           <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-          <li class="active">Specimens</li>
+          <li class="active">Isolates</li>
         </ol>
-    </div>
-    @if (Session::has('message'))
+    </div>  
+	 @if (Session::has('message'))
         <div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
     @endif
-
+	
+	
     <div class='container-fluid'>
-        {{ Form::open(array('route' => array('specimen.index'))) }}
+        {{ Form::open(array('route' => array('isolate.index'))) }}
             <div class='row'>
                 <div class='col-md-3'>
                     <div class='col-md-2'>
@@ -42,21 +43,14 @@
             </div>
         {{ Form::close() }}
     </div>
-
-    <br>
+	<br>
 
     <div class="panel panel-primary tests-log">
         <div class="panel-heading ">
             <div class="container-fluid">
                 <div class="row less-gutter">
-                    <span class="glyphicon glyphicon-filter"></span>{{ucfirst($status)}} Specimens
+                    <span class="glyphicon glyphicon-filter"></span>List of Isolates
                     @if(Auth::user()->can('request_test'))
-                    <div class="panel-btn">
-                        <a class="btn btn-sm btn-info" href="{{ URL::route('specimen.create')}}">
-                            <span class="glyphicon glyphicon-plus-sign"></span>
-                            Receive New Specimen
-                        </a>
-                    </div>
                     <div class="panel-btn">
                         <a class="btn btn-sm btn-success" href="{{ URL::route('isolate.create')}}">
                             <span class="glyphicon glyphicon-plus-sign"></span>
@@ -67,64 +61,61 @@
                 </div>
             </div>
         </div>
-        <div class="panel-body">
+       <!-- <div class="panel-body">-->
             <table class="table table-striped table-hover table-condensed">
                 <thead>
-                    <tr>
-                        <th>Date Received</th>
-                        <th>Patient Name</th>
-                        <th>Lab Id</th>
+                    <tr>                        
+                        <th>Lab ID</th>  
                         <th>Specimen Type</th>
-                        <th>Patient ID</th>
-                        <th>Facility</th>
-                        <th>Status</th>
-                        @if(Auth::user()->can('receive_external_test'))
-                        <th></th>
-                        @endif
-                    </tr>
-                </thead>
-                <tbody>
-                @foreach($specimens as $specimen)
-                    <tr>
-                        <td>{{ date('d-m-Y H:i', strtotime($specimen->time_accepted));}}</td>
-                        <td>{{ $specimen->patient->name }}</td>
-                        <td>{{ $specimen->lab_id }}</td>
-                        <td>{{ $specimen->specimenType->name }}</td>
-                        <td>{{ $specimen->patient->patient_number }}</td>
-                        <td>{{ $specimen->referral->facility->name }}</td>
+                        <th>Isolate ID</th>
+                        <th>Microorganism</th>                        
+                        <th>Purpose For Testing</th> 
+                        <th>Facility</th>                        
+                        <th>{{trans('messages.actions')}}</th>
+                       
+                    </tr>                                                                    
+                </thead>  
+                    <tbody>
+                    @foreach($isolates as $isolate)
+                    <tr>                      
+                        <td>{{$isolate -> lab_id}}</td>   
+                        <td>{{$isolate->specimenType->name}}</td> 
+                        <td>{{$isolate->isolateID }}</td>
+                        <td>{{$isolate->organism->name}}</td>                       
+                        <td>{{$isolate->testReasons->name}}</td>
+                        <td>{{$isolate->facility->name }}</td>
 
-                        <td id="test-status-{{$specimen->id}}" class='test-status'>
-                            <div class="col-md-12">
-                                @if($status == 'pending')
-                                <span class='label label-info'>
-                                    {{$specimen->countPendingTests()}}/
-                                    {{$specimen->tests->count()}}
-                                    Pending
-                                </span>
-                                @else
-                                <span class='label label-success'>
-                                    Completed
-                                </span>
-                                @endif
-                            </div>
-                        </td>
                         @if(Auth::user()->can('receive_external_test'))
                         <td>
-                            <a class="btn btn-sm btn-success"
-                            	href="{{URL::route('specimen.show', [$specimen->id])}}"
-                                title="View Specimen Details">
+                            <a class="btn btn-sm btn-success"                            
+                         href="{{URL::route('isolate.show', [$isolate->id])}}"
+                                title="View Isolate Details">
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 View
                             </a>
                         </td>
                         @endif
-                    </tr>
-                @endforeach
-                </tbody>
+                        <td>                                      
+                            <a class="btn btn-sm btn-info" href="{{ URL::route('isolate.edit', array($isolate->id)) }}" >
+							<span class="glyphicon glyphicon-edit"></span>
+							{{trans('messages.edit')}}
+						</a>
+                        </td>
+
+                        
+
+                    </tr> 
+                    @endforeach 
+
+
+
+                    </tbody>
+
+
+
+
             </table>
-            {{ $specimens->links() }}
-	        {{ Session::put('SOURCE_URL', URL::full()) }}
-	        {{ Session::put('TESTS_FILTER_INPUT', Input::except('_token')); }}
-        </div>
+           
+       <!-- </div>-->
     </div>
 @stop

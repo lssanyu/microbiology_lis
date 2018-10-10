@@ -5111,11 +5111,20 @@ button.close {
       -ms-transform: translate(0, 0);
           transform: translate(0, 0);
 }
-.modal-dialog {
-  position: relative;
-  width: auto;
-  margin: 10px;
-}
+/* .modal-lg { 
+  width: 90%;
+  left: 5%; /* (100%-width)/2 */
+  margin: auto auto auto auto; /* place center */
+} */
+
+
+  .modal-dialog {
+    position: relative;
+    width: auto;
+    margin: 10px; /* New width for large modal */
+  }
+
+
 .modal-content {
   position: relative;
   background-color: #fff;

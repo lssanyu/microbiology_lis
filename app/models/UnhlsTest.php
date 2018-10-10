@@ -670,4 +670,12 @@ class UnhlsTest extends Eloquent
     {
       return $this->hasMany('GramStainResult','test_id','id');
     }
+
+    /**
+	 * Isolate relationship
+	 */
+	public function isolate()
+	{
+		return $this->belongsTo('Isolate');
+	}
 }

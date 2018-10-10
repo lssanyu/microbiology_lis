@@ -187,6 +187,47 @@ class UnhlsTestController extends \BaseController {
 		}
 	}
 
+	public function addTestToIsolateCreate($isolate_id)
+	{
+		$isolate = Isolate::find($isolate_id);
+		$isolate->load('specimenType.testTypes');
+		//Load Test Create View
+		return View::make('isolate.addTest')
+					->with('isolate', $isolate);
+	}
+
+	public function addTestToIsolateStore()
+	{
+		$rules = [
+			'isolate_id' => 'required',
+			'test_types' => 'required',
+		];
+
+		//Create New Test
+		$validator = Validator::make(Input::all(), $rules);
+
+		// process the login
+		if ($validator->fails()) {
+			return Redirect::route('isolate.getAddIsolateTest')->withInput()->withErrors($validator);
+		} else {
+            // create tests
+            foreach (Input::get('test_types') as $id) {
+                // $visit = UnhlsVisit::find($id);
+                $testTypeID = (int)$id;
+
+                $test = new UnhlsTest;
+                // $test->visit_id = $visit->id;
+                $test->test_type_id = $testTypeID;
+                $test->isolate_id = Input::get('isolate_id');
+                $test->test_status_id = UnhlsTest::PENDING;
+                $test->created_by = Auth::user()->id;
+                $test->save();
+            }
+			return Redirect::route('isolate.show', [$test->isolate_id])
+				->with('message', 'messages.success-creating-test');
+		}
+	}
+
 	/**
 	 * Display accept specimen page
 	 *

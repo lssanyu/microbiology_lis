@@ -121,6 +121,13 @@
 								</li>
 								<li>
 									<div>
+										<a href="{{ URL::route('isolate.create')}}">
+											<span class="glyphicon glyphicon-plus-sign"></span>Receive Isolates
+										</a>
+									</div>
+								</li>													
+								<li>
+									<div>
 										<a href="{{ URL::route('specimen.index', ['pending'])}}">
 											<span class="glyphicon glyphicon-tag"></span>Pending
 										</a>

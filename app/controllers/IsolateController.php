@@ -1,18 +1,18 @@
 <?php
 
-class IsolatedOrganismController extends \BaseController {
+class IsolateController extends \BaseController {
 
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($status ='pending')
 	{
 		//$isolatedOrganisms = IsolatedOrganism::with('test','organism')->get();
 
 		//return $isolatedOrganisms;
-		$isolates = IsolatedOrganism::orderBy('id','desc')->get();		
+		$isolates = Isolate::orderBy('id','desc')->get();		
 		return View::make('isolate.index')
 		->with('isolates', $isolates);
 	}
@@ -31,7 +31,7 @@ class IsolatedOrganismController extends \BaseController {
 		$dispatchDate = $now->format('Y-m-d H:i');
 		$dateReceived = $now->format('Y-m-d H:i');
 		$districts = ['']+District::orderBy('name','ASC')->lists('name', 'id');
-		$organisms = ['select']+Organism::orderBy('name','ASC')->lists('name','id');		
+		$organisms = ['']+Organism::orderBy('name','ASC')->lists('name', 'id');		
 		$testReasons = ['']+TestReason::orderBy('name','ASC')->lists('name','id');
 		$specimenTypes = ['']+SpecimenType::orderBy('name','ASC')->lists('name', 'id');
 		$facilities = ['']+UNHLSFacility::orderBy('name','ASC')->lists('name', 'id');
@@ -64,7 +64,7 @@ class IsolatedOrganismController extends \BaseController {
 	public function store()
 	{
 		$rules = array(				
-			'lab_id'       => 'required',
+			//'lab_id'       => 'required',
 			'age'       => 'required',
 			'gender' => 'required',			
 		);
@@ -74,58 +74,87 @@ class IsolatedOrganismController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput(Input::all());
 		}else{
 
-		$isolatedOrganism = new IsolatedOrganism;			
-		$isolatedOrganism->lab_id = Input::get('lab_id');
-		$isolatedOrganism->age = Input::get('age');
-		$isolatedOrganism->gender = Input::get('gender');	
-		
-		$isolatedOrganism->facility_id = Input::get('facility');
-		$isolatedOrganism->district_id = Input::get('district');
-		$isolatedOrganism->organism_id = Input::get('organism');
-		$isolatedOrganism->test_reason_id = Input::get('test_reason');	
-		$isolatedOrganism->specimen_type_id = Input::get('specimen_type');	
-		
-		$isolatedOrganism->preparation_date = Input::get('preparation_date');
-		$isolatedOrganism->dispatch_date = Input::get('dispatch_date');
-		$isolatedOrganism->received_date = Input::get('date_received');
-		$isolatedOrganism->received_by = Auth::user()->id;		
-		$isolatedOrganism->dispatched_by = Auth::user()->id;
-		$isolatedOrganism->save();
+			$nextIsolateID = DB::table('unhls_isolates')->max('id')+1;
+			$thisYear = substr(date('Y'), 2);
+			$thisMonth = date('m');
+			$nextLabID = \Config::get('constants.FACILITY_CODE').'-'.$thisYear.$thisMonth.str_pad($nextIsolateID, 4, '0', STR_PAD_LEFT);
+
+		$isolate = new Isolate;			
+		$isolate->lab_id = $nextLabID;
+
+		$isolate->isolateID = Input::get('isolateID');
+		$isolate->age = Input::get('age');
+		$isolate->gender = Input::get('gender');		
+		$isolate->facility_id = Input::get('facility');
+		$isolate->district_id = Input::get('district');		
+		$isolate->organism_id = Input::get('organism_id');	
+		$isolate->test_reason_id = Input::get('test_reason');	
+		$isolate->specimen_type_id = Input::get('specimen_type');		
+		$isolate->preparation_date = Input::get('preparation_date');
+		$isolate->dispatch_date = Input::get('dispatch_date');
+		$isolate->received_date = Input::get('date_received');
+		$isolate->received_by = Auth::user()->id;		
+		$isolate->dispatched_by = Input::get('dispatched_by');
+		//dd($nextLabID);
+		$isolate->save();
 
 			//save to the drug_susceptibility table
-			$drugSusceptibility = new DrugSusceptibility;
-			$drugSusceptibility->drug_id = Input::get('ast_pattern_drug');
-			$drugSusceptibility->drug_susceptibility_measure_id = Input::get('ast_pattern_result');			
-			$drugSusceptibility->user_id = Auth::user()->id;		
-			$drugSusceptibility->isolated_organism_id = $isolatedOrganism->id;
-			$drugSusceptibility->save();
+			
+			//loop through the collection to get the different antiobiotics and their results
 
-			// create tests
-            // foreach (Input::get('test_types') as $id) {
+			$drugs = Input::get('drugID');
+			$measures = Input::get('measureID');
+			
+			foreach($drugs as $key => $drug_id){
+				$drugSusceptibility = new DrugSusceptibility;
+				$drugSusceptibility->drug_id = $drug_id;
+				$drugSusceptibility->drug_susceptibility_measure_id = $measures[$key];
+				$drugSusceptibility->user_id = Auth::user()->id;		
+				$drugSusceptibility->isolate_id = $isolate->id;		
+				$drugSusceptibility->save();
+			}
 
-            //     $testTypeID = (int)$id;
-            //     $test = new UnhlsTest;
-            //     $test->test_type_id = $testTypeID;
-            //     $test->specimen_id = $specimen->id;
-            //     if (Input::get('rejectionReason')) {
-	        //         $test->test_status_id = UnhlsTest::REJECTED_PREANALYSIS;
-            //     }else{
-	        //         $test->test_status_id = UnhlsTest::PENDING;
-            //     }
-            //     $test->created_by = Auth::user()->id;
-            //     $test->save();
-            // }
+			//No need to loop through the test types, since it's only one testtype involved			
+          //  foreach (Input::get('test_types') as $id) {
+
+				//$testTypeID = DB::table('test_types')->select('id')->where('name', 'Culture & Sensitivity');
+			$testtypes =TestType::where('name',  'Culture & Sensitivity');
+
+
+			 foreach ($testtypes  as $id) {
+			 	$testTypeID = (int)$id;			 	 
+			 	$test = new UnhlsTest;
+                $test->test_type_id = $testTypeID;
+                $test->isolate_id = $isolate->id;
+
+              	//  if (Input::get('rejectionReason')) {
+	              //  $test->test_status_id = UnhlsTest::REJECTED_PREANALYSIS;
+               	// }else{
+	            $test->test_status_id = UnhlsTest::PENDING;
+              	//  }
+                $test->created_by = Auth::user()->id;
+
+                $test->save();
+			 }
+
+
+
+
+
+                
+           // }
 
 		
 		try{			
 			$url = Session::get('SOURCE_URL');
-			return Redirect::to($url)
+			//return Redirect::to($url)
+			return Redirect::route('isolate.index')
 			->with('message', 'Isolate Successfully Saved!');
 
 		}catch(QueryException $e){
 			Log::error($e);
 				echo $e->getMessage();
-		}	
+		}		
 
 		}
 	}
@@ -139,7 +168,28 @@ class IsolatedOrganismController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		//Show a specimentype
+		$isolate = Isolate::find($id);
+		$tests = UnhlsTest::where('isolate_id', $isolate->id)->orderBy('time_created','ASC');
+
+		// Create Test Statuses array. Include a first entry for ALL
+		$statuses = ['all']+TestStatus::all()->lists('name','id');
+
+		foreach ($statuses as $key => $value) {
+			$statuses[$key] = trans("messages.$value");
+		}
+
+			// Pagination
+			$tests = $tests->paginate(Config::get('kblis.page-items'));
+
+			//	Barcode
+		$barcode = Barcode::first();
+
+		return View::make('isolate.show')
+		->with('testSet', $tests)
+		->with('isolate', $isolate)
+		->with('testStatus', $statuses)
+		->with('barcode', $barcode);
 	}
 
 
@@ -151,7 +201,7 @@ class IsolatedOrganismController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$isolate = IsolatedOrganism::find($id);
+		$isolate = Isolate::find($id);
 		$specimenTypes = SpecimenType::lists('name', 'id');
 		$microorganisms = Organism::lists('name', 'id');	
 		$districts = District::lists('name', 'id');
@@ -180,32 +230,32 @@ class IsolatedOrganismController extends \BaseController {
 		if($validator->fails()){
 			return Redirect::back()->withErrors($validator)->withInput(Input::except('password'));
 		}else{
-		$isolatedOrganism = IsolatedOrganism::find($id);
+		$isolate = Isolate::find($id);
 
-		$isolatedOrganism->lab_id = Input::get('lab_id');
-		$isolatedOrganism->age = Input::get('age');
-		$isolatedOrganism->gender = Input::get('gender');	
+		$isolate->lab_id = Input::get('lab_id');
+		$isolate->age = Input::get('age');
+		$isolate->gender = Input::get('gender');	
 		
-		$isolatedOrganism->facility_id = Input::get('facility');
-		$isolatedOrganism->district_id = Input::get('district');
-		$isolatedOrganism->organism_id = Input::get('organism');
-		$isolatedOrganism->test_reason_id = Input::get('test_reason');	
-		$isolatedOrganism->specimen_type_id = Input::get('specimen_type');		
+		$isolate->facility_id = Input::get('facility');
+		$isolate->district_id = Input::get('district');
+		$isolate->organism_id = Input::get('organism');
+		$isolate->test_reason_id = Input::get('test_reason');	
+		$isolate->specimen_type_id = Input::get('specimen_type');		
 	
 		//$isolatedOrganism->susceptibility_measure_id = $drugs;
-		$isolatedOrganism->preparation_date = Input::get('preparation_date');
-		$isolatedOrganism->dispatch_date = Input::get('dispatch_date');
-		$isolatedOrganism->received_date = Input::get('date_received');
-		$isolatedOrganism->received_by = Auth::user()->id;		
-		$isolatedOrganism->dispatched_by = Auth::user()->id;
-		$isolatedOrganism->save();
+		$isolate->preparation_date = Input::get('preparation_date');
+		$isolate->dispatch_date = Input::get('dispatch_date');
+		$isolate->received_date = Input::get('date_received');
+		$isolate->received_by = Auth::user()->id;		
+		$isolate->dispatched_by = Auth::user()->id;
+		$isolate->save();
 
 			//save to the drug_susceptibility table
 			$drugSusceptibility = new DrugSusceptibility;
 			$drugSusceptibility->drug_id = Input::get('ast_pattern_drug');
 			$drugSusceptibility->drug_susceptibility_measure_id = Input::get('ast_pattern_result');			
 			$drugSusceptibility->user_id = Auth::user()->id;		
-			$drugSusceptibility->isolated_organism_id = $isolatedOrganism->id;
+			$drugSusceptibility->isolated_organism_id = $isolate->id;
 			$drugSusceptibility->save();
 
 		$isolate->user_id = Auth::user()->id;
@@ -225,8 +275,8 @@ class IsolatedOrganismController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		$isolatedOrganism = IsolatedOrganism::find($id);
-		$isolatedOrganism->delete();
+		$isolate = Isolate::find($id);
+		$isolate->delete();
 		return $id;
 	}
 
@@ -248,11 +298,22 @@ class IsolatedOrganismController extends \BaseController {
 
 	public function antibioticsLists()
 	{
+		//return "allal";
 		$organismId =Input::get('organism_id');
-		$antibiotics = Organism::find($sorganismId)->antibiotics;
+		$antibiotics = Organism::find($organismId)->antibiotics;
 
 		return View::make('isolate.antibioticsList')
 			->with('antibiotics', $antibiotics);
+	}
+
+
+	public function susceptibilityMeasuresLists()
+	{
+		$measureId =Input::get('meaure');
+		$susceptibility_measures = DrugSusceptibilityMeasure::find()->susceptibility_measures;
+
+		return View::make('isolate.susceptibilityMeasureList')
+		->with('susceptibility_measures', $susceptibility_measures);
 	}
 
 }

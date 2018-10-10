@@ -56,7 +56,8 @@ return array(
     'in' => 'In',
     'others-specify' => 'Others (Specify)', //UNHLS entry
     'out' => 'Out',
-    'vertical' =>'Vertical', //UNHLS terminology
+    'vertical' =>'Vertical',//UNHLS terminology
+    'add'=>'Add', 
 
     /** 
      *   Generic phrases
@@ -313,6 +314,7 @@ return array(
     'completed' => 'Test Completed',
     'completed-tests' => 'Completed Tests',
     'date-ordered' => 'Date Ordered',
+    'date-received' => 'Date Received',
     'fetch-test-data' => 'Fetch',
     'fetch-test-data-title' => 'Fetch Test data from associated equipment.',
     'first-select-patient' => 'First select a patient below',
@@ -332,6 +334,7 @@ return array(
     'registered-by' => 'Registered By',
     'rejected-preanalysis' => 'Specimen Rejected',
     'rejected-atanalysis' => 'Specimen Rejected',
+    'save-isolate' => 'Save Isolate',
     'save-test' => 'Save Test Request',
     'select-tests' => 'Select Test(s)',
     'start-test' => 'Analysis',
@@ -770,5 +773,8 @@ return array(
     'equipment-maintenance'=> 'Equipment maintenance',         
     'supplier-list'=> 'Supplier List',    
     'add'=> 'Add',
+
+
+
 
 );
